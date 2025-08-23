@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import constants.Constants;
 
 /**
  *
@@ -32,15 +33,19 @@ public class DatabaseUtil {
     }
 
     public String getURL() {
-        return properties.getProperty("url");
+        return properties.getProperty(Constants.URL);
     }
 
-    public String getUser() {
-        return properties.getProperty("username");
+    public String getUsername() {
+        return properties.getProperty(Constants.USERNAME);
     }
 
     public String getPassword() {
-        return properties.getProperty("password");
+        return properties.getProperty(Constants.PASSWORD);
+    }
+
+    public String getPort() {
+        return properties.getProperty(Constants.PORT);
     }
 
 }

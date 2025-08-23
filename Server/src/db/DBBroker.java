@@ -23,21 +23,27 @@ public class DBBroker {
 
     public void connect() throws IOException, SQLException {
         String url = DatabaseUtil.getInstance().getURL();
-        String user = DatabaseUtil.getInstance().getUser();
+        String user = DatabaseUtil.getInstance().getUsername();
         String password = DatabaseUtil.getInstance().getPassword();
         connection = DriverManager.getConnection(url, user, password);
         connection.setAutoCommit(false);
     }
 
     public void disconnect() throws SQLException {
-        connection.close();
+        if (connection != null) {
+            connection.close();
+        }
     }
 
     public void commit() throws SQLException {
-        connection.commit();
+        if (connection != null) {
+            connection.commit();
+        }
     }
 
     public void rollback() throws SQLException {
-        connection.rollback();
+        if (connection != null) {
+            connection.rollback();
+        }
     }
 }

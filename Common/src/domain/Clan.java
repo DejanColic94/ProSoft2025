@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package domen;
+package domain;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,38 +13,39 @@ import java.util.List;
  *
  * @author Dejan Colic
  */
-public class Radnik extends OpstiDomenskiObjekat{
-    private int radnikID;
+public class Clan extends OpstiDomenskiObjekat {
+
+    private int clanID;
     private String ime;
     private String prezime;
-    private String username;
-    private String password;
+    private String telefon;
+    private String email;
 
-    public Radnik() {
+    public Clan() {
     }
 
-    public Radnik(int radnikID, String ime, String prezime, String username, String password) {
-        this.radnikID = radnikID;
+    public Clan(int clanID, String ime, String prezime, String telefon, String email) {
+        this.clanID = clanID;
         this.ime = ime;
         this.prezime = prezime;
-        this.username = username;
-        this.password = password;
+        this.telefon = telefon;
+        this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getRadnikID() {
-        return radnikID;
+    public int getClanID() {
+        return clanID;
     }
 
-    public void setRadnikID(int radnikID) {
-        this.radnikID = radnikID;
+    public void setClanID(int clanID) {
+        this.clanID = clanID;
     }
 
     public String getIme() {
@@ -63,18 +64,18 @@ public class Radnik extends OpstiDomenskiObjekat{
         this.prezime = prezime;
     }
 
-    public String getUsername() {
-        return username;
+    public String getTelefon() {
+        return telefon;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this.radnikID;
+        hash = 67 * hash + this.clanID;
         return hash;
     }
 
@@ -89,65 +90,65 @@ public class Radnik extends OpstiDomenskiObjekat{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Radnik other = (Radnik) obj;
-        return this.radnikID == other.radnikID;
+        final Clan other = (Clan) obj;
+        return this.clanID == other.clanID;
     }
 
     @Override
     public String toString() {
-        return ""+ime+" "+prezime;
+        return "" + ime + " " + prezime;
     }
 
     @Override
     public String getImeTabele() {
-       return "radnik";
+        return "clan";
     }
 
     @Override
     public String getParametre() {
-         return String.format("'%s', '%s', '%s', '%s', '%s'", radnikID, ime, prezime, username, password);
+        return String.format("'%s', '%s', '%s', '%s', '%s'", clanID, ime, prezime, telefon, email);
     }
 
     @Override
     public String getPK() {
-        return "radnikID";
+        return "clanID";
     }
 
     @Override
     public int getVrednostPK() {
-       return radnikID;
+        return clanID;
     }
 
     @Override
     public List<OpstiDomenskiObjekat> ResultSetIntoTable(ResultSet rs) {
-        List<OpstiDomenskiObjekat> listRadnik = new ArrayList<>();
+        List<OpstiDomenskiObjekat> listClanovi = new ArrayList<>();
         try {
             while (rs.next()) {
-                int radnikID = rs.getInt("radnikID");
+                int clanID = rs.getInt("clanID");
                 String ime = rs.getString("ime");
                 String prezime = rs.getString("prezime");
-                String username = rs.getString("username");
-                String password = rs.getString("password");
+                String telefon = rs.getString("telefon");
+                String email = rs.getString("email");
 
-                Radnik radnik = new Radnik(radnikID, ime, prezime, username, password);
-                listRadnik.add(radnik);
+                Clan clan = new Clan(clanID, ime, prezime, telefon, email);
+                listClanovi.add(clan);
             }
         } catch (SQLException ex) {
+            System.out.println("Greska kod  ResultSetIntoTable za clanove");
             ex.printStackTrace();
-            System.out.println("Greska kod ResultSetIntoTable za Radnika");
+
         }
-        return listRadnik;
+        return listClanovi;
     }
 
     @Override
     public String getUpdate() {
-        return String.format("ime='%s', prezime='%s',username='%s', password='%s'", ime,prezime,username,password);
+        return String.format("ime='%s', prezime='%s', telefon='%s', email='%s'", ime, prezime, telefon, email);
     }
 
     @Override
     public void setVrednostPK(int pk) {
-        this.radnikID = pk;
+        this.clanID = pk;
     }
-    
-    
+
 }
