@@ -9,16 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  *
  * @author Dejan Colic
  */
-public class Knjiga extends OpstiDomenskiObjekat{
+public class Knjiga extends OpstiDomenskiObjekat {
+
     private int knjigaID;
     private String naziv;
     private String autor;
+    private List<Primerak> listaPrimeraka;
 
     public Knjiga() {
     }
@@ -53,6 +53,14 @@ public class Knjiga extends OpstiDomenskiObjekat{
         this.naziv = naziv;
     }
 
+    public List<Primerak> getListaPrimeraka() {
+        return listaPrimeraka;
+    }
+
+    public void setListaPrimeraka(List<Primerak> listaPrimeraka) {
+        this.listaPrimeraka = listaPrimeraka;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -82,12 +90,12 @@ public class Knjiga extends OpstiDomenskiObjekat{
 
     @Override
     public String getImeTabele() {
-       return "knjiga";
+        return "knjiga";
     }
 
     @Override
     public String getParametre() {
-         return String.format(" '%s', '%s','%s'", knjigaID, naziv, autor);
+        return String.format(" '%s', '%s','%s'", knjigaID, naziv, autor);
     }
 
     @Override
@@ -102,13 +110,13 @@ public class Knjiga extends OpstiDomenskiObjekat{
 
     @Override
     public List<OpstiDomenskiObjekat> ResultSetIntoTable(ResultSet rs) {
-       List<OpstiDomenskiObjekat> listKnjiga = new ArrayList<>();
+        List<OpstiDomenskiObjekat> listKnjiga = new ArrayList<>();
         try {
             while (rs.next()) {
                 int knjigaID = rs.getInt("knjigaID");
                 String naziv = rs.getString("naziv");
                 String autor = rs.getString("autor");
-                
+
                 Knjiga knjiga = new Knjiga(knjigaID, naziv, autor);
                 listKnjiga.add(knjiga);
             }
@@ -121,12 +129,12 @@ public class Knjiga extends OpstiDomenskiObjekat{
 
     @Override
     public String getUpdate() {
-        return String.format("naziv='%s', autor='%s'", naziv,autor);
+        return String.format("naziv='%s', autor='%s'", naziv, autor);
     }
 
     @Override
     public void setVrednostPK(int pk) {
-       this.knjigaID = pk;
+        this.knjigaID = pk;
     }
-    
+
 }
