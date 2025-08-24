@@ -2,20 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ui;
+package ui.zaduzenja;
 
 /**
  *
  * @author Dejan Colic
  */
-public class FormaClanovi extends javax.swing.JFrame {
+public class FormaZaduzenja extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaClanovi.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaZaduzenja.class.getName());
 
     /**
-     * Creates new form FormaClanovi
+     * Creates new form FormaZaduzenja
      */
-    public FormaClanovi() {
+    public FormaZaduzenja() {
         initComponents();
     }
 
@@ -64,7 +64,7 @@ public class FormaClanovi extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FormaClanovi().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FormaZaduzenja().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
