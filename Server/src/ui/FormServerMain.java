@@ -36,6 +36,7 @@ public class FormServerMain extends javax.swing.JFrame {
         tblRadnici = new javax.swing.JTable();
         meniKonfiguracija = new javax.swing.JMenuBar();
         meniItemKonfig = new javax.swing.JMenu();
+        meniItemLogs = new javax.swing.JMenu();
         meniItemInfo = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
@@ -88,6 +89,9 @@ public class FormServerMain extends javax.swing.JFrame {
 
         meniItemKonfig.setText("Konfiguracija servera");
         meniKonfiguracija.add(meniItemKonfig);
+
+        meniItemLogs.setText("Logs");
+        meniKonfiguracija.add(meniItemLogs);
 
         meniItemInfo.setText("Info");
         meniKonfiguracija.add(meniItemInfo);
@@ -169,6 +173,7 @@ public class FormServerMain extends javax.swing.JFrame {
     private javax.swing.JLabel lblStatusPrikaz;
     private javax.swing.JMenu meniItemInfo;
     private javax.swing.JMenu meniItemKonfig;
+    private javax.swing.JMenu meniItemLogs;
     private javax.swing.JMenuBar meniKonfiguracija;
     private javax.swing.JTable tblRadnici;
     // End of variables declaration//GEN-END:variables

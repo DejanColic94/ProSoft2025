@@ -18,6 +18,11 @@
             <Property name="text" type="java.lang.String" value="Konfiguracija servera"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="meniItemLogs">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Logs"/>
+          </Properties>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="meniItemInfo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Info"/>
