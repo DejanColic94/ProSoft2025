@@ -26,17 +26,247 @@ public class FormaZaduzenja extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        lblRadnik = new javax.swing.JLabel();
+        lblRadnikTekst = new javax.swing.JLabel();
+        lblDatumZaduzenja = new javax.swing.JLabel();
+        txtDatumZaduzenja = new javax.swing.JTextField();
+        lblClan = new javax.swing.JLabel();
+        cmbClan = new javax.swing.JComboBox();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblStavke = new javax.swing.JTable();
+        lblDatumRazduzenja = new javax.swing.JLabel();
+        txtDatumRazduzenja = new javax.swing.JTextField();
+        lblHint = new javax.swing.JLabel();
+        lblPrimerak = new javax.swing.JLabel();
+        cmbPrimerak = new javax.swing.JComboBox();
+        lblNapomena = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtNapomena = new javax.swing.JTextArea();
+        lblKnjiga = new javax.swing.JLabel();
+        cmbKnjiga = new javax.swing.JComboBox();
+        btnDodajStavku = new javax.swing.JButton();
+        btnIzmeniStavku = new javax.swing.JButton();
+        btnObrisiStavku = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblZaduzenje = new javax.swing.JTable();
+        btnDodajZaduzenje = new javax.swing.JButton();
+        btnIzmeniZaduzenje = new javax.swing.JButton();
+        btnObrisiZaduzenje = new javax.swing.JButton();
+        btnNazad = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Rad sa Zaduzenjima"));
+
+        lblRadnik.setText("Radnik :");
+
+        lblRadnikTekst.setText("jLabel2");
+
+        lblDatumZaduzenja.setText("Datum zaduzenja :");
+
+        lblClan.setText("Clan :");
+
+        cmbClan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Stavke Zaduzenja"));
+
+        tblStavke.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblStavke);
+
+        lblDatumRazduzenja.setText("Datum Razduzenja :");
+
+        lblHint.setForeground(new java.awt.Color(0, 0, 255));
+        lblHint.setText("(Ostaviti prazno ako knjiga nije vracena)");
+
+        lblPrimerak.setText("Primerak :");
+
+        cmbPrimerak.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblNapomena.setText("Napomena :");
+
+        txtNapomena.setColumns(20);
+        txtNapomena.setRows(5);
+        jScrollPane2.setViewportView(txtNapomena);
+
+        lblKnjiga.setText("Knjiga :");
+
+        cmbKnjiga.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnDodajStavku.setText("Dodaj Stavku");
+
+        btnIzmeniStavku.setText("Izmeni Stavku");
+
+        btnObrisiStavku.setText("Obrisi Stavku");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDatumRazduzenja)
+                                    .addComponent(lblPrimerak)
+                                    .addComponent(lblNapomena)
+                                    .addComponent(lblKnjiga))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtDatumRazduzenja)
+                                    .addComponent(cmbPrimerak, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                                    .addComponent(cmbKnjiga, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(37, 37, 37)
+                                .addComponent(lblHint))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(317, 317, 317)
+                        .addComponent(btnDodajStavku)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnIzmeniStavku)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnObrisiStavku)))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDatumRazduzenja)
+                    .addComponent(txtDatumRazduzenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHint))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblKnjiga)
+                    .addComponent(cmbKnjiga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrimerak)
+                    .addComponent(cmbPrimerak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNapomena)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodajStavku)
+                    .addComponent(btnIzmeniStavku)
+                    .addComponent(btnObrisiStavku))
+                .addGap(11, 11, 11))
+        );
+
+        tblZaduzenje.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblZaduzenje);
+
+        btnDodajZaduzenje.setText("Dodaj Zaduzenje");
+
+        btnIzmeniZaduzenje.setText("Izmeni Zaduzenje");
+
+        btnObrisiZaduzenje.setText("Obrisi Zaduzenje");
+
+        btnNazad.setText("Nazad");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDatumZaduzenja)
+                            .addComponent(lblRadnik)
+                            .addComponent(lblClan))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblRadnikTekst, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDatumZaduzenja)
+                            .addComponent(cmbClan, 0, 339, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnDodajZaduzenje)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnIzmeniZaduzenje)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnObrisiZaduzenje)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNazad)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRadnik)
+                    .addComponent(lblRadnikTekst))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDatumZaduzenja)
+                    .addComponent(txtDatumZaduzenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblClan)
+                    .addComponent(cmbClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodajZaduzenje)
+                    .addComponent(btnIzmeniZaduzenje)
+                    .addComponent(btnObrisiZaduzenje)
+                    .addComponent(btnNazad))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -68,5 +298,34 @@ public class FormaZaduzenja extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodajStavku;
+    private javax.swing.JButton btnDodajZaduzenje;
+    private javax.swing.JButton btnIzmeniStavku;
+    private javax.swing.JButton btnIzmeniZaduzenje;
+    private javax.swing.JButton btnNazad;
+    private javax.swing.JButton btnObrisiStavku;
+    private javax.swing.JButton btnObrisiZaduzenje;
+    private javax.swing.JComboBox cmbClan;
+    private javax.swing.JComboBox cmbKnjiga;
+    private javax.swing.JComboBox cmbPrimerak;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblClan;
+    private javax.swing.JLabel lblDatumRazduzenja;
+    private javax.swing.JLabel lblDatumZaduzenja;
+    private javax.swing.JLabel lblHint;
+    private javax.swing.JLabel lblKnjiga;
+    private javax.swing.JLabel lblNapomena;
+    private javax.swing.JLabel lblPrimerak;
+    private javax.swing.JLabel lblRadnik;
+    private javax.swing.JLabel lblRadnikTekst;
+    private javax.swing.JTable tblStavke;
+    private javax.swing.JTable tblZaduzenje;
+    private javax.swing.JTextField txtDatumRazduzenja;
+    private javax.swing.JTextField txtDatumZaduzenja;
+    private javax.swing.JTextArea txtNapomena;
     // End of variables declaration//GEN-END:variables
 }
