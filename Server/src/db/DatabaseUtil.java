@@ -44,8 +44,4 @@ public class DatabaseUtil {
         return properties.getProperty(Constants.PASSWORD);
     }
 
-    public String getPort() {
-        return properties.getProperty(Constants.PORT);
-    }
-
 }

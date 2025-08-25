@@ -4,7 +4,6 @@
  */
 package threads;
 
-import db.DatabaseUtil;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,11 +17,11 @@ public class StartServerThread extends Thread {
 
     private ServerSocket serverSocket;
     private List<ClientServiceThread> clientList;
-    private int port;
+    private int port = 8189;
 
     public StartServerThread() {
         try {
-            this.port = Integer.parseInt(DatabaseUtil.getInstance().getPort());
+
             serverSocket = new ServerSocket(port);
             System.out.println("Server is running on port: " + port);
         } catch (IOException ex) {
