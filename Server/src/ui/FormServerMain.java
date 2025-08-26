@@ -9,6 +9,7 @@ import domain.Radnik;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JDialog;
 import models.TableModelRadnik;
 import threads.StartServerThread;
 
@@ -128,6 +129,11 @@ public class FormServerMain extends javax.swing.JFrame {
         menuOpcije.add(menuItemKonfig);
 
         menuItemLogs.setText("Logs");
+        menuItemLogs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemLogsActionPerformed(evt);
+            }
+        });
         menuOpcije.add(menuItemLogs);
 
         menuItemInfo.setText("Info");
@@ -198,12 +204,18 @@ public class FormServerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuOpcijeActionPerformed
 
     private void menuItemInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemInfoActionPerformed
-        // TODO add your handling code here:
+       JDialog info = new DialogInfo(this, rootPaneCheckingEnabled);
+       info.setVisible(true);
     }//GEN-LAST:event_menuItemInfoActionPerformed
 
     private void menuItemKonfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKonfigActionPerformed
         new FormServerConfig().setVisible(true);
     }//GEN-LAST:event_menuItemKonfigActionPerformed
+
+    private void menuItemLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemLogsActionPerformed
+       JDialog logs = new DialogLogs(this, rootPaneCheckingEnabled);
+       logs.setVisible(true);
+    }//GEN-LAST:event_menuItemLogsActionPerformed
 
     /**
      * @param args the command line arguments

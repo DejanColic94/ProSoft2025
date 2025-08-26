@@ -23,6 +23,7 @@ public class FormServerConfig extends javax.swing.JFrame {
     public FormServerConfig() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Config");
         handleInitialState();
     }
 
@@ -146,9 +147,21 @@ public class FormServerConfig extends javax.swing.JFrame {
         String password = txtPassword.getText().trim();
         String port = txtPort.getText().trim();
         String dbName = txtNaziv.getText().trim();
+        
+        int portNumber;
+        try {
+            portNumber = Integer.parseInt(port);
+            if (portNumber <= 0 || portNumber > 65535) {
+                JOptionPane.showMessageDialog(this, "Port mora biti broj izmedju 1 i 65535!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Port mora biti broj!");
+            return;
+        }
 
         try {
-            DatabaseUtil.getInstance().saveProperties(username, password, port, dbName);
+            DatabaseUtil.getInstance().saveProperties(username, password, String.valueOf(portNumber), dbName);
             JOptionPane.showMessageDialog(this, "Parametri baze su sacuvani uspesno.");
         } catch (IOException ex) {
             ex.printStackTrace();
