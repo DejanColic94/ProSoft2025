@@ -4,19 +4,29 @@
  */
 package ui;
 
+import domain.Radnik;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dejan Colic
  */
 public class FormaMain extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaMain.class.getName());
+    private Radnik ulogovani;
 
     /**
      * Creates new form FormaMain
      */
     public FormaMain() {
         initComponents();
+    }
+
+    public FormaMain(Radnik ulogovani) {
+        initComponents();
+        this.ulogovani = ulogovani;
+
     }
 
     /**
@@ -48,6 +58,11 @@ public class FormaMain extends javax.swing.JFrame {
         lblVremeSesije.setText("12:44");
 
         btnLogOut.setText("Zavrsi sesiju");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         btnClanovi.setText("Rad sa Clanovima");
 
@@ -104,6 +119,19 @@ public class FormaMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        btnLogOut.setEnabled(false);
+        try {
+            controller.UIController.getInstance().logout(ulogovani);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greska pri odjavi: " + ex.getMessage());
+        } finally {
+
+            dispose();
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     /**
      * @param args the command line arguments

@@ -10,4 +10,5 @@ package constants;
  */
 public class Operations {
     public static final int LOGIN = 1;
+    public static final int LOGOUT = 2;
 }

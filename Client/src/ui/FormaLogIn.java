@@ -100,7 +100,7 @@ public class FormaLogIn extends javax.swing.JFrame {
             Radnik loggedIn = UIController.getInstance().login(radnik);
             JOptionPane.showMessageDialog(this, "Welcome " + loggedIn.getIme() + "!");
             this.dispose();
-            new FormaMain().setVisible(true);
+            new FormaMain(loggedIn).setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Login failed: " + e.getMessage());
         }

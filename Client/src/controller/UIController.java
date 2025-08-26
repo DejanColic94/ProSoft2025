@@ -41,4 +41,16 @@ public class UIController {
             throw new Exception("Login failed: " + response.getMessage());
         }
     }
+
+    public void logout(Radnik radnik) throws Exception {
+        Request request = new Request(Operations.LOGOUT, radnik);
+        CommunicationWithServer.getInstance().sendRequest(request);
+        Response response = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (!response.isSuccess()) {
+            throw new Exception("Logout failed: " + response.getMessage());
+        }
+
+        CommunicationWithServer.getInstance().close();
+    }
 }

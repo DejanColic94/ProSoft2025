@@ -48,4 +48,28 @@ public class CommunicationWithServer {
     public Response receiveResponse() throws IOException, ClassNotFoundException {
         return (Response) ois.readObject();
     }
+
+    public void close() {
+        try {
+            if (ois != null) {
+                ois.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (oos != null) {
+                oos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

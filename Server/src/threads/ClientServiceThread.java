@@ -46,6 +46,9 @@ public class ClientServiceThread extends Thread {
     public void run() {
         while (!end) {
             Request request = acceptRequest();
+            if (request == null) {
+                break;
+            }
             Response response = new Response();
 
             switch (request.getOperacija()) {
@@ -65,10 +68,36 @@ public class ClientServiceThread extends Thread {
                         response.setMessage("Greska prilikom prijave: " + e.getMessage());
                     }
                     break;
+                case Operations.LOGOUT:
+                    try {
+                        Radnik toRemove = this.ulogovaniRadnik;
+                        if (toRemove == null && request.getParam() instanceof Radnik) {
+                            toRemove = (Radnik) request.getParam();
+                        }
+                        if (toRemove != null) {
+                            Controller.getInstance().deleteUlogovanogRadnika(toRemove);
+                            this.ulogovaniRadnik = null;
+                        }
+
+                        response.setSuccess(true);
+                        response.setMessage("Odjava uspesna.");
+
+                        end = true;
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greska pri odjavi: " + e.getMessage());
+                    }
+                    break;
                 default:
-                    throw new AssertionError();
+                    response.setSuccess(false);
+                    response.setMessage("Nepoznata operacija: " + request.getOperacija());
+                    break;
             }
             sendResponse(response);
+        }
+        if (ulogovaniRadnik != null) {
+            Controller.getInstance().deleteUlogovanogRadnika(ulogovaniRadnik);
+            ulogovaniRadnik = null;
         }
     }
 
