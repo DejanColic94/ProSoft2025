@@ -4,12 +4,17 @@
  */
 package ui;
 
+import util.ServerLogger;
+import java.awt.Font;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
 /**
  *
  * @author Dejan Colic
  */
 public class DialogLogs extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogLogs.class.getName());
 
     /**
@@ -20,6 +25,10 @@ public class DialogLogs extends javax.swing.JDialog {
         initComponents();
         setTitle("Server Logs");
         setLocationRelativeTo(null);
+
+        txtLogs.setEditable(false);
+        txtLogs.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        loadLog(); 
     }
 
     /**
@@ -29,17 +38,24 @@ public class DialogLogs extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtLogs = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        txtLogs.setColumns(20);
+        txtLogs.setRows(5);
+        jScrollPane1.setViewportView(txtLogs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 735, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
         );
 
         pack();
@@ -81,7 +97,21 @@ public class DialogLogs extends javax.swing.JDialog {
             }
         });
     }
+    
+    private void loadLog() {
+    try {
+        var path = ServerLogger.getInstance().getLogFile();
+        String content = Files.readString(path, StandardCharsets.UTF_8);
+        txtLogs.setText(content);
+        
+        txtLogs.setCaretPosition(txtLogs.getDocument().getLength());
+    } catch (Exception ex) {
+        txtLogs.setText("Failed to load log: " + ex.getMessage());
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtLogs;
     // End of variables declaration//GEN-END:variables
 }

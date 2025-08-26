@@ -15,6 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import util.ServerLogger;
 
 /**
  *
@@ -59,6 +60,7 @@ public class ClientServiceThread extends Thread {
 
                         this.ulogovaniRadnik = (Radnik) result;
                         Controller.getInstance().addUlogovanogRadnika((Radnik) result);
+                        ServerLogger.getInstance().logAction(this.ulogovaniRadnik, "Login successful");
 
                         response.setParams(result);
                         response.setSuccess(true);
@@ -66,6 +68,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greska prilikom prijave: " + e.getMessage());
+                        ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Login failed", e);
                     }
                     break;
                 case Operations.LOGOUT:
@@ -79,6 +82,7 @@ public class ClientServiceThread extends Thread {
                             this.ulogovaniRadnik = null;
                         }
 
+                        util.ServerLogger.getInstance().logAction(this.ulogovaniRadnik, "Logout completed");
                         response.setSuccess(true);
                         response.setMessage("Odjava uspesna.");
 
@@ -86,6 +90,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greska pri odjavi: " + e.getMessage());
+                        ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Logout failed", e);
                     }
                     break;
                 default:

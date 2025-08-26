@@ -7,11 +7,13 @@ package ui;
 import controller.Controller;
 import domain.Radnik;
 import java.awt.Color;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import models.TableModelRadnik;
 import threads.StartServerThread;
+import util.ServerLogger;
 
 /**
  *
@@ -28,6 +30,7 @@ public class FormServerMain extends javax.swing.JFrame {
      */
     public FormServerMain() {
         initComponents();
+        initLogger();
         setServerStatus(false);
         setLocationRelativeTo(null);
         setTitle("Serverski Program");
@@ -204,8 +207,8 @@ public class FormServerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuOpcijeActionPerformed
 
     private void menuItemInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemInfoActionPerformed
-       JDialog info = new DialogInfo(this, rootPaneCheckingEnabled);
-       info.setVisible(true);
+        JDialog info = new DialogInfo(this, rootPaneCheckingEnabled);
+        info.setVisible(true);
     }//GEN-LAST:event_menuItemInfoActionPerformed
 
     private void menuItemKonfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKonfigActionPerformed
@@ -213,8 +216,8 @@ public class FormServerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemKonfigActionPerformed
 
     private void menuItemLogsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemLogsActionPerformed
-       JDialog logs = new DialogLogs(this, rootPaneCheckingEnabled);
-       logs.setVisible(true);
+        JDialog logs = new DialogLogs(this, rootPaneCheckingEnabled);
+        logs.setVisible(true);
     }//GEN-LAST:event_menuItemLogsActionPerformed
 
     /**
@@ -274,5 +277,14 @@ public class FormServerMain extends javax.swing.JFrame {
         Controller.getInstance().setUlogovaniRadnici(sharedRadniciList);
         Controller.getInstance().setModelRadnik(modelRadnici);
         tblRadnici.setModel(modelRadnici);
+    }
+
+    private void initLogger() {
+        try {
+            ServerLogger.getInstance().init(Paths.get("logs", "server.log"));
+            ServerLogger.getInstance().logSystem("Server started.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
