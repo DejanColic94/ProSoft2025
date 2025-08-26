@@ -4,19 +4,23 @@
  */
 package ui;
 
+import threads.StartServerThread;
+
 /**
  *
  * @author Dejan Colic
  */
 public class FormServerMain extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormServerMain.class.getName());
+    StartServerThread sst;
 
     /**
      * Creates new form FormServerMain
      */
     public FormServerMain() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -52,8 +56,18 @@ public class FormServerMain extends javax.swing.JFrame {
         lblStatusPrikaz.setText("Neaktivan");
 
         btnPokreniServer.setText("Pokreni Server");
+        btnPokreniServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPokreniServerActionPerformed(evt);
+            }
+        });
 
         btnZaustaviServer.setText("Zaustavi Server");
+        btnZaustaviServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZaustaviServerActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista trenutno ulogovanih radnika"));
 
@@ -137,6 +151,15 @@ public class FormServerMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPokreniServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniServerActionPerformed
+        sst = new StartServerThread();
+        sst.start();
+    }//GEN-LAST:event_btnPokreniServerActionPerformed
+
+    private void btnZaustaviServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaustaviServerActionPerformed
+        sst.terminateThreads();
+    }//GEN-LAST:event_btnZaustaviServerActionPerformed
 
     /**
      * @param args the command line arguments

@@ -122,11 +122,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Pokreni Server"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPokreniServerActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnZaustaviServer">
       <Properties>
         <Property name="text" type="java.lang.String" value="Zaustavi Server"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnZaustaviServerActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>

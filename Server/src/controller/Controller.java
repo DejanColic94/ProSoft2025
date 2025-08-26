@@ -4,6 +4,11 @@
  */
 package controller;
 
+import domain.OpstiDomenskiObjekat;
+import so.GenericSO;
+import so.login.SOLogin;
+
+
 /**
  *
  * @author Dejan Colic
@@ -20,5 +25,11 @@ public class Controller {
         }
         
         return instance;
+    }
+    
+     public OpstiDomenskiObjekat login(OpstiDomenskiObjekat odo) throws Exception {
+        SOLogin so = new SOLogin();
+        so.execute(odo);
+        return so.getResult();
     }
 }

@@ -4,6 +4,12 @@
  */
 package controller;
 
+import communication.CommunicationWithServer;
+import communication.Request;
+import communication.Response;
+import constants.Operations;
+import domain.Radnik;
+
 /**
  *
  * @author Dejan Colic
@@ -21,5 +27,18 @@ public class UIController {
         }
 
         return instance;
+    }
+
+    public Radnik login(Radnik radnik) throws Exception {
+        Request request = new Request(Operations.LOGIN, radnik);
+        CommunicationWithServer.getInstance().sendRequest(request);
+
+        Response response = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (response.isSuccess()) {
+            return (Radnik) response.getParams();
+        } else {
+            throw new Exception("Login failed: " + response.getMessage());
+        }
     }
 }

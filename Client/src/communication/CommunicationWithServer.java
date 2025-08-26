@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-
 /**
  *
  * @author Dejan Colic
@@ -18,17 +17,22 @@ public class CommunicationWithServer {
 
     private static CommunicationWithServer instance;
     private Socket socket;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
     private CommunicationWithServer() {
         try {
             this.socket = new Socket("localhost", 8189);
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.flush();
+            ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
             System.out.println("Error in connecting with server socket!");
             ex.printStackTrace();
         }
     }
 
-    public CommunicationWithServer getInstance() {
+    public static CommunicationWithServer getInstance() {
         if (instance == null) {
             instance = new CommunicationWithServer();
         }
@@ -36,28 +40,12 @@ public class CommunicationWithServer {
         return instance;
     }
 
-    public Response receiveResponse() {
-        Response response = new Response();
-        try {
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            response = (Response) ois.readObject();
-        } catch (IOException ex) {
-            System.out.println("Error in receiveResponse");
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Error in receiveResponse");
-            ex.printStackTrace();
-        }
-        return response;
+    public void sendRequest(Request request) throws IOException {
+        oos.writeObject(request);
+        oos.flush();
     }
 
-    public void sendRequest(Request request) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(request);
-        } catch (IOException ex) {
-            System.out.println("Error in sendRequest");
-            ex.printStackTrace();
-        }
+    public Response receiveResponse() throws IOException, ClassNotFoundException {
+        return (Response) ois.readObject();
     }
 }

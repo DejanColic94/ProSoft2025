@@ -7,6 +7,8 @@ package threads;
 import communication.Request;
 import communication.Response;
 import constants.Operations;
+import controller.Controller;
+import domain.OpstiDomenskiObjekat;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,10 +24,20 @@ public class ClientServiceThread extends Thread {
     private Socket socket;
     private List<ClientServiceThread> clientList;
     private boolean end = false;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
     public ClientServiceThread(Socket socket, List<ClientServiceThread> clientList) {
         this.socket = socket;
         this.clientList = clientList;
+        try {
+
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.flush();
+            ois = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            System.out.println("Error initializing streams: " + e.getMessage());
+        }
     }
 
     @Override
@@ -36,7 +48,17 @@ public class ClientServiceThread extends Thread {
 
             switch (request.getOperacija()) {
                 case Operations.LOGIN:
+                    try {
+                        OpstiDomenskiObjekat param = (OpstiDomenskiObjekat) request.getParam();
+                        OpstiDomenskiObjekat result = Controller.getInstance().login(param);
 
+                        response.setParams(result);
+                        response.setSuccess(true);
+                        response.setMessage("Uspesno ste se prijavili na sistem.");
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greska prilikom prijave: " + e.getMessage());
+                    }
                     break;
                 default:
                     throw new AssertionError();
@@ -63,29 +85,20 @@ public class ClientServiceThread extends Thread {
 
     public void sendResponse(Response response) {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(response);
+            oos.flush();
         } catch (IOException ex) {
-            System.out.println("Error in sending out a Response object.");
+            System.out.println("Error in sending out a Response object: " + ex.getMessage());
         }
     }
 
-    private Request acceptRequest() {
-        ObjectInputStream ois = null;
-        Request request = null;
+    public Request acceptRequest() {
         try {
-            ois = new ObjectInputStream(socket.getInputStream());
-            request = (Request) ois.readObject();
-        } catch (Exception ex) {
-            System.out.println("Error in accepting Request object.");
-        } finally {
-            try {
-                ois.close();
-            } catch (IOException ex) {
-                System.out.println("Error in closing input stream.");
-            }
+            return (Request) ois.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Error in accepting Request object: " + ex.getMessage());
+            return null;
         }
-        return request;
     }
 
 }

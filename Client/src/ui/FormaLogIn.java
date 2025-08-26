@@ -4,12 +4,16 @@
  */
 package ui;
 
+import controller.UIController;
+import domain.Radnik;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dejan Colic
  */
 public class FormaLogIn extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaLogIn.class.getName());
 
     /**
@@ -17,6 +21,7 @@ public class FormaLogIn extends javax.swing.JFrame {
      */
     public FormaLogIn() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -40,6 +45,11 @@ public class FormaLogIn extends javax.swing.JFrame {
         lblPassword.setText("Password :");
 
         btnLogIn.setText("Uloguj se");
+        btnLogIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogInActionPerformed(evt);
+            }
+        });
 
         lblValidation.setText("jLabel3");
 
@@ -84,6 +94,24 @@ public class FormaLogIn extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
+        String username = txtUsername.getText().trim();
+        String password = String.valueOf(txtPassword.getPassword()).trim();
+
+        Radnik radnik = new Radnik();
+        radnik.setUsername(username);
+        radnik.setPassword(password);
+
+        try {
+            Radnik loggedIn = UIController.getInstance().login(radnik);
+            JOptionPane.showMessageDialog(this, "Welcome " + loggedIn.getIme() + "!");
+            this.dispose();
+            new FormaMain().setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Login failed: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnLogInActionPerformed
 
     /**
      * @param args the command line arguments

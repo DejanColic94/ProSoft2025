@@ -7,6 +7,8 @@ package threads;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public class StartServerThread extends Thread {
 
     public StartServerThread() {
         try {
-
+            clientList = new ArrayList<>();
             serverSocket = new ServerSocket(port);
             System.out.println("Server is running on port: " + port);
         } catch (IOException ex) {
@@ -39,6 +41,9 @@ public class StartServerThread extends Thread {
                 ClientServiceThread clientThread = new ClientServiceThread(clientSocket, clientList);
                 clientList.add(clientThread);
                 clientThread.start();
+            } catch (SocketException se) {
+                System.out.println("Server socket closed, stopping server thread.");
+                break; // exit the loop
             } catch (IOException ex) {
                 System.out.println("Error in accepting the client socket connection.");
                 ex.printStackTrace();

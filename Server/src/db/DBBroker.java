@@ -4,10 +4,11 @@
  */
 package db;
 
+import domain.OpstiDomenskiObjekat;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.List;
+
 
 /**
  *
@@ -44,6 +45,66 @@ public class DBBroker {
     public void rollback() throws SQLException {
         if (connection != null) {
             connection.rollback();
+        }
+    }
+    
+      public void insert(OpstiDomenskiObjekat odo) throws SQLException {
+        String query = "INSERT INTO " + odo.getImeTabele() + " VALUES (" + odo.getParametre() + ")";
+        System.out.println("[SQL] " + query);
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                odo.setVrednostPK(id);
+            }
+        }
+    }
+
+    public void update(OpstiDomenskiObjekat odo) throws SQLException {
+        String query = "UPDATE " + odo.getImeTabele() + " SET " + odo.getUpdate() + " WHERE " + odo.getPK() + " = " + odo.getVrednostPK();
+        System.out.println("[SQL] " + query);
+        try (Statement st = connection.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public void delete(OpstiDomenskiObjekat odo) throws SQLException {
+        String query = "DELETE FROM " + odo.getImeTabele() + " WHERE " + odo.getPK() + " = " + odo.getVrednostPK();
+        System.out.println("[SQL] " + query);
+        try (Statement st = connection.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public List<OpstiDomenskiObjekat> getAll(OpstiDomenskiObjekat odo) throws SQLException {
+        String query = "SELECT * FROM " + odo.getImeTabele();
+        System.out.println("[SQL] " + query);
+        try (Statement st = connection.createStatement()) {
+            ResultSet rs = st.executeQuery(query);
+            return odo.ResultSetIntoTable(rs);
+        }
+    }
+
+    public List<OpstiDomenskiObjekat> getWithCondition(OpstiDomenskiObjekat odo, String condition) throws SQLException {
+        String query = "SELECT * FROM " + odo.getImeTabele() + " WHERE " + condition;
+        System.out.println("[SQL] " + query);
+        try (Statement st = connection.createStatement()) {
+            ResultSet rs = st.executeQuery(query);
+            return odo.ResultSetIntoTable(rs);
+        }
+    }
+
+    public int getNextID(OpstiDomenskiObjekat odo) throws SQLException {
+        String query = "SELECT MAX(" + odo.getPK() + ") AS maxid FROM " + odo.getImeTabele();
+        System.out.println("[SQL] " + query);
+        try (Statement st = connection.createStatement()) {
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                return rs.getInt("maxid") + 1;
+            } else {
+                return 1;
+            }
         }
     }
 }
