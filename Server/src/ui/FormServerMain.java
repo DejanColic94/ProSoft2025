@@ -39,9 +39,10 @@ public class FormServerMain extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRadnici = new javax.swing.JTable();
         meniKonfiguracija = new javax.swing.JMenuBar();
-        meniItemKonfig = new javax.swing.JMenu();
-        meniItemLogs = new javax.swing.JMenu();
-        meniItemInfo = new javax.swing.JMenu();
+        menuOpcije = new javax.swing.JMenu();
+        menuItemKonfig = new javax.swing.JMenuItem();
+        menuItemLogs = new javax.swing.JMenuItem();
+        menuItemInfo = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -101,14 +102,33 @@ public class FormServerMain extends javax.swing.JFrame {
                 .addGap(106, 106, 106))
         );
 
-        meniItemKonfig.setText("Konfiguracija servera");
-        meniKonfiguracija.add(meniItemKonfig);
+        menuOpcije.setText("Opcije");
+        menuOpcije.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuOpcijeActionPerformed(evt);
+            }
+        });
 
-        meniItemLogs.setText("Logs");
-        meniKonfiguracija.add(meniItemLogs);
+        menuItemKonfig.setText("Konfiguracija Servera");
+        menuItemKonfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemKonfigActionPerformed(evt);
+            }
+        });
+        menuOpcije.add(menuItemKonfig);
 
-        meniItemInfo.setText("Info");
-        meniKonfiguracija.add(meniItemInfo);
+        menuItemLogs.setText("Logs");
+        menuOpcije.add(menuItemLogs);
+
+        menuItemInfo.setText("Info");
+        menuItemInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemInfoActionPerformed(evt);
+            }
+        });
+        menuOpcije.add(menuItemInfo);
+
+        meniKonfiguracija.add(menuOpcije);
 
         setJMenuBar(meniKonfiguracija);
 
@@ -161,6 +181,18 @@ public class FormServerMain extends javax.swing.JFrame {
         sst.terminateThreads();
     }//GEN-LAST:event_btnZaustaviServerActionPerformed
 
+    private void menuOpcijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcijeActionPerformed
+  
+    }//GEN-LAST:event_menuOpcijeActionPerformed
+
+    private void menuItemInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemInfoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemInfoActionPerformed
+
+    private void menuItemKonfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKonfigActionPerformed
+       new FormServerConfig().setVisible(true);
+    }//GEN-LAST:event_menuItemKonfigActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -194,10 +226,11 @@ public class FormServerMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblStatusPrikaz;
-    private javax.swing.JMenu meniItemInfo;
-    private javax.swing.JMenu meniItemKonfig;
-    private javax.swing.JMenu meniItemLogs;
     private javax.swing.JMenuBar meniKonfiguracija;
+    private javax.swing.JMenuItem menuItemInfo;
+    private javax.swing.JMenuItem menuItemKonfig;
+    private javax.swing.JMenuItem menuItemLogs;
+    private javax.swing.JMenu menuOpcije;
     private javax.swing.JTable tblRadnici;
     // End of variables declaration//GEN-END:variables
 }

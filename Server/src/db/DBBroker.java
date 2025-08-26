@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-
 /**
  *
  * @author Dejan Colic
@@ -23,10 +22,23 @@ public class DBBroker {
     }
 
     public void connect() throws IOException, SQLException {
-        String url = DatabaseUtil.getInstance().getURL();
-        String user = DatabaseUtil.getInstance().getUsername();
-        String password = DatabaseUtil.getInstance().getPassword();
-        connection = DriverManager.getConnection(url, user, password);
+        DatabaseUtil dbUtil = DatabaseUtil.getInstance();
+
+        String baseUrl = dbUtil.getURL();
+        String port = dbUtil.getPort();
+        String dbName = dbUtil.getDatabaseName();
+        String fullUrl = baseUrl + ":" + port + "/" + dbName;
+
+        String user = dbUtil.getUsername();
+        String password = dbUtil.getPassword();
+
+        try {
+            connection = DriverManager.getConnection(fullUrl, user, password);
+        } catch (SQLException e) {
+            System.out.println("Full url: " + fullUrl);
+            e.printStackTrace();
+            throw e;
+        }
         connection.setAutoCommit(false);
     }
 
@@ -47,8 +59,8 @@ public class DBBroker {
             connection.rollback();
         }
     }
-    
-      public void insert(OpstiDomenskiObjekat odo) throws SQLException {
+
+    public void create(OpstiDomenskiObjekat odo) throws SQLException {
         String query = "INSERT INTO " + odo.getImeTabele() + " VALUES (" + odo.getParametre() + ")";
         System.out.println("[SQL] " + query);
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {

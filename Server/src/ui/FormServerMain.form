@@ -13,20 +13,36 @@
     </Container>
     <Menu class="javax.swing.JMenuBar" name="meniKonfiguracija">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="meniItemKonfig">
+        <Menu class="javax.swing.JMenu" name="menuOpcije">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Konfiguracija servera"/>
+            <Property name="text" type="java.lang.String" value="Opcije"/>
           </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="meniItemLogs">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Logs"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="meniItemInfo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Info"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuOpcijeActionPerformed"/>
+          </Events>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemKonfig">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Konfiguracija Servera"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemKonfigActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemLogs">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Logs"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemInfo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Info"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemInfoActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>

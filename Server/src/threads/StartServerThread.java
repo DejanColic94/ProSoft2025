@@ -43,7 +43,7 @@ public class StartServerThread extends Thread {
                 clientThread.start();
             } catch (SocketException se) {
                 System.out.println("Server socket closed, stopping server thread.");
-                break; // exit the loop
+                break; 
             } catch (IOException ex) {
                 System.out.println("Error in accepting the client socket connection.");
                 ex.printStackTrace();

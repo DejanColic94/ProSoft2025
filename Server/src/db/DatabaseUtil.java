@@ -5,10 +5,10 @@
 package db;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import constants.Constants;
+import java.io.FileOutputStream;
 
 /**
  *
@@ -19,7 +19,7 @@ public class DatabaseUtil {
     private Properties properties;
     private static DatabaseUtil instance;
 
-    private DatabaseUtil() throws FileNotFoundException, IOException {
+    private DatabaseUtil() throws IOException {
         FileInputStream fis = new FileInputStream("dbconfig.properties");
         properties = new Properties();
         properties.load(fis);
@@ -44,4 +44,20 @@ public class DatabaseUtil {
         return properties.getProperty(Constants.PASSWORD);
     }
 
+    public String getPort() {
+        return properties.getProperty(Constants.PORT);
+    }
+
+    public String getDatabaseName() {
+        return properties.getProperty(Constants.DATABASE_NAME);
+    }
+
+    public void saveProperties(String username, String password, String port, String dbName) throws IOException {
+        FileOutputStream fos = new FileOutputStream("dbconfig.properties");
+        properties.setProperty("username", username);
+        properties.setProperty("password", password);
+        properties.setProperty("port", port);
+        properties.setProperty("naziv", dbName);
+        fos.close();
+    }
 }
