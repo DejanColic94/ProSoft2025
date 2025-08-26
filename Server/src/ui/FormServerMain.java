@@ -4,6 +4,7 @@
  */
 package ui;
 
+import java.awt.Color;
 import threads.StartServerThread;
 
 /**
@@ -20,7 +21,9 @@ public class FormServerMain extends javax.swing.JFrame {
      */
     public FormServerMain() {
         initComponents();
+        setServerStatus(false);
         setLocationRelativeTo(null);
+        setTitle("Serverski Program");
     }
 
     /**
@@ -175,14 +178,16 @@ public class FormServerMain extends javax.swing.JFrame {
     private void btnPokreniServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniServerActionPerformed
         sst = new StartServerThread();
         sst.start();
+        setServerStatus(true);
     }//GEN-LAST:event_btnPokreniServerActionPerformed
 
     private void btnZaustaviServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaustaviServerActionPerformed
         sst.terminateThreads();
+        setServerStatus(false);
     }//GEN-LAST:event_btnZaustaviServerActionPerformed
 
     private void menuOpcijeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcijeActionPerformed
-  
+
     }//GEN-LAST:event_menuOpcijeActionPerformed
 
     private void menuItemInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemInfoActionPerformed
@@ -190,7 +195,7 @@ public class FormServerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemInfoActionPerformed
 
     private void menuItemKonfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKonfigActionPerformed
-       new FormServerConfig().setVisible(true);
+        new FormServerConfig().setVisible(true);
     }//GEN-LAST:event_menuItemKonfigActionPerformed
 
     /**
@@ -216,6 +221,16 @@ public class FormServerMain extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FormServerMain().setVisible(true));
+    }
+
+    private void setServerStatus(boolean active) {
+        if (active) {
+            lblStatusPrikaz.setText("Aktivan");
+            lblStatusPrikaz.setForeground(Color.green);
+        } else {
+            lblStatusPrikaz.setText("Neaktivan");
+            lblStatusPrikaz.setForeground(Color.red);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
