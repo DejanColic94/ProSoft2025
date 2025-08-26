@@ -5,31 +5,64 @@
 package controller;
 
 import domain.OpstiDomenskiObjekat;
-import so.GenericSO;
+import domain.Radnik;
+import java.util.ArrayList;
+import java.util.List;
+import models.TableModelRadnik;
 import so.login.SOLogin;
-
 
 /**
  *
  * @author Dejan Colic
  */
 public class Controller {
-    private static Controller instance;
 
-   private Controller() {
+    private static Controller instance;
+    private List<Radnik> ulogovaniRadnici;
+    private TableModelRadnik modelRadnik;
+
+    private Controller() {
+        ulogovaniRadnici = new ArrayList<>();
     }
-    
+
     public static Controller getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Controller();
         }
-        
+
         return instance;
     }
-    
-     public OpstiDomenskiObjekat login(OpstiDomenskiObjekat odo) throws Exception {
+
+    public List<Radnik> getUlogovaniRadnici() {
+        return ulogovaniRadnici;
+    }
+
+    public void setUlogovaniRadnici(List<Radnik> radnici) {
+        this.ulogovaniRadnici = radnici;
+    }
+
+    public void addUlogovanogRadnika(Radnik r) {
+        ulogovaniRadnici.add(r);
+        if (modelRadnik != null) {
+            modelRadnik.fireTableDataChanged();
+        }
+    }
+
+    public void deleteUlogovanogRadnika(Radnik r) {
+        ulogovaniRadnici.remove(r);
+        if (modelRadnik != null) {
+            modelRadnik.fireTableDataChanged();
+        }
+    }
+
+    public void setModelRadnik(TableModelRadnik model) {
+        this.modelRadnik = model;
+    }
+
+    public OpstiDomenskiObjekat login(OpstiDomenskiObjekat odo) throws Exception {
         SOLogin so = new SOLogin();
         so.execute(odo);
         return so.getResult();
     }
+
 }

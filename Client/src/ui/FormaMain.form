@@ -3,23 +3,6 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
-      <SubComponents>
-        <Menu class="javax.swing.JMenu" name="meniItemClanovi">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Rad sa Clanovima"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="meniItemKnjige">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Rad sa Knjigama"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="meniItemZaduzenja">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Rad sa Zaduzenjima"/>
-          </Properties>
-        </Menu>
-      </SubComponents>
     </Menu>
   </NonVisualComponents>
   <Properties>
@@ -52,6 +35,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblDobrodosli" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
                           <Component id="lblTrenutnaSesija" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnClanovi" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -61,10 +45,15 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="285" max="-2" attributes="0"/>
-                      <Component id="btnLogOut" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnKnjige" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLogOut" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="154" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnZaduzenja" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -81,7 +70,13 @@
                   <Component id="lblTrenutnaSesija" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblVremeSesije" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="209" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnClanovi" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnKnjige" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnZaduzenja" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="145" max="32767" attributes="0"/>
               <Component id="btnLogOut" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
           </Group>
@@ -115,6 +110,21 @@
     <Component class="javax.swing.JButton" name="btnLogOut">
       <Properties>
         <Property name="text" type="java.lang.String" value="Zavrsi sesiju"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnClanovi">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Rad sa Clanovima"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnKnjige">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Rad sa Knjigama"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnZaduzenja">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Rad sa Zaduzenjima"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -4,7 +4,12 @@
  */
 package ui;
 
+import controller.Controller;
+import domain.Radnik;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import models.TableModelRadnik;
 import threads.StartServerThread;
 
 /**
@@ -15,6 +20,7 @@ public class FormServerMain extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormServerMain.class.getName());
     StartServerThread sst;
+    private TableModelRadnik modelRadnici;
 
     /**
      * Creates new form FormServerMain
@@ -24,6 +30,7 @@ public class FormServerMain extends javax.swing.JFrame {
         setServerStatus(false);
         setLocationRelativeTo(null);
         setTitle("Serverski Program");
+        prepareTable();
     }
 
     /**
@@ -248,4 +255,12 @@ public class FormServerMain extends javax.swing.JFrame {
     private javax.swing.JMenu menuOpcije;
     private javax.swing.JTable tblRadnici;
     // End of variables declaration//GEN-END:variables
+
+    private void prepareTable() {
+        List<Radnik> sharedRadniciList = new ArrayList<>();
+        modelRadnici = new TableModelRadnik(sharedRadniciList);
+        Controller.getInstance().setUlogovaniRadnici(sharedRadniciList);
+        Controller.getInstance().setModelRadnik(modelRadnici);
+        tblRadnici.setModel(modelRadnici);
+    }
 }

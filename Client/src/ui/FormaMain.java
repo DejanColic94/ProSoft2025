@@ -31,10 +31,10 @@ public class FormaMain extends javax.swing.JFrame {
         lblTrenutnaSesija = new javax.swing.JLabel();
         lblVremeSesije = new javax.swing.JLabel();
         btnLogOut = new javax.swing.JButton();
+        btnClanovi = new javax.swing.JButton();
+        btnKnjige = new javax.swing.JButton();
+        btnZaduzenja = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        meniItemClanovi = new javax.swing.JMenu();
-        meniItemKnjige = new javax.swing.JMenu();
-        meniItemZaduzenja = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,15 +49,11 @@ public class FormaMain extends javax.swing.JFrame {
 
         btnLogOut.setText("Zavrsi sesiju");
 
-        meniItemClanovi.setText("Rad sa Clanovima");
-        jMenuBar1.add(meniItemClanovi);
+        btnClanovi.setText("Rad sa Clanovima");
 
-        meniItemKnjige.setText("Rad sa Knjigama");
-        jMenuBar1.add(meniItemKnjige);
+        btnKnjige.setText("Rad sa Knjigama");
 
-        meniItemZaduzenja.setText("Rad sa Zaduzenjima");
-        jMenuBar1.add(meniItemZaduzenja);
-
+        btnZaduzenja.setText("Rad sa Zaduzenjima");
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -70,15 +66,20 @@ public class FormaMain extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDobrodosli, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTrenutnaSesija))
+                            .addComponent(lblTrenutnaSesija)
+                            .addComponent(btnClanovi))
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblVremeSesije)
                             .addComponent(lblNazivRadnika, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(285, 285, 285)
-                        .addComponent(btnLogOut)))
-                .addContainerGap(154, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnKnjige)
+                            .addComponent(btnLogOut))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnZaduzenja)
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,7 +92,12 @@ public class FormaMain extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTrenutnaSesija)
                     .addComponent(lblVremeSesije))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addGap(63, 63, 63)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClanovi)
+                    .addComponent(btnKnjige)
+                    .addComponent(btnZaduzenja))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                 .addComponent(btnLogOut)
                 .addGap(19, 19, 19))
         );
@@ -125,14 +131,14 @@ public class FormaMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClanovi;
+    private javax.swing.JButton btnKnjige;
     private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnZaduzenja;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel lblDobrodosli;
     private javax.swing.JLabel lblNazivRadnika;
     private javax.swing.JLabel lblTrenutnaSesija;
     private javax.swing.JLabel lblVremeSesije;
-    private javax.swing.JMenu meniItemClanovi;
-    private javax.swing.JMenu meniItemKnjige;
-    private javax.swing.JMenu meniItemZaduzenja;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,7 @@ import communication.Response;
 import constants.Operations;
 import controller.Controller;
 import domain.OpstiDomenskiObjekat;
+import domain.Radnik;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,6 +27,7 @@ public class ClientServiceThread extends Thread {
     private boolean end = false;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
+    private Radnik ulogovaniRadnik;
 
     public ClientServiceThread(Socket socket, List<ClientServiceThread> clientList) {
         this.socket = socket;
@@ -51,6 +53,9 @@ public class ClientServiceThread extends Thread {
                     try {
                         OpstiDomenskiObjekat param = (OpstiDomenskiObjekat) request.getParam();
                         OpstiDomenskiObjekat result = Controller.getInstance().login(param);
+
+                        this.ulogovaniRadnik = (Radnik) result;
+                        Controller.getInstance().addUlogovanogRadnika((Radnik) result);
 
                         response.setParams(result);
                         response.setSuccess(true);
