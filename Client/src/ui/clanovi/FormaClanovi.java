@@ -27,6 +27,7 @@ public class FormaClanovi extends javax.swing.JFrame {
         setTitle("Rad sa clanovima");
         setLocationRelativeTo(null);
         loadClanovi();
+        btnObrisi.setEnabled(false);
     }
 
     /**
@@ -71,6 +72,11 @@ public class FormaClanovi extends javax.swing.JFrame {
         btnIzmeni.setText("Izmeni");
 
         btnObrisi.setText("Obrisi ");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
 
         btnNazad.setText("Nazad");
         btnNazad.addActionListener(new java.awt.event.ActionListener() {
@@ -150,6 +156,32 @@ public class FormaClanovi extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnNazadActionPerformed
 
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        int row = tblClanovi.getSelectedRow();
+        if (row < 0) {
+            return;
+        }
+
+        TableModelClan model = (TableModelClan) tblClanovi.getModel();
+        Clan clan = model.getClanAt(row);
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Da li ste sigurni da zelite da obrisete clana: " + clan.getIme() + " " + clan.getPrezime() + "?",
+                "Potvrda brisanja",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                controller.UIController.getInstance().deleteClan(clan);
+                JOptionPane.showMessageDialog(this, "Clan uspesno obrisan.");
+                loadClanovi(); 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Greska: " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -193,6 +225,11 @@ public class FormaClanovi extends javax.swing.JFrame {
             List<Clan> clanovi = controller.UIController.getInstance().getAllClan();
             TableModelClan model = new TableModelClan(clanovi);
             tblClanovi.setModel(model);
+
+            tblClanovi.getSelectionModel().addListSelectionListener(e -> {
+                boolean selected = tblClanovi.getSelectedRow() >= 0;
+                btnObrisi.setEnabled(selected);
+            });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Greska: " + e.getMessage());
         }

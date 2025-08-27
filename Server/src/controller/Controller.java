@@ -10,6 +10,7 @@ import domain.Radnik;
 import java.util.ArrayList;
 import java.util.List;
 import models.TableModelRadnik;
+import so.clan.SOdeleteClan;
 import so.clan.SOgetAllClan;
 import so.login.SOLogin;
 
@@ -72,5 +73,10 @@ public class Controller {
         so.execute(new Clan());
         return so.getResult();
     }
+    
+    public void deleteClan(OpstiDomenskiObjekat clan) throws Exception {
+    SOdeleteClan so = new SOdeleteClan();
+    so.execute(clan);
+}
 
 }

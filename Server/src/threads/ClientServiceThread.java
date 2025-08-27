@@ -8,6 +8,7 @@ import communication.Request;
 import communication.Response;
 import constants.Operations;
 import controller.Controller;
+import domain.Clan;
 import domain.OpstiDomenskiObjekat;
 import domain.Radnik;
 import java.io.IOException;
@@ -101,6 +102,34 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greska prilikom ucitavanja clanova: " + e.getMessage());
+                    }
+                    break;
+                case Operations.DELETE_CLAN:
+                    try {
+                        Controller.getInstance().deleteClan((OpstiDomenskiObjekat) request.getParam());
+                        response.setSuccess(true);
+                        response.setMessage("Clan uspesno obrisan.");
+
+                        Clan clan = (Clan) request.getParam();
+
+                        util.ServerLogger.getInstance().logAction(
+                                this.ulogovaniRadnik,
+                                "Obrisan clan: ID=" + clan.getClanID()
+                                + ", " + clan.getIme() + " " + clan.getPrezime()
+                        );
+
+                    } catch (java.sql.SQLIntegrityConstraintViolationException fkEx) {
+                        response.setSuccess(false);
+                        response.setMessage("Član ima zaduženja i ne može biti obrisan."); 
+
+                        util.ServerLogger.getInstance().logError(
+                                this.ulogovaniRadnik,
+                                "Delete clan failed: member has existing loans",
+                                fkEx
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greska prilikom brisanja clana: " + e.getMessage());
                     }
                     break;
                 default:
