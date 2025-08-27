@@ -22,6 +22,7 @@ public class FormaLogIn extends javax.swing.JFrame {
     public FormaLogIn() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Log In");
     }
 
     /**

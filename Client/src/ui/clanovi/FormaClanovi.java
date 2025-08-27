@@ -6,6 +6,7 @@ package ui.clanovi;
 
 import domain.Clan;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import models.TableModelClan;
@@ -68,6 +69,11 @@ public class FormaClanovi extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblClanovi);
 
         btnKreiraj.setText("Kreiraj ");
+        btnKreiraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKreirajActionPerformed(evt);
+            }
+        });
 
         btnIzmeni.setText("Izmeni");
 
@@ -197,6 +203,11 @@ public class FormaClanovi extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Greška prilikom pretrage članova: " + e.getMessage());
         }
     }//GEN-LAST:event_btnPretraziActionPerformed
+
+    private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
+       JDialog kreiraj = new DijalogNoviClan(this, true);
+       kreiraj.setVisible(true);
+    }//GEN-LAST:event_btnKreirajActionPerformed
 
     /**
      * @param args the command line arguments
