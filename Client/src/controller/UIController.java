@@ -8,7 +8,9 @@ import communication.CommunicationWithServer;
 import communication.Request;
 import communication.Response;
 import constants.Operations;
+import domain.Clan;
 import domain.Radnik;
+import java.util.List;
 
 /**
  *
@@ -52,5 +54,17 @@ public class UIController {
         }
 
         CommunicationWithServer.getInstance().close();
+    }
+
+    public List<Clan> getAllClan() throws Exception {
+        Request req = new Request(Operations.GET_ALL_CLAN, new Clan());
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (res.isSuccess()) {
+            return (List<Clan>) res.getParams();
+        } else {
+            throw new Exception(res.getMessage());
+        }
     }
 }

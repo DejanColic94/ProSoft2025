@@ -4,11 +4,13 @@
  */
 package controller;
 
+import domain.Clan;
 import domain.OpstiDomenskiObjekat;
 import domain.Radnik;
 import java.util.ArrayList;
 import java.util.List;
 import models.TableModelRadnik;
+import so.clan.SOgetAllClan;
 import so.login.SOLogin;
 
 /**
@@ -62,6 +64,12 @@ public class Controller {
     public OpstiDomenskiObjekat login(OpstiDomenskiObjekat odo) throws Exception {
         SOLogin so = new SOLogin();
         so.execute(odo);
+        return so.getResult();
+    }
+
+    public List<OpstiDomenskiObjekat> getAllClan() throws Exception {
+        SOgetAllClan so = new SOgetAllClan();
+        so.execute(new Clan());
         return so.getResult();
     }
 

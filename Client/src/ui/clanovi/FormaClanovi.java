@@ -4,14 +4,18 @@
  */
 package ui.clanovi;
 
+import domain.Clan;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import models.TableModelClan;
 
 /**
  *
  * @author Dejan Colic
  */
 public class FormaClanovi extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaClanovi.class.getName());
 
     /**
@@ -20,6 +24,9 @@ public class FormaClanovi extends javax.swing.JFrame {
     public FormaClanovi() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Rad sa clanovima");
+        setLocationRelativeTo(null);
+        loadClanovi();
     }
 
     /**
@@ -66,6 +73,11 @@ public class FormaClanovi extends javax.swing.JFrame {
         btnObrisi.setText("Obrisi ");
 
         btnNazad.setText("Nazad");
+        btnNazad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNazadActionPerformed(evt);
+            }
+        });
 
         btnPretrazi.setText("Pretrazi");
 
@@ -133,6 +145,11 @@ public class FormaClanovi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNazadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNazadActionPerformed
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_btnNazadActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -170,4 +187,14 @@ public class FormaClanovi extends javax.swing.JFrame {
     private javax.swing.JTable tblClanovi;
     private javax.swing.JTextField txtPretrazi;
     // End of variables declaration//GEN-END:variables
+
+    private void loadClanovi() {
+        try {
+            List<Clan> clanovi = controller.UIController.getInstance().getAllClan();
+            TableModelClan model = new TableModelClan(clanovi);
+            tblClanovi.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greska: " + e.getMessage());
+        }
+    }
 }

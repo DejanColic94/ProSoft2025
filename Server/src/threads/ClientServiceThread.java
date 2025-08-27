@@ -93,6 +93,16 @@ public class ClientServiceThread extends Thread {
                         ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Logout failed", e);
                     }
                     break;
+                case Operations.GET_ALL_CLAN:
+                    try {
+                        List<OpstiDomenskiObjekat> result = Controller.getInstance().getAllClan();
+                        response.setParams(result);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greska prilikom ucitavanja clanova: " + e.getMessage());
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());
