@@ -205,8 +205,9 @@ public class FormaClanovi extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPretraziActionPerformed
 
     private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
-       JDialog kreiraj = new DijalogNoviClan(this, true);
-       kreiraj.setVisible(true);
+        JDialog kreiraj = new DijalogNoviClan(this, true);
+        kreiraj.setVisible(true);
+        loadClanovi();
     }//GEN-LAST:event_btnKreirajActionPerformed
 
     /**

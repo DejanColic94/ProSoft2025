@@ -4,6 +4,9 @@
  */
 package ui.clanovi;
 
+import domain.Clan;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dejan Colic
@@ -54,6 +57,11 @@ public class DijalogNoviClan extends javax.swing.JDialog {
         lblEmail.setText("E-mail :");
 
         btnSacuvaj.setText("Sacuvaj");
+        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajActionPerformed(evt);
+            }
+        });
 
         btnOdustani.setText("Odustani");
         btnOdustani.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +144,32 @@ public class DijalogNoviClan extends javax.swing.JDialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_btnOdustaniActionPerformed
+
+    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
+        String ime = txtIme.getText().trim();
+        String prezime = txtPrezime.getText().trim();
+        String telefon = txtTelefon.getText().trim();
+        String email = txtEmail.getText().trim();
+
+        if (ime.isEmpty() || prezime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ime i prezime su obavezni.");
+            return;
+        }
+
+        Clan clan = new Clan();
+        clan.setIme(ime);
+        clan.setPrezime(prezime);
+        clan.setTelefon(telefon);
+        clan.setEmail(email);
+
+        try {
+            controller.UIController.getInstance().createClan(clan);
+            JOptionPane.showMessageDialog(this, "Član je uspešno kreiran.");
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greška: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnSacuvajActionPerformed
 
     /**
      * @param args the command line arguments

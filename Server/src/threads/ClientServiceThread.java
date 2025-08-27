@@ -144,6 +144,26 @@ public class ClientServiceThread extends Thread {
                         util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Search clan failed", e);
                     }
                     break;
+                case Operations.CREATE_CLAN:
+                    try {
+                        Clan clan = (Clan) request.getParam();
+                        Controller.getInstance().createClan(clan);
+                        response.setSuccess(true);
+                        response.setMessage("Član je uspešno kreiran.");
+                        util.ServerLogger.getInstance().logAction(
+                                this.ulogovaniRadnik,
+                                "Created clan: " + clan.getIme() + " " + clan.getPrezime()
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom kreiranja člana.");
+                        util.ServerLogger.getInstance().logError(
+                                this.ulogovaniRadnik,
+                                "Create clan failed",
+                                e
+                        );
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());
