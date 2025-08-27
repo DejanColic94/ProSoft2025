@@ -21,6 +21,8 @@ public class FormaMain extends javax.swing.JFrame {
     FormaClanovi formaClanovi;
     FormaKnjige formaKnjige;
     FormaZaduzenja formaZaduzenja;
+    private javax.swing.Timer sessionTimer;
+    private long sessionStartMillis;
 
     /**
      * Creates new form FormaMain
@@ -29,6 +31,9 @@ public class FormaMain extends javax.swing.JFrame {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
         setTitle("Biblioteka");
+        setActiveRadnik();
+        this.sessionStartMillis = System.currentTimeMillis();
+        startSessionTimer();
     }
 
     public FormaMain(Radnik ulogovani) {
@@ -36,6 +41,9 @@ public class FormaMain extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         this.ulogovani = ulogovani;
         setTitle("Biblioteka");
+        setActiveRadnik();
+        this.sessionStartMillis = System.currentTimeMillis();
+        startSessionTimer();
     }
 
     /**
@@ -56,6 +64,11 @@ public class FormaMain extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lblDobrodosli.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblDobrodosli.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -155,6 +168,7 @@ public class FormaMain extends javax.swing.JFrame {
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         btnLogOut.setEnabled(false);
+        stopSessionTimer();
         try {
             controller.UIController.getInstance().logout(ulogovani);
         } catch (Exception ex) {
@@ -180,6 +194,10 @@ public class FormaMain extends javax.swing.JFrame {
         formaZaduzenja = new FormaZaduzenja();
         formaZaduzenja.setVisible(true);
     }//GEN-LAST:event_btnZaduzenjaActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        stopSessionTimer();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -217,4 +235,32 @@ public class FormaMain extends javax.swing.JFrame {
     private javax.swing.JLabel lblTrenutnaSesija;
     private javax.swing.JLabel lblVremeSesije;
     // End of variables declaration//GEN-END:variables
+
+    private void setActiveRadnik() {
+        lblNazivRadnika.setText(this.ulogovani.getIme());
+    }
+
+    private void startSessionTimer() {
+        if (sessionTimer != null && sessionTimer.isRunning()) {
+            sessionTimer.stop();
+        }
+        sessionTimer = new javax.swing.Timer(1000, e -> updateSessionLabel());
+        sessionTimer.setInitialDelay(0);
+        sessionTimer.start();
+    }
+
+    private void stopSessionTimer() {
+        if (sessionTimer != null) {
+            sessionTimer.stop();
+        }
+    }
+
+    private void updateSessionLabel() {
+        long elapsed = System.currentTimeMillis() - sessionStartMillis;
+        long seconds = elapsed / 1000;
+        long h = seconds / 3600;
+        long m = (seconds % 3600) / 60;
+        long s = seconds % 60;
+        lblVremeSesije.setText(String.format("%02d:%02d:%02d", h, m, s));
+    }
 }
