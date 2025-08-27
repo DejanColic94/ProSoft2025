@@ -99,8 +99,13 @@ public class DBBroker {
     }
 
     public List<OpstiDomenskiObjekat> getWithCondition(OpstiDomenskiObjekat odo, String condition) throws SQLException {
-        String query = "SELECT * FROM " + odo.getImeTabele() + " WHERE " + condition;
-        System.out.println("[SQL] " + query);
+        String query = "SELECT * FROM " + odo.getImeTabele();
+        if (condition != null && !condition.trim().isEmpty()) {
+            query += " WHERE " + condition;
+        }
+
+        System.out.println("[SQL] " + query); 
+
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(query);
             return odo.ResultSetIntoTable(rs);

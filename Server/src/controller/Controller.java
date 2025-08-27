@@ -12,6 +12,7 @@ import java.util.List;
 import models.TableModelRadnik;
 import so.clan.SOdeleteClan;
 import so.clan.SOgetAllClan;
+import so.clan.SOsearchClan;
 import so.login.SOLogin;
 
 /**
@@ -73,10 +74,18 @@ public class Controller {
         so.execute(new Clan());
         return so.getResult();
     }
-    
-    public void deleteClan(OpstiDomenskiObjekat clan) throws Exception {
-    SOdeleteClan so = new SOdeleteClan();
-    so.execute(clan);
-}
 
+    public void deleteClan(OpstiDomenskiObjekat clan) throws Exception {
+        SOdeleteClan so = new SOdeleteClan();
+        so.execute(clan);
+    }
+
+    public List<OpstiDomenskiObjekat> searchClan(String term) throws Exception {
+        Clan c = new Clan();
+        c.setIme(term);
+        c.setPrezime(term);
+        SOsearchClan so = new SOsearchClan();
+        so.execute(c);
+        return so.getResult();
+    }
 }

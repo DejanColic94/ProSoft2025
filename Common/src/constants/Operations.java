@@ -14,4 +14,5 @@ public class Operations {
     public static final int LOGOUT = 2;
     public static final int GET_ALL_CLAN = 3;
     public static final int DELETE_CLAN = 4;
+    public static final int SEARCH_CLAN = 5;
 }

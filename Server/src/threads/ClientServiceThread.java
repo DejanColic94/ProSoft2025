@@ -120,7 +120,7 @@ public class ClientServiceThread extends Thread {
 
                     } catch (java.sql.SQLIntegrityConstraintViolationException fkEx) {
                         response.setSuccess(false);
-                        response.setMessage("Član ima zaduženja i ne može biti obrisan."); 
+                        response.setMessage("Član ima zaduženja i ne može biti obrisan.");
 
                         util.ServerLogger.getInstance().logError(
                                 this.ulogovaniRadnik,
@@ -130,6 +130,18 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greska prilikom brisanja clana: " + e.getMessage());
+                    }
+                    break;
+                case Operations.SEARCH_CLAN:
+                    try {
+                        String term = (String) request.getParam();
+                        List<OpstiDomenskiObjekat> result = Controller.getInstance().searchClan(term);
+                        response.setParams(result);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom pretrage članova.");
+                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Search clan failed", e);
                     }
                     break;
                 default:

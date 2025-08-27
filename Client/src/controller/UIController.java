@@ -77,4 +77,16 @@ public class UIController {
             throw new Exception(res.getMessage());
         }
     }
+
+    public List<Clan> searchClan(String term) throws Exception {
+        Request req = new Request(Operations.SEARCH_CLAN, term);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (res.isSuccess()) {
+            return (List<Clan>) res.getParams();
+        } else {
+            throw new Exception(res.getMessage());
+        }
+    }
 }

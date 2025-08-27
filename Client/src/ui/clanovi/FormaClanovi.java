@@ -86,6 +86,11 @@ public class FormaClanovi extends javax.swing.JFrame {
         });
 
         btnPretrazi.setText("Pretrazi");
+        btnPretrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretraziActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,12 +180,23 @@ public class FormaClanovi extends javax.swing.JFrame {
             try {
                 controller.UIController.getInstance().deleteClan(clan);
                 JOptionPane.showMessageDialog(this, "Clan uspesno obrisan.");
-                loadClanovi(); 
+                loadClanovi();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Greska: " + e.getMessage());
             }
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
+
+    private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
+        String term = txtPretrazi.getText().trim();
+        try {
+            List<Clan> clanovi = controller.UIController.getInstance().searchClan(term);
+            TableModelClan model = new TableModelClan(clanovi);
+            tblClanovi.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom pretrage članova: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnPretraziActionPerformed
 
     /**
      * @param args the command line arguments
