@@ -4,6 +4,8 @@
  */
 package ui.zaduzenja;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Dejan Colic
@@ -17,6 +19,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
      */
     public FormaZaduzenja() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

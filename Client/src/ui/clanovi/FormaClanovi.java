@@ -4,6 +4,8 @@
  */
 package ui.clanovi;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Dejan Colic
@@ -17,6 +19,7 @@ public class FormaClanovi extends javax.swing.JFrame {
      */
     public FormaClanovi() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

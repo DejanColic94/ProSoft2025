@@ -4,6 +4,8 @@
  */
 package ui.knjige;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Dejan Colic
@@ -17,6 +19,7 @@ public class FormaKnjige extends javax.swing.JFrame {
      */
     public FormaKnjige() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

@@ -6,6 +6,9 @@ package ui;
 
 import domain.Radnik;
 import javax.swing.JOptionPane;
+import ui.clanovi.FormaClanovi;
+import ui.knjige.FormaKnjige;
+import ui.zaduzenja.FormaZaduzenja;
 
 /**
  *
@@ -15,18 +18,24 @@ public class FormaMain extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaMain.class.getName());
     private Radnik ulogovani;
+    FormaClanovi formaClanovi;
+    FormaKnjige formaKnjige;
+    FormaZaduzenja formaZaduzenja;
 
     /**
      * Creates new form FormaMain
      */
     public FormaMain() {
         initComponents();
+        setExtendedState(MAXIMIZED_BOTH);
+        setTitle("Biblioteka");
     }
 
     public FormaMain(Radnik ulogovani) {
         initComponents();
+        setExtendedState(MAXIMIZED_BOTH);
         this.ulogovani = ulogovani;
-
+        setTitle("Biblioteka");
     }
 
     /**
@@ -48,13 +57,19 @@ public class FormaMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lblDobrodosli.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblDobrodosli.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDobrodosli.setText("Dobrodosli ");
 
+        lblNazivRadnika.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblNazivRadnika.setForeground(new java.awt.Color(0, 51, 255));
         lblNazivRadnika.setText("jLabel2");
 
+        lblTrenutnaSesija.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTrenutnaSesija.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTrenutnaSesija.setText("Trenutna sesija :");
 
+        lblVremeSesije.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblVremeSesije.setText("12:44");
 
         btnLogOut.setText("Zavrsi sesiju");
@@ -65,56 +80,74 @@ public class FormaMain extends javax.swing.JFrame {
         });
 
         btnClanovi.setText("Rad sa Clanovima");
+        btnClanovi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClanoviActionPerformed(evt);
+            }
+        });
 
         btnKnjige.setText("Rad sa Knjigama");
+        btnKnjige.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKnjigeActionPerformed(evt);
+            }
+        });
 
         btnZaduzenja.setText("Rad sa Zaduzenjima");
+        btnZaduzenja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZaduzenjaActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblDobrodosli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTrenutnaSesija, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDobrodosli, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTrenutnaSesija)
-                            .addComponent(btnClanovi))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblVremeSesije)
-                            .addComponent(lblNazivRadnika, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblVremeSesije, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNazivRadnika, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(244, 492, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(285, 285, 285)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnKnjige)
-                            .addComponent(btnLogOut))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnZaduzenja)
-                .addGap(14, 14, 14))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnZaduzenja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+                            .addComponent(btnClanovi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnKnjige, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDobrodosli, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNazivRadnika))
+                    .addComponent(lblDobrodosli, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNazivRadnika, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTrenutnaSesija, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblVremeSesije, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addComponent(btnClanovi, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTrenutnaSesija)
-                    .addComponent(lblVremeSesije))
-                .addGap(63, 63, 63)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnClanovi)
-                    .addComponent(btnKnjige)
-                    .addComponent(btnZaduzenja))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
-                .addComponent(btnLogOut)
-                .addGap(19, 19, 19))
+                .addComponent(btnKnjige, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnZaduzenja, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -132,6 +165,21 @@ public class FormaMain extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void btnClanoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClanoviActionPerformed
+        formaClanovi = new FormaClanovi();
+        formaClanovi.setVisible(true);
+    }//GEN-LAST:event_btnClanoviActionPerformed
+
+    private void btnKnjigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKnjigeActionPerformed
+        formaKnjige = new FormaKnjige();
+        formaKnjige.setVisible(true);
+    }//GEN-LAST:event_btnKnjigeActionPerformed
+
+    private void btnZaduzenjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaduzenjaActionPerformed
+        formaZaduzenja = new FormaZaduzenja();
+        formaZaduzenja.setVisible(true);
+    }//GEN-LAST:event_btnZaduzenjaActionPerformed
 
     /**
      * @param args the command line arguments
