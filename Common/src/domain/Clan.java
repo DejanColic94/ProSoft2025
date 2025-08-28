@@ -20,6 +20,7 @@ public class Clan extends OpstiDomenskiObjekat {
     private String prezime;
     private String telefon;
     private String email;
+    private boolean imaZaduzenja;
 
     public Clan() {
     }
@@ -70,6 +71,14 @@ public class Clan extends OpstiDomenskiObjekat {
 
     public void setTelefon(String telefon) {
         this.telefon = telefon;
+    }
+
+    public boolean isImaZaduzenja() {
+        return imaZaduzenja;
+    }
+
+    public void setImaZaduzenja(boolean imaZaduzenja) {
+        this.imaZaduzenja = imaZaduzenja;
     }
 
     @Override

@@ -124,4 +124,15 @@ public class DBBroker {
             }
         }
     }
+    
+    public boolean clanHasZaduzenja(int clanID) throws SQLException {
+    String query = "SELECT COUNT(*) FROM zaduzenje WHERE clanID=" + clanID;
+    try (Statement st = connection.createStatement();
+         ResultSet rs = st.executeQuery(query)) {
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    }
+    return false;
+}
 }

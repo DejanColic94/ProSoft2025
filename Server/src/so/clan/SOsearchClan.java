@@ -27,6 +27,10 @@ public class SOsearchClan extends GenericSO {
 
         String condition = "ime LIKE '%" + term + "%' OR prezime LIKE '%" + term + "%'";
         result = dbb.getWithCondition(new Clan(), condition);
+
+        for (OpstiDomenskiObjekat o : result) {
+            c.setImaZaduzenja(dbb.clanHasZaduzenja(c.getClanID()));
+        }
     }
 
     public List<OpstiDomenskiObjekat> getResult() {

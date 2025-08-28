@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModelClan extends AbstractTableModel {
 
-    private final String[] columns = {"ID", "Ime", "Prezime", "Telefon", "Email"};
+    private final String[] columns = {"Ime", "Prezime", "Telefon", "Email", "Ima zaduženja"};
     private List<Clan> clanovi;
 
     public TableModelClan(List<Clan> clanovi) {
@@ -36,15 +36,15 @@ public class TableModelClan extends AbstractTableModel {
         Clan c = clanovi.get(row);
         switch (col) {
             case 0:
-                return c.getClanID();
-            case 1:
                 return c.getIme();
-            case 2:
+            case 1:
                 return c.getPrezime();
-            case 3:
+            case 2:
                 return c.getTelefon();
-            case 4:
+            case 3:
                 return c.getEmail();
+            case 4:
+                return c.isImaZaduzenja() ? "Da" : "Ne";
             default:
                 return null;
         }
