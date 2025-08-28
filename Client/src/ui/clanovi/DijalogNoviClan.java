@@ -156,6 +156,20 @@ public class DijalogNoviClan extends javax.swing.JDialog {
             return;
         }
 
+        if (ime.isEmpty() || prezime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ime i prezime su obavezni.");
+            return;
+        }
+
+        if (!telefon.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Telefon može da sadrži samo brojeve.");
+            return;
+        }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            JOptionPane.showMessageDialog(this, "E-mail adresa nije u ispravnom formatu.");
+            return;
+        }
         Clan clan = new Clan();
         clan.setIme(ime);
         clan.setPrezime(prezime);
