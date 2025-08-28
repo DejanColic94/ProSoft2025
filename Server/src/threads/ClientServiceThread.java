@@ -164,6 +164,26 @@ public class ClientServiceThread extends Thread {
                         );
                     }
                     break;
+                case Operations.UPDATE_CLAN:
+                    try {
+                        Clan clan = (Clan) request.getParam();
+                        Controller.getInstance().updateClan(clan);
+                        response.setSuccess(true);
+                        response.setMessage("Član je uspešno izmenjen.");
+                        util.ServerLogger.getInstance().logAction(
+                                this.ulogovaniRadnik,
+                                "Updated clan: ID=" + clan.getClanID() + ", " + clan.getIme() + " " + clan.getPrezime()
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom izmene člana.");
+                        util.ServerLogger.getInstance().logError(
+                                this.ulogovaniRadnik,
+                                "Update clan failed",
+                                e
+                        );
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

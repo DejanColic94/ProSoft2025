@@ -63,4 +63,14 @@ public class TableModelClan extends AbstractTableModel {
     public Clan getClanAt(int row) {
         return clanovi.get(row);
     }
+
+    public void updateClan(Clan clan) {
+        for (int i = 0; i < clanovi.size(); i++) {
+            if (clanovi.get(i).getClanID() == clan.getClanID()) {
+                clanovi.set(i, clan);
+                fireTableRowsUpdated(i, i);
+                return;
+            }
+        }
+    }
 }

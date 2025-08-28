@@ -6,6 +6,7 @@ package ui.clanovi;
 
 import domain.Clan;
 import javax.swing.JOptionPane;
+import models.TableModelClan;
 
 /**
  *
@@ -14,15 +15,24 @@ import javax.swing.JOptionPane;
 public class DijalogNoviClan extends javax.swing.JDialog {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DijalogNoviClan.class.getName());
+    private Clan clanEdit;
 
     /**
      * Creates new form DijalogNoviClan
      */
-    public DijalogNoviClan(java.awt.Frame parent, boolean modal) {
+    public DijalogNoviClan(java.awt.Frame parent, boolean modal, Clan clan) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Dodaj ili Izmeni Clana");
+
+        if (clan != null) {
+            this.clanEdit = clan;
+            txtIme.setText(clan.getIme());
+            txtPrezime.setText(clan.getPrezime());
+            txtTelefon.setText(clan.getTelefon());
+            txtEmail.setText(clan.getEmail());
+        }
     }
 
     /**
@@ -155,33 +165,46 @@ public class DijalogNoviClan extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Ime i prezime su obavezni.");
             return;
         }
-
-        if (ime.isEmpty() || prezime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ime i prezime su obavezni.");
-            return;
-        }
-
         if (!telefon.matches("\\d+")) {
             JOptionPane.showMessageDialog(this, "Telefon može da sadrži samo brojeve.");
             return;
         }
-
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             JOptionPane.showMessageDialog(this, "E-mail adresa nije u ispravnom formatu.");
             return;
         }
-        Clan clan = new Clan();
-        clan.setIme(ime);
-        clan.setPrezime(prezime);
-        clan.setTelefon(telefon);
-        clan.setEmail(email);
 
-        try {
-            controller.UIController.getInstance().createClan(clan);
-            JOptionPane.showMessageDialog(this, "Član je uspešno kreiran.");
-            dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Greška: " + e.getMessage());
+        if (clanEdit == null) {
+            Clan newClan = new Clan();
+            newClan.setIme(ime);
+            newClan.setPrezime(prezime);
+            newClan.setTelefon(telefon);
+            newClan.setEmail(email);
+
+            try {
+                controller.UIController.getInstance().createClan(newClan);
+                JOptionPane.showMessageDialog(this, "Član je uspešno kreiran.");
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Greška prilikom čuvanja člana: " + e.getMessage());
+            }
+        } else {
+            clanEdit.setIme(ime);
+            clanEdit.setPrezime(prezime);
+            clanEdit.setTelefon(telefon);
+            clanEdit.setEmail(email);
+
+            try {
+                controller.UIController.getInstance().updateClan(clanEdit);
+                JOptionPane.showMessageDialog(this, "Član je uspešno izmenjen.");
+                if (getParent() instanceof FormaClanovi) {
+                    FormaClanovi parent = (FormaClanovi) getParent();
+                    ((TableModelClan) parent.getClanTable().getModel()).updateClan(clanEdit);
+                }
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Greška prilikom izmene člana: " + e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnSacuvajActionPerformed
 
@@ -210,7 +233,7 @@ public class DijalogNoviClan extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                DijalogNoviClan dialog = new DijalogNoviClan(new javax.swing.JFrame(), true);
+                DijalogNoviClan dialog = new DijalogNoviClan(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

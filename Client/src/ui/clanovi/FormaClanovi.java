@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import models.TableModelClan;
 
 /**
@@ -29,6 +30,13 @@ public class FormaClanovi extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         loadClanovi();
         btnObrisi.setEnabled(false);
+        btnIzmeni.setEnabled(false);
+
+        tblClanovi.getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = tblClanovi.getSelectedRow() >= 0;
+            btnIzmeni.setEnabled(selected);
+            btnObrisi.setEnabled(selected);
+        });
     }
 
     /**
@@ -76,6 +84,11 @@ public class FormaClanovi extends javax.swing.JFrame {
         });
 
         btnIzmeni.setText("Izmeni");
+        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniActionPerformed(evt);
+            }
+        });
 
         btnObrisi.setText("Obrisi ");
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
@@ -205,10 +218,23 @@ public class FormaClanovi extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPretraziActionPerformed
 
     private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
-        JDialog kreiraj = new DijalogNoviClan(this, true);
+        JDialog kreiraj = new DijalogNoviClan(this, true, null);
         kreiraj.setVisible(true);
         loadClanovi();
     }//GEN-LAST:event_btnKreirajActionPerformed
+
+    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
+        int row = tblClanovi.getSelectedRow();
+        if (row < 0) {
+            return;
+        }
+
+        TableModelClan model = (TableModelClan) tblClanovi.getModel();
+        Clan selected = model.getClanAt(row);
+
+        DijalogNoviClan d = new DijalogNoviClan(this, true, selected);
+        d.setVisible(true);
+    }//GEN-LAST:event_btnIzmeniActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,5 +287,9 @@ public class FormaClanovi extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Greska: " + e.getMessage());
         }
+    }
+
+    public JTable getClanTable() {
+        return tblClanovi;
     }
 }

@@ -8,6 +8,7 @@ import domain.OpstiDomenskiObjekat;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
+import so.clan.SOupdateClan;
 
 /**
  *
@@ -104,7 +105,7 @@ public class DBBroker {
             query += " WHERE " + condition;
         }
 
-        System.out.println("[SQL] " + query); 
+        System.out.println("[SQL] " + query);
 
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(query);
@@ -124,15 +125,14 @@ public class DBBroker {
             }
         }
     }
-    
+
     public boolean clanHasZaduzenja(int clanID) throws SQLException {
-    String query = "SELECT COUNT(*) FROM zaduzenje WHERE clanID=" + clanID;
-    try (Statement st = connection.createStatement();
-         ResultSet rs = st.executeQuery(query)) {
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
+        String query = "SELECT COUNT(*) FROM zaduzenje WHERE clanID=" + clanID;
+        try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
         }
+        return false;
     }
-    return false;
-}
 }

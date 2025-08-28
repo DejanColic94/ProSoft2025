@@ -16,4 +16,5 @@ public class Operations {
     public static final int DELETE_CLAN = 4;
     public static final int SEARCH_CLAN = 5;
     public static final int CREATE_CLAN = 6;
+    public static final int UPDATE_CLAN = 7;
 }

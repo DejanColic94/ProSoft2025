@@ -98,4 +98,13 @@ public class UIController {
             throw new Exception(res.getMessage());
         }
     }
+
+    public void updateClan(Clan clan) throws Exception {
+        Request req = new Request(Operations.UPDATE_CLAN, clan);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
 }

@@ -14,6 +14,7 @@ import so.clan.SOcreateClan;
 import so.clan.SOdeleteClan;
 import so.clan.SOgetAllClan;
 import so.clan.SOsearchClan;
+import so.clan.SOupdateClan;
 import so.login.SOLogin;
 
 /**
@@ -92,6 +93,11 @@ public class Controller {
 
     public void createClan(OpstiDomenskiObjekat clan) throws Exception {
         SOcreateClan so = new SOcreateClan();
+        so.execute(clan);
+    }
+    
+     public void updateClan(OpstiDomenskiObjekat clan) throws Exception {
+        SOupdateClan so = new SOupdateClan();
         so.execute(clan);
     }
 }
