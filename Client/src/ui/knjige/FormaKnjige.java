@@ -5,10 +5,12 @@
 package ui.knjige;
 
 import domain.Knjiga;
+import domain.Primerak;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import models.TableModelKnjiga;
+import models.TableModelPrimerak;
 
 /**
  *
@@ -27,6 +29,16 @@ public class FormaKnjige extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Rad sa knjigama i primercima");
         loadKnjige();
+
+        // populate table primerak when kniga is selected
+        tblKnjige.getSelectionModel().addListSelectionListener(e -> {
+            int row = tblKnjige.getSelectedRow();
+            if (row >= 0) {
+                TableModelKnjiga model = (TableModelKnjiga) tblKnjige.getModel();
+                Knjiga selected = model.getKnjigaAt(row);
+                loadPrimerci(selected);
+            }
+        });
     }
 
     /**
@@ -265,6 +277,16 @@ public class FormaKnjige extends javax.swing.JFrame {
             tblKnjige.setModel(model);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja knjiga: " + e.getMessage());
+        }
+    }
+
+    private void loadPrimerci(Knjiga knjiga) {
+        try {
+            List<Primerak> primerci = controller.UIController.getInstance().getPrimerciForKnjiga(knjiga);
+            TableModelPrimerak model = new TableModelPrimerak(primerci);
+            tblPrimerci.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja primeraka: " + e.getMessage());
         }
     }
 }

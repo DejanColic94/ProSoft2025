@@ -7,6 +7,7 @@ package controller;
 import domain.Clan;
 import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
+import domain.Primerak;
 import domain.Radnik;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import so.clan.SOgetAllClan;
 import so.clan.SOsearchClan;
 import so.clan.SOupdateClan;
 import so.knjiga.SOgetAllKnjiga;
+import so.knjiga.SOgetPrimerciForKnjiga;
 import so.login.SOLogin;
 
 /**
@@ -106,6 +108,14 @@ public class Controller {
     public List<OpstiDomenskiObjekat> getAllKnjiga() throws Exception {
         SOgetAllKnjiga so = new SOgetAllKnjiga();
         so.execute(new Knjiga());
+        return so.getResult();
+    }
+
+    public List<OpstiDomenskiObjekat> getPrimerciForKnjiga(OpstiDomenskiObjekat knjiga) throws Exception {
+        Primerak p = new Primerak();
+        p.setKnjiga((Knjiga) knjiga);
+        SOgetPrimerciForKnjiga so = new SOgetPrimerciForKnjiga();
+        so.execute(p);
         return so.getResult();
     }
 }

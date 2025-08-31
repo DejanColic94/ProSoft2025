@@ -10,6 +10,7 @@ import communication.Response;
 import constants.Operations;
 import domain.Clan;
 import domain.Knjiga;
+import domain.Primerak;
 import domain.Radnik;
 import java.util.List;
 
@@ -116,6 +117,18 @@ public class UIController {
 
         if (res.isSuccess()) {
             return (List<Knjiga>) res.getParams();
+        } else {
+            throw new Exception(res.getMessage());
+        }
+    }
+
+    public List<Primerak> getPrimerciForKnjiga(Knjiga knjiga) throws Exception {
+        Request req = new Request(Operations.GET_PRIMERCI_FOR_KNJIGA, knjiga);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (res.isSuccess()) {
+            return (List<Primerak>) (List<?>) res.getParams();
         } else {
             throw new Exception(res.getMessage());
         }

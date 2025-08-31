@@ -9,6 +9,7 @@ import communication.Response;
 import constants.Operations;
 import controller.Controller;
 import domain.Clan;
+import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
 import domain.Radnik;
 import java.io.IOException;
@@ -193,6 +194,18 @@ public class ClientServiceThread extends Thread {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom učitavanja knjiga.");
                         util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Get all knjiga failed", e);
+                    }
+                    break;
+                case Operations.GET_PRIMERCI_FOR_KNJIGA:
+                    try {
+                        Knjiga knjiga = (Knjiga) request.getParam();
+                        List<OpstiDomenskiObjekat> primerci = Controller.getInstance().getPrimerciForKnjiga(knjiga);
+                        response.setParams(primerci);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom učitavanja primeraka.");
+                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Get primerci for knjiga failed", e);
                     }
                     break;
                 default:
