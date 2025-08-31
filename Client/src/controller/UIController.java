@@ -133,4 +133,24 @@ public class UIController {
             throw new Exception(res.getMessage());
         }
     }
+
+    public int countPrimerci(int knjigaID) throws Exception {
+        Request req = new Request(Operations.COUNT_PRIMERCI, knjigaID);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (res.isSuccess()) {
+            return (int) res.getParams();
+        }
+        throw new Exception(res.getMessage());
+    }
+
+    public int countAvailablePrimerci(int knjigaID) throws Exception {
+        Request req = new Request(Operations.COUNT_AVAILABLE_PRIMERCI, knjigaID);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (res.isSuccess()) {
+            return (int) res.getParams();
+        }
+        throw new Exception(res.getMessage());
+    }
 }

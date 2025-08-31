@@ -17,6 +17,8 @@ import so.clan.SOdeleteClan;
 import so.clan.SOgetAllClan;
 import so.clan.SOsearchClan;
 import so.clan.SOupdateClan;
+import so.knjiga.SOcountAvailablePrimerci;
+import so.knjiga.SOcountPrimerci;
 import so.knjiga.SOgetAllKnjiga;
 import so.knjiga.SOgetPrimerciForKnjiga;
 import so.login.SOLogin;
@@ -117,5 +119,17 @@ public class Controller {
         SOgetPrimerciForKnjiga so = new SOgetPrimerciForKnjiga();
         so.execute(p);
         return so.getResult();
+    }
+
+    public int countPrimerci(int knjigaID) throws Exception {
+        SOcountPrimerci so = new SOcountPrimerci(knjigaID);
+        so.execute(new domain.Knjiga());
+        return so.getCount();
+    }
+
+    public int countAvailablePrimerci(int knjigaID) throws Exception {
+        SOcountAvailablePrimerci so = new SOcountAvailablePrimerci(knjigaID);
+        so.execute(new domain.Knjiga());
+        return so.getCount();
     }
 }

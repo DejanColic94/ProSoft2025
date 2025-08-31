@@ -208,6 +208,29 @@ public class ClientServiceThread extends Thread {
                         util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Get primerci for knjiga failed", e);
                     }
                     break;
+                case Operations.COUNT_PRIMERCI:
+                    try {
+                        int knjigaID = (Integer) request.getParam();
+                        int cnt = Controller.getInstance().countPrimerci(knjigaID);
+                        response.setParams(cnt);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška pri brojanju primeraka.");
+                    }
+                    break;
+
+                case Operations.COUNT_AVAILABLE_PRIMERCI:
+                    try {
+                        int knjigaID = (Integer) request.getParam();
+                        int cnt = Controller.getInstance().countAvailablePrimerci(knjigaID);
+                        response.setParams(cnt);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška pri brojanju dostupnih primeraka.");
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

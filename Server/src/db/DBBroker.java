@@ -135,4 +135,28 @@ public class DBBroker {
         }
         return false;
     }
+
+    public int countPrimerciForKnjiga(int knjigaID) throws SQLException {
+        String query = "SELECT COUNT(*) FROM primerak WHERE knjigaID=" + knjigaID;
+        try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+    public int countAvailablePrimerciForKnjiga(int knjigaID) throws SQLException {
+        String query
+                = "SELECT COUNT(*) FROM primerak p "
+                + "WHERE p.knjigaID=" + knjigaID + " "
+                + "AND p.primerakID NOT IN ("
+                + "   SELECT primerakID FROM stavkazaduzenja WHERE datumRazduzenja IS NULL)";
+        try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
 }

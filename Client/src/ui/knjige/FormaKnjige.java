@@ -112,11 +112,7 @@ public class FormaKnjige extends javax.swing.JFrame {
 
         lblUkupno.setText("Ukupno primeraka : ");
 
-        lblUkupnoBroj.setText("jLabel2");
-
         lblDostupno.setText("Dostupno primeraka :");
-
-        lblDostupnoBroj.setText("jLabel4");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -285,6 +281,12 @@ public class FormaKnjige extends javax.swing.JFrame {
             List<Primerak> primerci = controller.UIController.getInstance().getPrimerciForKnjiga(knjiga);
             TableModelPrimerak model = new TableModelPrimerak(primerci);
             tblPrimerci.setModel(model);
+
+            int total = controller.UIController.getInstance().countPrimerci(knjiga.getKnjigaID());
+            int available = controller.UIController.getInstance().countAvailablePrimerci(knjiga.getKnjigaID());
+
+            lblUkupnoBroj.setText(String.valueOf(total));
+            lblDostupnoBroj.setText(String.valueOf(available));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja primeraka: " + e.getMessage());
         }

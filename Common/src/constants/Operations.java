@@ -19,4 +19,6 @@ public class Operations {
     public static final int UPDATE_CLAN = 7;
     public static final int GET_ALL_KNJIGA = 8;
     public static final int GET_PRIMERCI_FOR_KNJIGA = 9;
+    public static final int COUNT_PRIMERCI = 10;
+    public static final int COUNT_AVAILABLE_PRIMERCI = 11;
 }
