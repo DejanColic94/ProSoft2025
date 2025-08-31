@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
 public class TableModelPrimerak extends AbstractTableModel {
 
     private final List<Primerak> primerci;
-    private final String[] columns = {"Izdavač", "Godina izdanja"};
+    private final String[] columns = {"Izdavač", "Godina izdanja", "Dostupan"};
 
     public TableModelPrimerak(List<Primerak> primerci) {
         this.primerci = primerci;
@@ -44,6 +44,8 @@ public class TableModelPrimerak extends AbstractTableModel {
                 return p.getIzdavac();
             case 1:
                 return p.getGodinaIzdanja();
+            case 2:
+                return p.isDostupan() ? "Da" : "Ne";
             default:
                 return null;
         }

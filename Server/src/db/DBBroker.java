@@ -159,4 +159,15 @@ public class DBBroker {
         }
         return 0;
     }
+
+    public boolean isPrimerakAvailable(int primerakID) throws SQLException {
+        String query = "SELECT COUNT(*) FROM stavkazaduzenja "
+                + "WHERE primerakID=" + primerakID + " AND datumRazduzenja IS NULL";
+        try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt(1) == 0;
+            }
+        }
+        return true;
+    }
 }

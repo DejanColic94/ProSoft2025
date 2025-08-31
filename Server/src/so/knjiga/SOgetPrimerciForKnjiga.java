@@ -19,9 +19,13 @@ public class SOgetPrimerciForKnjiga extends GenericSO {
 
     @Override
     protected void executeSO(OpstiDomenskiObjekat odo) throws Exception {
-        Primerak p = (Primerak) odo;
-        String cond = "knjigaID=" + p.getKnjiga().getKnjigaID();
+        Primerak primerak = (Primerak) odo;
+        String cond = "knjigaID=" + primerak.getKnjiga().getKnjigaID();
         result = dbb.getWithCondition(new Primerak(), cond);
+        for (OpstiDomenskiObjekat o : result) {
+            Primerak p = (Primerak) o;
+            p.setDostupan(dbb.isPrimerakAvailable(p.getPrimerakID()));
+        }
     }
 
     public List<OpstiDomenskiObjekat> getResult() {

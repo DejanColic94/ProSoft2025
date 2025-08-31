@@ -19,6 +19,7 @@ public class Primerak extends OpstiDomenskiObjekat {
     private String izdavac;
     private int godinaIzdanja;
     private Knjiga knjiga;
+    private boolean dostupan;
 
     public Primerak() {
     }
@@ -60,6 +61,14 @@ public class Primerak extends OpstiDomenskiObjekat {
 
     public void setGodinaIzdanja(int godinaIzdanja) {
         this.godinaIzdanja = godinaIzdanja;
+    }
+
+    public boolean isDostupan() {
+        return dostupan;
+    }
+
+    public void setDostupan(boolean dostupan) {
+        this.dostupan = dostupan;
     }
 
     @Override
@@ -127,7 +136,7 @@ public class Primerak extends OpstiDomenskiObjekat {
 
     @Override
     public String getUpdate() {
-        return String.format("izdavac='%s',godinaIzdanja='%s',knjigaID='%s'", izdavac,godinaIzdanja,knjiga.getVrednostPK());
+        return String.format("izdavac='%s',godinaIzdanja='%s',knjigaID='%s'", izdavac, godinaIzdanja, knjiga.getVrednostPK());
     }
 
     @Override
