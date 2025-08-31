@@ -9,6 +9,7 @@ import communication.Request;
 import communication.Response;
 import constants.Operations;
 import domain.Clan;
+import domain.Knjiga;
 import domain.Radnik;
 import java.util.List;
 
@@ -104,6 +105,18 @@ public class UIController {
         CommunicationWithServer.getInstance().sendRequest(req);
         Response res = CommunicationWithServer.getInstance().receiveResponse();
         if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
+    public List<Knjiga> getAllKnjiga() throws Exception {
+        Request req = new Request(Operations.GET_ALL_KNJIGA, null);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (res.isSuccess()) {
+            return (List<Knjiga>) res.getParams();
+        } else {
             throw new Exception(res.getMessage());
         }
     }

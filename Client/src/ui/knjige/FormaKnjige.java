@@ -4,14 +4,18 @@
  */
 package ui.knjige;
 
+import domain.Knjiga;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import models.TableModelKnjiga;
 
 /**
  *
  * @author Dejan Colic
  */
 public class FormaKnjige extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaKnjige.class.getName());
 
     /**
@@ -20,6 +24,9 @@ public class FormaKnjige extends javax.swing.JFrame {
     public FormaKnjige() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setTitle("Rad sa knjigama i primercima");
+        loadKnjige();
     }
 
     /**
@@ -250,4 +257,14 @@ public class FormaKnjige extends javax.swing.JFrame {
     private javax.swing.JTable tblPrimerci;
     private javax.swing.JTextField txtPretrazi;
     // End of variables declaration//GEN-END:variables
+
+    private void loadKnjige() {
+        try {
+            List<Knjiga> knjige = controller.UIController.getInstance().getAllKnjiga();
+            TableModelKnjiga model = new TableModelKnjiga(knjige);
+            tblKnjige.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja knjiga: " + e.getMessage());
+        }
+    }
 }

@@ -184,6 +184,17 @@ public class ClientServiceThread extends Thread {
                         );
                     }
                     break;
+                case Operations.GET_ALL_KNJIGA:
+                    try {
+                        List<OpstiDomenskiObjekat> knjige = Controller.getInstance().getAllKnjiga();
+                        response.setParams(knjige);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom učitavanja knjiga.");
+                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Get all knjiga failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

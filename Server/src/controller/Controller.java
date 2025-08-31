@@ -5,6 +5,7 @@
 package controller;
 
 import domain.Clan;
+import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
 import domain.Radnik;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import so.clan.SOdeleteClan;
 import so.clan.SOgetAllClan;
 import so.clan.SOsearchClan;
 import so.clan.SOupdateClan;
+import so.knjiga.SOgetAllKnjiga;
 import so.login.SOLogin;
 
 /**
@@ -95,9 +97,15 @@ public class Controller {
         SOcreateClan so = new SOcreateClan();
         so.execute(clan);
     }
-    
-     public void updateClan(OpstiDomenskiObjekat clan) throws Exception {
+
+    public void updateClan(OpstiDomenskiObjekat clan) throws Exception {
         SOupdateClan so = new SOupdateClan();
         so.execute(clan);
+    }
+
+    public List<OpstiDomenskiObjekat> getAllKnjiga() throws Exception {
+        SOgetAllKnjiga so = new SOgetAllKnjiga();
+        so.execute(new Knjiga());
+        return so.getResult();
     }
 }
