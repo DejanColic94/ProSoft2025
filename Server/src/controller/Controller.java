@@ -19,6 +19,7 @@ import so.clan.SOsearchClan;
 import so.clan.SOupdateClan;
 import so.knjiga.SOcountAvailablePrimerci;
 import so.knjiga.SOcountPrimerci;
+import so.knjiga.SOdeleteKnjiga;
 import so.knjiga.SOgetAllKnjiga;
 import so.knjiga.SOgetPrimerciForKnjiga;
 import so.knjiga.SOsearchKnjiga;
@@ -138,5 +139,10 @@ public class Controller {
         SOsearchKnjiga so = new SOsearchKnjiga(term);
         so.execute(new Knjiga());
         return so.getResult();
+    }
+
+    public void deleteKnjiga(OpstiDomenskiObjekat knjiga) throws Exception {
+        SOdeleteKnjiga so = new SOdeleteKnjiga();
+        so.execute(knjiga);
     }
 }

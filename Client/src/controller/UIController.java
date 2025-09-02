@@ -165,4 +165,14 @@ public class UIController {
             throw new Exception(res.getMessage());
         }
     }
+
+    public void deleteKnjiga(Knjiga knjiga) throws Exception {
+        Request req = new Request(Operations.DELETE_KNJIGA, knjiga);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
 }

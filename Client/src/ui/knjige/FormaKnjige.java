@@ -29,6 +29,7 @@ public class FormaKnjige extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Rad sa knjigama i primercima");
         loadKnjige();
+        btnObrisi.setEnabled(false);
 
         // populate table primerak when kniga is selected
         tblKnjige.getSelectionModel().addListSelectionListener(e -> {
@@ -38,6 +39,11 @@ public class FormaKnjige extends javax.swing.JFrame {
                 Knjiga selected = model.getKnjigaAt(row);
                 loadPrimerci(selected);
             }
+        });
+
+        tblKnjige.getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = tblKnjige.getSelectedRow() >= 0;
+            btnObrisi.setEnabled(selected);
         });
     }
 
@@ -90,6 +96,11 @@ public class FormaKnjige extends javax.swing.JFrame {
         btnIzmeni.setText("Izmeni");
 
         btnObrisi.setText("Obrisi ");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
 
         btnNazad.setText("Nazad");
         btnNazad.addActionListener(new java.awt.event.ActionListener() {
@@ -251,6 +262,36 @@ public class FormaKnjige extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Greška prilikom pretrage knjiga: " + e.getMessage());
         }
     }//GEN-LAST:event_btnPretraziActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        int row = tblKnjige.getSelectedRow();
+        if (row < 0) {
+            return;
+        }
+
+        TableModelKnjiga model = (TableModelKnjiga) tblKnjige.getModel();
+        Knjiga selected = model.getKnjigaAt(row);
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Da li ste sigurni da želite da obrišete knjigu: " + selected.getNaziv() + "?",
+                "Potvrda brisanja",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                controller.UIController.getInstance().deleteKnjiga(selected);
+                JOptionPane.showMessageDialog(this, "Knjiga je uspešno obrisana.");
+                model.removeKnjiga(selected.getKnjigaID());
+                tblPrimerci.setModel(new TableModelPrimerak(List.of()));
+                lblUkupnoBroj.setText("0");
+                lblDostupnoBroj.setText("0");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
 
     /**
      * @param args the command line arguments

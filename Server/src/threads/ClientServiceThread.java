@@ -243,6 +243,34 @@ public class ClientServiceThread extends Thread {
                         util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Search knjiga failed", e);
                     }
                     break;
+                case Operations.DELETE_KNJIGA:
+                    try {
+                        Knjiga knjiga = (Knjiga) request.getParam();
+                        Controller.getInstance().deleteKnjiga(knjiga);
+                        response.setSuccess(true);
+                        response.setMessage("Knjiga je uspešno obrisana.");
+                        util.ServerLogger.getInstance().logAction(
+                                this.ulogovaniRadnik,
+                                "Deleted knjiga: ID=" + knjiga.getKnjigaID() + ", " + knjiga.getNaziv()
+                        );
+                    } catch (java.sql.SQLIntegrityConstraintViolationException fkEx) {
+                        response.setSuccess(false);
+                        response.setMessage("Knjiga ima zaduženja i ne može biti obrisana.");
+                        util.ServerLogger.getInstance().logError(
+                                this.ulogovaniRadnik,
+                                "Delete knjiga failed: book has loans",
+                                fkEx
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom brisanja knjige.");
+                        util.ServerLogger.getInstance().logError(
+                                this.ulogovaniRadnik,
+                                "Delete knjiga failed (unexpected error)",
+                                e
+                        );
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

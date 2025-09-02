@@ -22,4 +22,5 @@ public class Operations {
     public static final int COUNT_PRIMERCI = 10;
     public static final int COUNT_AVAILABLE_PRIMERCI = 11;
     public static final int SEARCH_KNJIGA = 12;
+    public static final int DELETE_KNJIGA = 13;
 }

@@ -52,4 +52,14 @@ public class TableModelKnjiga extends AbstractTableModel {
     public Knjiga getKnjigaAt(int row) {
         return knjige.get(row);
     }
+    
+    public void removeKnjiga(int knjigaID) {
+    for (int i = 0; i < knjige.size(); i++) {
+        if (knjige.get(i).getKnjigaID() == knjigaID) {
+            knjige.remove(i);
+            fireTableRowsDeleted(i, i);
+            return;
+        }
+    }
+}
 }
