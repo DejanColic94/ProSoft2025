@@ -153,4 +153,16 @@ public class UIController {
         }
         throw new Exception(res.getMessage());
     }
+
+    public List<Knjiga> searchKnjiga(String term) throws Exception {
+        Request req = new Request(Operations.SEARCH_KNJIGA, term);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (res.isSuccess()) {
+            return (List<Knjiga>) (List<?>) res.getParams();
+        } else {
+            throw new Exception(res.getMessage());
+        }
+    }
 }

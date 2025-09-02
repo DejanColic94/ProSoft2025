@@ -25,6 +25,7 @@ public class FormServerConfig extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Config");
         handleInitialState();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -147,7 +148,7 @@ public class FormServerConfig extends javax.swing.JFrame {
         String password = txtPassword.getText().trim();
         String port = txtPort.getText().trim();
         String dbName = txtNaziv.getText().trim();
-        
+
         int portNumber;
         try {
             portNumber = Integer.parseInt(port);

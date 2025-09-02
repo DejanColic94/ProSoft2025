@@ -21,4 +21,5 @@ public class Operations {
     public static final int GET_PRIMERCI_FOR_KNJIGA = 9;
     public static final int COUNT_PRIMERCI = 10;
     public static final int COUNT_AVAILABLE_PRIMERCI = 11;
+    public static final int SEARCH_KNJIGA = 12;
 }

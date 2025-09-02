@@ -21,6 +21,7 @@ import so.knjiga.SOcountAvailablePrimerci;
 import so.knjiga.SOcountPrimerci;
 import so.knjiga.SOgetAllKnjiga;
 import so.knjiga.SOgetPrimerciForKnjiga;
+import so.knjiga.SOsearchKnjiga;
 import so.login.SOLogin;
 
 /**
@@ -131,5 +132,11 @@ public class Controller {
         SOcountAvailablePrimerci so = new SOcountAvailablePrimerci(knjigaID);
         so.execute(new domain.Knjiga());
         return so.getCount();
+    }
+
+    public List<OpstiDomenskiObjekat> searchKnjiga(String term) throws Exception {
+        SOsearchKnjiga so = new SOsearchKnjiga(term);
+        so.execute(new Knjiga());
+        return so.getResult();
     }
 }

@@ -74,7 +74,7 @@
                           <Component id="btnPretrazi" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -113,7 +113,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblPretrazi">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pretrazi po imenu: "/>
+            <Property name="text" type="java.lang.String" value="Pretrazi po autoru ili nazivu: "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPretrazi">
@@ -158,11 +158,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Nazad"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNazadActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPretrazi">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pretrazi"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPretraziActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>

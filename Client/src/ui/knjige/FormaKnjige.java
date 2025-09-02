@@ -70,7 +70,7 @@ public class FormaKnjige extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Rad sa knjigama i primercima"));
 
-        lblPretrazi.setText("Pretrazi po imenu: ");
+        lblPretrazi.setText("Pretrazi po autoru ili nazivu: ");
 
         tblKnjige.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,8 +92,18 @@ public class FormaKnjige extends javax.swing.JFrame {
         btnObrisi.setText("Obrisi ");
 
         btnNazad.setText("Nazad");
+        btnNazad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNazadActionPerformed(evt);
+            }
+        });
 
         btnPretrazi.setText("Pretrazi");
+        btnPretrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretraziActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista primeraka za odabranu knjigu"));
 
@@ -173,7 +183,7 @@ public class FormaKnjige extends javax.swing.JFrame {
                         .addComponent(txtPretrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addComponent(btnPretrazi)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -220,6 +230,27 @@ public class FormaKnjige extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNazadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNazadActionPerformed
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_btnNazadActionPerformed
+
+    private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
+        String term = txtPretrazi.getText().trim();
+        try {
+            List<Knjiga> knjige;
+            if (term.isEmpty()) {
+                knjige = controller.UIController.getInstance().getAllKnjiga();
+            } else {
+                knjige = controller.UIController.getInstance().searchKnjiga(term);
+            }
+            TableModelKnjiga model = new TableModelKnjiga(knjige);
+            tblKnjige.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom pretrage knjiga: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnPretraziActionPerformed
 
     /**
      * @param args the command line arguments

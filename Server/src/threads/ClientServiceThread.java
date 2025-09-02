@@ -231,6 +231,18 @@ public class ClientServiceThread extends Thread {
                         response.setMessage("Greška pri brojanju dostupnih primeraka.");
                     }
                     break;
+                case Operations.SEARCH_KNJIGA:
+                    try {
+                        String term = (String) request.getParam();
+                        List<OpstiDomenskiObjekat> knjige = Controller.getInstance().searchKnjiga(term);
+                        response.setParams(knjige);
+                        response.setSuccess(true);
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom pretrage knjiga.");
+                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Search knjiga failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());
