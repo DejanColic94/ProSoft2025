@@ -9,7 +9,7 @@ package ui.knjige;
  * @author Dejan Colic
  */
 public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DijalogIzmeniPrimerak.class.getName());
 
     /**
@@ -18,6 +18,8 @@ public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
     public DijalogIzmeniPrimerak(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Izmeni Primerak");
     }
 
     /**
@@ -46,6 +48,11 @@ public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
         btnSacuvaj.setText("Sacuvaj");
 
         btnOdustani.setText("Odustani");
+        btnOdustani.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOdustaniActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,6 +109,11 @@ public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOdustaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdustaniActionPerformed
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_btnOdustaniActionPerformed
 
     /**
      * @param args the command line arguments

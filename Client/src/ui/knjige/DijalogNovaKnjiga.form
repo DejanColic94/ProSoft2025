@@ -240,6 +240,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Izmeni Primerak"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIzmeniPrimerakActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -255,6 +258,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Odustani"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOdustaniActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

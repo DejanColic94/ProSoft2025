@@ -6,6 +6,7 @@ package ui.knjige;
 
 import domain.Knjiga;
 import domain.Primerak;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import models.TableModelKnjiga;
 import models.TableModelPrimerakTemp;
@@ -133,6 +134,11 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         });
 
         btnIzmeniPrimerak.setText("Izmeni Primerak");
+        btnIzmeniPrimerak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniPrimerakActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,6 +193,11 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         });
 
         btnOdustani.setText("Odustani");
+        btnOdustani.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOdustaniActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -285,6 +296,16 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Greška prilikom čuvanja knjige: " + e.getMessage());
         }
     }//GEN-LAST:event_btnSacuvajKnjiguActionPerformed
+
+    private void btnOdustaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdustaniActionPerformed
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_btnOdustaniActionPerformed
+
+    private void btnIzmeniPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniPrimerakActionPerformed
+        JDialog dijalogIzmeniPrimerak = new DijalogIzmeniPrimerak(parentForm, true);
+        dijalogIzmeniPrimerak.setVisible(true);
+    }//GEN-LAST:event_btnIzmeniPrimerakActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
