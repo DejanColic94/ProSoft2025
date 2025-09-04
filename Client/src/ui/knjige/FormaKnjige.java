@@ -357,7 +357,7 @@ public class FormaKnjige extends javax.swing.JFrame {
     private javax.swing.JTextField txtPretrazi;
     // End of variables declaration//GEN-END:variables
 
-    private void loadKnjige() {
+    public void loadKnjige() {
         try {
             List<Knjiga> knjige = controller.UIController.getInstance().getAllKnjiga();
             TableModelKnjiga model = new TableModelKnjiga(knjige);
@@ -383,9 +383,32 @@ public class FormaKnjige extends javax.swing.JFrame {
         }
     }
 
+    public void refreshPrimerciLabelsForSelected() {
+        int row = tblKnjige.getSelectedRow();
+        if (row >= 0) {
+            TableModelKnjiga knjigaModel = (TableModelKnjiga) tblKnjige.getModel();
+            Knjiga selected = knjigaModel.getKnjigaAt(row);
+            try {
+                int total = controller.UIController.getInstance().countPrimerci(selected.getKnjigaID());
+                int available = controller.UIController.getInstance().countAvailablePrimerci(selected.getKnjigaID());
+                updatePrimerciLabels(total, available);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Greška prilikom osvežavanja broja primeraka.");
+            }
+        }
+    }
+
     public void updatePrimerciLabels(int total, int available) {
         lblUkupnoBroj.setText(String.valueOf(total));
         lblDostupnoBroj.setText(String.valueOf(available));
     }
-    
+
+    public void selectLastKnjigaRow() {
+        int lastRow = tblKnjige.getRowCount() - 1;
+        if (lastRow >= 0) {
+            tblKnjige.setRowSelectionInterval(lastRow, lastRow);
+            tblKnjige.scrollRectToVisible(tblKnjige.getCellRect(lastRow, 0, true));
+        }
+    }
+
 }

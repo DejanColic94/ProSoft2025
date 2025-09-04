@@ -273,22 +273,16 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         try {
             controller.UIController.getInstance().createKnjiga(k);
             JOptionPane.showMessageDialog(this, "Knjiga uspešno sačuvana.");
-            knjigaModel.addKnjiga(k);
-
-            int available = 0;
-            for (Primerak p : k.getListaPrimeraka()) {
-                if (p.isDostupan()) {
-                    available++;
-                }
-            }
-            int total = k.getListaPrimeraka().size();
 
             if (parentForm != null) {
-                parentForm.updatePrimerciLabels(total, available);
+                parentForm.loadKnjige();
+                parentForm.selectLastKnjigaRow();
+                parentForm.refreshPrimerciLabelsForSelected();
             }
+
             dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "Greška prilikom čuvanja knjige: " + e.getMessage());
         }
     }//GEN-LAST:event_btnSacuvajKnjiguActionPerformed
 
