@@ -143,6 +143,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Kreiraj "/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKreirajActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnIzmeni">
           <Properties>

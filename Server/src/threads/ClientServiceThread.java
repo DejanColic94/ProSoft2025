@@ -271,6 +271,22 @@ public class ClientServiceThread extends Thread {
                         );
                     }
                     break;
+                case Operations.CREATE_KNJIGA:
+                    try {
+                        Knjiga knjiga = (Knjiga) request.getParam();
+                        Controller.getInstance().createKnjiga(knjiga);
+                        response.setSuccess(true);
+                        response.setMessage("Knjiga je uspešno sačuvana.");
+                        util.ServerLogger.getInstance().logAction(
+                                this.ulogovaniRadnik,
+                                "Created knjiga: " + knjiga.getNaziv() + " (" + knjiga.getAutor() + ")"
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom čuvanja knjige.");
+                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Create knjiga failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

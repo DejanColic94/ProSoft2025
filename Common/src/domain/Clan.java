@@ -115,7 +115,7 @@ public class Clan extends OpstiDomenskiObjekat {
 
     @Override
     public String getParametre() {
-        return String.format("'%s', '%s', '%s', '%s', '%s'", clanID, ime, prezime, telefon, email);
+        return String.format("'%s','%s','%s','%s'", ime, prezime, telefon, email);
     }
 
     @Override
@@ -158,6 +158,11 @@ public class Clan extends OpstiDomenskiObjekat {
     @Override
     public void setVrednostPK(int pk) {
         this.clanID = pk;
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "ime, prezime, telefon, email";
     }
 
 }

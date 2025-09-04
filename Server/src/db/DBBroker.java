@@ -62,7 +62,8 @@ public class DBBroker {
     }
 
     public void create(OpstiDomenskiObjekat odo) throws SQLException {
-        String query = "INSERT INTO " + odo.getImeTabele() + " VALUES (" + odo.getParametre() + ")";
+        String query = "INSERT INTO " + odo.getImeTabele()
+                + " (" + odo.getInsertColumns() + ") VALUES (" + odo.getParametre() + ")";
         System.out.println("[SQL] " + query);
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.executeUpdate();

@@ -4,20 +4,37 @@
  */
 package ui.knjige;
 
+import domain.Knjiga;
+import domain.Primerak;
+import javax.swing.JOptionPane;
+import models.TableModelKnjiga;
+import models.TableModelPrimerakTemp;
+
 /**
  *
  * @author Dejan Colic
  */
 public class DijalogNovaKnjiga extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DijalogNovaKnjiga.class.getName());
+    private TableModelPrimerakTemp primerciModel;
+    private TableModelKnjiga knjigaModel;
+    private FormaKnjige parentForm;
 
     /**
      * Creates new form DijalogNovaKnjiga
+     *
+     * @param parent
+     * @param modal
      */
-    public DijalogNovaKnjiga(java.awt.Frame parent, boolean modal) {
+    public DijalogNovaKnjiga(java.awt.Frame parent, boolean modal, TableModelKnjiga knjigaModel, FormaKnjige parentForm) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        this.knjigaModel = knjigaModel;
+        this.parentForm = parentForm;
+        primerciModel = new TableModelPrimerakTemp();
+        tblPrimerak.setModel(primerciModel);
     }
 
     /**
@@ -102,8 +119,18 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tblPrimerak);
 
         btnSacuvajPrimerak.setText("Sacuvaj Primerak");
+        btnSacuvajPrimerak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajPrimerakActionPerformed(evt);
+            }
+        });
 
         btnObrisiPrimerak.setText("Obrisi Primerak");
+        btnObrisiPrimerak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiPrimerakActionPerformed(evt);
+            }
+        });
 
         btnIzmeniPrimerak.setText("Izmeni Primerak");
 
@@ -153,6 +180,11 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         );
 
         btnSacuvajKnjigu.setText("Sacuvaj Knjigu");
+        btnSacuvajKnjigu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajKnjiguActionPerformed(evt);
+            }
+        });
 
         btnOdustani.setText("Odustani");
 
@@ -189,42 +221,77 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnSacuvajPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajPrimerakActionPerformed
+        String izdavac = txtIzdavac.getText().trim();
+        String godinaStr = txtGodina.getText().trim();
+
+        if (izdavac.isEmpty() || godinaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Popunite izdavača i godinu.");
+            return;
+        }
+
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            int godina = Integer.parseInt(godinaStr);
+            Primerak p = new Primerak();
+            p.setIzdavac(izdavac);
+            p.setGodinaIzdanja(godina);
+            primerciModel.addPrimerak(p);
+
+            txtIzdavac.setText("");
+            txtGodina.setText("");
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Godina mora biti broj.");
+        }
+    }//GEN-LAST:event_btnSacuvajPrimerakActionPerformed
+
+    private void btnObrisiPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiPrimerakActionPerformed
+        int row = tblPrimerak.getSelectedRow();
+        if (row >= 0) {
+            primerciModel.removePrimerak(row);
+        }
+    }//GEN-LAST:event_btnObrisiPrimerakActionPerformed
+
+    private void btnSacuvajKnjiguActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajKnjiguActionPerformed
+        String naziv = txtNaziv.getText().trim();
+        String autor = txtAutor.getText().trim();
+
+        if (naziv.isEmpty() || autor.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Popunite naziv i autora.");
+            return;
+        }
+
+        if (primerciModel.getPrimerci().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Dodajte barem jedan primerak.");
+            return;
+        }
+
+        Knjiga k = new Knjiga();
+        k.setNaziv(naziv);
+        k.setAutor(autor);
+        k.setListaPrimeraka(primerciModel.getPrimerci());
+
+        try {
+            controller.UIController.getInstance().createKnjiga(k);
+            JOptionPane.showMessageDialog(this, "Knjiga uspešno sačuvana.");
+            knjigaModel.addKnjiga(k);
+
+            int available = 0;
+            for (Primerak p : k.getListaPrimeraka()) {
+                if (p.isDostupan()) {
+                    available++;
                 }
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            int total = k.getListaPrimeraka().size();
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                DijalogNovaKnjiga dialog = new DijalogNovaKnjiga(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+            if (parentForm != null) {
+                parentForm.updatePrimerciLabels(total, available);
             }
-        });
-    }
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnSacuvajKnjiguActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIzmeniPrimerak;

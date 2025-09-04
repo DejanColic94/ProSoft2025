@@ -100,7 +100,7 @@ public class Primerak extends OpstiDomenskiObjekat {
 
     @Override
     public String getParametre() {
-        return String.format("'%s', '%s','%s', '%s'", primerakID, izdavac, godinaIzdanja, knjiga.getPK());
+        return String.format("'%s','%s','%s'", izdavac, godinaIzdanja, knjiga.getKnjigaID());
     }
 
     @Override
@@ -144,4 +144,8 @@ public class Primerak extends OpstiDomenskiObjekat {
         this.primerakID = pk;
     }
 
+    @Override
+    public String getInsertColumns() {
+        return "izdavac, godinaIzdanja, knjigaID";
+    }
 }

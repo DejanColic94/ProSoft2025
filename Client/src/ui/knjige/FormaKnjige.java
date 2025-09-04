@@ -7,6 +7,7 @@ package ui.knjige;
 import domain.Knjiga;
 import domain.Primerak;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import models.TableModelKnjiga;
@@ -30,6 +31,13 @@ public class FormaKnjige extends javax.swing.JFrame {
         setTitle("Rad sa knjigama i primercima");
         loadKnjige();
         btnObrisi.setEnabled(false);
+
+        btnIzmeni.setEnabled(false);
+
+        tblKnjige.getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = tblKnjige.getSelectedRow() >= 0;
+            btnIzmeni.setEnabled(selected);
+        });
 
         // populate table primerak when kniga is selected
         tblKnjige.getSelectionModel().addListSelectionListener(e -> {
@@ -92,6 +100,11 @@ public class FormaKnjige extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblKnjige);
 
         btnKreiraj.setText("Kreiraj ");
+        btnKreiraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKreirajActionPerformed(evt);
+            }
+        });
 
         btnIzmeni.setText("Izmeni");
 
@@ -293,6 +306,12 @@ public class FormaKnjige extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    private void btnKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajActionPerformed
+        TableModelKnjiga model = (TableModelKnjiga) tblKnjige.getModel();
+        DijalogNovaKnjiga dialog = new DijalogNovaKnjiga(this, true, model, this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnKreirajActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -363,4 +382,10 @@ public class FormaKnjige extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja primeraka: " + e.getMessage());
         }
     }
+
+    public void updatePrimerciLabels(int total, int available) {
+        lblUkupnoBroj.setText(String.valueOf(total));
+        lblDostupnoBroj.setText(String.valueOf(available));
+    }
+    
 }

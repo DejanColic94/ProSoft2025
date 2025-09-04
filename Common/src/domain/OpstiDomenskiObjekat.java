@@ -12,13 +12,21 @@ import java.util.List;
  *
  * @author Dejan Colic
  */
-public abstract class OpstiDomenskiObjekat implements Serializable{
-    
+public abstract class OpstiDomenskiObjekat implements Serializable {
+
     public abstract String getImeTabele();
+
     public abstract String getParametre();
+
     public abstract String getPK();
+
     public abstract int getVrednostPK();
+
     public abstract List<OpstiDomenskiObjekat> ResultSetIntoTable(ResultSet rs);
+
     public abstract String getUpdate();
+
     public abstract void setVrednostPK(int pk);
+
+    public abstract String getInsertColumns();
 }

@@ -101,7 +101,10 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
 
     @Override
     public String getParametre() {
-        return String.format("'%s', '%s', '%s', '%s'", zaduzenjeID, new java.sql.Date(datumZaduzenja.getTime()), radnik.getVrednostPK(), clan.getVrednostPK());
+        return String.format("'%s','%s','%s'",
+                new java.sql.Date(datumZaduzenja.getTime()),
+                radnik.getRadnikID(),
+                clan.getClanID());
     }
 
     @Override
@@ -139,15 +142,15 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
     @Override
     public String getUpdate() {
         return String.format("datumZaduzenja='%tF', radnikID='%s', clanID='%s'",
-        new java.sql.Date(datumZaduzenja.getTime()),
-        radnik.getVrednostPK(),
-        clan.getVrednostPK()
-    );
+                new java.sql.Date(datumZaduzenja.getTime()),
+                radnik.getVrednostPK(),
+                clan.getVrednostPK()
+        );
     }
 
     @Override
     public void setVrednostPK(int pk) {
-       this.zaduzenjeID = pk;
+        this.zaduzenjeID = pk;
     }
 
     public StavkaZaduzenja[] getStavkeZaduzenja() {
@@ -156,6 +159,11 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
 
     public void setStavkeZaduzenja(StavkaZaduzenja[] stavkeZaduzenja) {
         this.stavkeZaduzenja = stavkeZaduzenja;
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "datumZaduzenja, radnikID, clanID";
     }
 
 }

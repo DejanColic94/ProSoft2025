@@ -224,11 +224,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Sacuvaj Primerak"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSacuvajPrimerakActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnObrisiPrimerak">
           <Properties>
             <Property name="text" type="java.lang.String" value="Obrisi Primerak"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObrisiPrimerakActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnIzmeniPrimerak">
           <Properties>
@@ -241,6 +247,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Sacuvaj Knjigu"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSacuvajKnjiguActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnOdustani">
       <Properties>

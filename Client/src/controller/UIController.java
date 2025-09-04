@@ -175,4 +175,13 @@ public class UIController {
         }
     }
 
+    public void createKnjiga(Knjiga knjiga) throws Exception {
+        Request req = new Request(Operations.CREATE_KNJIGA, knjiga);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
 }

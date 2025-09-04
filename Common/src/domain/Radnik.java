@@ -13,7 +13,8 @@ import java.util.List;
  *
  * @author Dejan Colic
  */
-public class Radnik extends OpstiDomenskiObjekat{
+public class Radnik extends OpstiDomenskiObjekat {
+
     private int radnikID;
     private String ime;
     private String prezime;
@@ -95,17 +96,17 @@ public class Radnik extends OpstiDomenskiObjekat{
 
     @Override
     public String toString() {
-        return ""+ime+" "+prezime;
+        return "" + ime + " " + prezime;
     }
 
     @Override
     public String getImeTabele() {
-       return "radnik";
+        return "radnik";
     }
 
     @Override
     public String getParametre() {
-         return String.format("'%s', '%s', '%s', '%s', '%s'", radnikID, ime, prezime, username, password);
+        return String.format("'%s','%s','%s','%s'", ime, prezime, username, password);
     }
 
     @Override
@@ -115,7 +116,7 @@ public class Radnik extends OpstiDomenskiObjekat{
 
     @Override
     public int getVrednostPK() {
-       return radnikID;
+        return radnikID;
     }
 
     @Override
@@ -141,13 +142,16 @@ public class Radnik extends OpstiDomenskiObjekat{
 
     @Override
     public String getUpdate() {
-        return String.format("ime='%s', prezime='%s',username='%s', password='%s'", ime,prezime,username,password);
+        return String.format("ime='%s', prezime='%s',username='%s', password='%s'", ime, prezime, username, password);
     }
 
     @Override
     public void setVrednostPK(int pk) {
         this.radnikID = pk;
     }
-    
-    
+
+    @Override
+    public String getInsertColumns() {
+        return "ime, prezime, username, password";
+    }
 }

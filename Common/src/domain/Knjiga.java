@@ -95,7 +95,7 @@ public class Knjiga extends OpstiDomenskiObjekat {
 
     @Override
     public String getParametre() {
-        return String.format(" '%s', '%s','%s'", knjigaID, naziv, autor);
+        return String.format("'%s','%s'", naziv, autor);
     }
 
     @Override
@@ -135,6 +135,11 @@ public class Knjiga extends OpstiDomenskiObjekat {
     @Override
     public void setVrednostPK(int pk) {
         this.knjigaID = pk;
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "naziv, autor";
     }
 
 }
