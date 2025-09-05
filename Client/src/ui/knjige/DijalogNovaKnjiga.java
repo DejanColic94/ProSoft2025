@@ -36,6 +36,13 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         this.parentForm = parentForm;
         primerciModel = new TableModelPrimerakTemp();
         tblPrimerak.setModel(primerciModel);
+
+        btnIzmeniPrimerak.setEnabled(false);
+
+        tblPrimerak.getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = tblPrimerak.getSelectedRow() >= 0;
+            btnIzmeniPrimerak.setEnabled(selected);
+        });
     }
 
     /**
@@ -303,8 +310,14 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
     }//GEN-LAST:event_btnOdustaniActionPerformed
 
     private void btnIzmeniPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniPrimerakActionPerformed
-        JDialog dijalogIzmeniPrimerak = new DijalogIzmeniPrimerak(parentForm, true);
-        dijalogIzmeniPrimerak.setVisible(true);
+        int row = tblPrimerak.getSelectedRow();
+        if (row < 0) {
+            return;
+        }
+
+        Primerak selected = primerciModel.getPrimerakAt(row);
+        DijalogIzmeniPrimerak dialog = new DijalogIzmeniPrimerak(this, true, selected, primerciModel, row);
+        dialog.setVisible(true);
     }//GEN-LAST:event_btnIzmeniPrimerakActionPerformed
 
 

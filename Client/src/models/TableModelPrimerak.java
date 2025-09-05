@@ -54,4 +54,9 @@ public class TableModelPrimerak extends AbstractTableModel {
     public Primerak getPrimerakAt(int row) {
         return primerci.get(row);
     }
+
+    public void updatePrimerak(int row, Primerak p) {
+        primerci.set(row, p);
+        fireTableRowsUpdated(row, row);
+    }
 }

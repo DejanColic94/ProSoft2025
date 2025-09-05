@@ -59,4 +59,18 @@ public class TableModelPrimerakTemp extends AbstractTableModel {
     public List<Primerak> getPrimerci() {
         return primerci;
     }
+
+    public Primerak getPrimerakAt(int row) {
+        if (row >= 0 && row < primerci.size()) {
+            return primerci.get(row);
+        }
+        return null;
+    }
+
+    public void updatePrimerak(int row, Primerak primerak) {
+        if (row >= 0 && row < primerci.size()) {
+            primerci.set(row, primerak);
+            fireTableRowsUpdated(row, row);
+        }
+    }
 }

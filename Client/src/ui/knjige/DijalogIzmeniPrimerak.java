@@ -4,6 +4,11 @@
  */
 package ui.knjige;
 
+import domain.Primerak;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import models.TableModelPrimerakTemp;
+
 /**
  *
  * @author Dejan Colic
@@ -11,15 +16,25 @@ package ui.knjige;
 public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DijalogIzmeniPrimerak.class.getName());
+    private Primerak primerak;
+    private TableModelPrimerakTemp model;
+    private int rowIndex;
 
     /**
      * Creates new form DijalogIzmeniPrimerak
      */
-    public DijalogIzmeniPrimerak(java.awt.Frame parent, boolean modal) {
+    public DijalogIzmeniPrimerak(JDialog parent, boolean modal, Primerak primerak, TableModelPrimerakTemp model, int rowIndex) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Izmeni Primerak");
+
+        this.primerak = primerak;
+        this.model = model;
+        this.rowIndex = rowIndex;
+
+        txtIzdavac.setText(primerak.getIzdavac());
+        txtGodina.setText(String.valueOf(primerak.getGodinaIzdanja()));
     }
 
     /**
@@ -46,6 +61,11 @@ public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
         lblGodina.setText("Godina Izdanja :");
 
         btnSacuvaj.setText("Sacuvaj");
+        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajActionPerformed(evt);
+            }
+        });
 
         btnOdustani.setText("Odustani");
         btnOdustani.addActionListener(new java.awt.event.ActionListener() {
@@ -115,42 +135,32 @@ public class DijalogIzmeniPrimerak extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnOdustaniActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
+        String izdavac = txtIzdavac.getText().trim();
+        String godinaStr = txtGodina.getText().trim();
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                DijalogIzmeniPrimerak dialog = new DijalogIzmeniPrimerak(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+        if (izdavac.isEmpty() || godinaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Popunite sva polja.");
+            return;
+        }
+
+        int godina;
+        try {
+            godina = Integer.parseInt(godinaStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Godina izdanja mora biti broj.");
+            return;
+        }
+
+        primerak.setIzdavac(izdavac);
+        primerak.setGodinaIzdanja(godina);
+
+        model.updatePrimerak(rowIndex, primerak);
+
+        JOptionPane.showMessageDialog(this, "Primerak uspešno izmenjen.");
+        dispose();
+    }//GEN-LAST:event_btnSacuvajActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOdustani;
