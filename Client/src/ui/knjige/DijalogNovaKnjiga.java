@@ -43,6 +43,13 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
             boolean selected = tblPrimerak.getSelectedRow() >= 0;
             btnIzmeniPrimerak.setEnabled(selected);
         });
+
+        btnObrisiPrimerak.setEnabled(false);
+
+        tblPrimerak.getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = tblPrimerak.getSelectedRow() >= 0;
+            btnObrisiPrimerak.setEnabled(selected);
+        });
     }
 
     /**
