@@ -287,6 +287,22 @@ public class ClientServiceThread extends Thread {
                         util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Create knjiga failed", e);
                     }
                     break;
+                case Operations.UPDATE_KNJIGA:
+                    try {
+                        Knjiga knjiga = (Knjiga) request.getParam();
+                        Controller.getInstance().updateKnjiga(knjiga);
+                        response.setSuccess(true);
+                        response.setMessage("Knjiga je uspešno izmenjena.");
+                        util.ServerLogger.getInstance().logAction(
+                                this.ulogovaniRadnik,
+                                "Updated knjiga: ID=" + knjiga.getKnjigaID() + ", " + knjiga.getNaziv()
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom izmene knjige.");
+                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Update knjiga failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

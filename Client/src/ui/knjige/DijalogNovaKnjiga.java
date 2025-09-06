@@ -6,7 +6,6 @@ package ui.knjige;
 
 import domain.Knjiga;
 import domain.Primerak;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import models.TableModelKnjiga;
 import models.TableModelPrimerakTemp;
@@ -21,6 +20,8 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
     private TableModelPrimerakTemp primerciModel;
     private TableModelKnjiga knjigaModel;
     private FormaKnjige parentForm;
+    private boolean editMode = false;
+    private Knjiga knjigaForEdit;
 
     /**
      * Creates new form DijalogNovaKnjiga
@@ -28,10 +29,12 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
+    // Konstruktor za novu knigu
     public DijalogNovaKnjiga(java.awt.Frame parent, boolean modal, TableModelKnjiga knjigaModel, FormaKnjige parentForm) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Nova Knjiga");
         this.knjigaModel = knjigaModel;
         this.parentForm = parentForm;
         primerciModel = new TableModelPrimerakTemp();
@@ -50,6 +53,30 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
             boolean selected = tblPrimerak.getSelectedRow() >= 0;
             btnObrisiPrimerak.setEnabled(selected);
         });
+    }
+
+    // Konstruktor za edit
+    public DijalogNovaKnjiga(java.awt.Frame parent, boolean modal,
+            TableModelKnjiga knjigaModel, FormaKnjige parentForm,
+            Knjiga knjigaForEdit) {
+
+        this(parent, modal, knjigaModel, parentForm);
+        setTitle("Izmeni Knjigu");
+        this.editMode = true;
+        this.knjigaForEdit = knjigaForEdit;
+        if (knjigaForEdit != null) {
+            txtNaziv.setText(knjigaForEdit.getNaziv());
+            txtAutor.setText(knjigaForEdit.getAutor());
+            try {
+                java.util.List<domain.Primerak> list
+                        = controller.UIController.getInstance().getPrimerciForKnjiga(knjigaForEdit);
+                primerciModel.setPrimerci(list);
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Greška pri učitavanju primeraka: " + e.getMessage());
+            }
+        }
+        btnSacuvajKnjigu.setText("Sačuvaj Izmene");
     }
 
     /**
@@ -296,18 +323,37 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         k.setListaPrimeraka(primerciModel.getPrimerci());
 
         try {
-            controller.UIController.getInstance().createKnjiga(k);
-            JOptionPane.showMessageDialog(this, "Knjiga uspešno sačuvana.");
+            if (editMode) {
+                k.setKnjigaID(knjigaForEdit != null ? knjigaForEdit.getKnjigaID() : k.getKnjigaID());
+                controller.UIController.getInstance().updateKnjiga(k);
+                JOptionPane.showMessageDialog(this,
+                        "Knjiga je uspešno izmenjena.",
+                        "Informacija",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                controller.UIController.getInstance().createKnjiga(k);
+                JOptionPane.showMessageDialog(this,
+                        "Knjiga je uspešno sačuvana.",
+                        "Informacija",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
 
             if (parentForm != null) {
                 parentForm.loadKnjige();
-                parentForm.selectLastKnjigaRow();
+                if (editMode && knjigaForEdit != null) {
+                    parentForm.selectKnjigaById(knjigaForEdit.getKnjigaID());
+                } else {
+                    parentForm.selectLastKnjigaRow();
+                }
                 parentForm.refreshPrimerciLabelsForSelected();
             }
 
             dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Greška prilikom čuvanja knjige: " + e.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Greška: " + ex.getMessage(),
+                    "Greška",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSacuvajKnjiguActionPerformed
 

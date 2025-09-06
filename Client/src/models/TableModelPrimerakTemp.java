@@ -73,4 +73,12 @@ public class TableModelPrimerakTemp extends AbstractTableModel {
             fireTableRowsUpdated(row, row);
         }
     }
+
+    public void setPrimerci(java.util.List<domain.Primerak> list) {
+        this.primerci.clear();
+        if (list != null) {
+            this.primerci.addAll(list);
+        }
+        fireTableDataChanged();
+    }
 }

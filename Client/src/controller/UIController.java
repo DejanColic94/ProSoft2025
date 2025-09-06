@@ -184,4 +184,13 @@ public class UIController {
         }
     }
 
+    public void updateKnjiga(Knjiga knjiga) throws Exception {
+        Request req = new Request(Operations.UPDATE_KNJIGA, knjiga);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
 }

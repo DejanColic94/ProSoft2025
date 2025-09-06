@@ -107,6 +107,11 @@ public class FormaKnjige extends javax.swing.JFrame {
         });
 
         btnIzmeni.setText("Izmeni");
+        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniActionPerformed(evt);
+            }
+        });
 
         btnObrisi.setText("Obrisi ");
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
@@ -312,6 +317,19 @@ public class FormaKnjige extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnKreirajActionPerformed
 
+    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
+        int row = tblKnjige.getSelectedRow();
+        if (row < 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Izaberite knjigu za izmenu.");
+            return;
+        }
+        TableModelKnjiga model = (TableModelKnjiga) tblKnjige.getModel();
+        Knjiga selected = model.getKnjigaAt(row);
+        DijalogNovaKnjiga dialog
+                = new DijalogNovaKnjiga(this, true, model, this, selected);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnIzmeniActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -408,6 +426,17 @@ public class FormaKnjige extends javax.swing.JFrame {
         if (lastRow >= 0) {
             tblKnjige.setRowSelectionInterval(lastRow, lastRow);
             tblKnjige.scrollRectToVisible(tblKnjige.getCellRect(lastRow, 0, true));
+        }
+    }
+
+    public void selectKnjigaById(int knjigaID) {
+        TableModelKnjiga model = (TableModelKnjiga) tblKnjige.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getKnjigaAt(i).getKnjigaID() == knjigaID) {
+                tblKnjige.setRowSelectionInterval(i, i);
+                tblKnjige.scrollRectToVisible(tblKnjige.getCellRect(i, 0, true));
+                break;
+            }
         }
     }
 

@@ -24,6 +24,7 @@ import so.knjiga.SOdeleteKnjiga;
 import so.knjiga.SOgetAllKnjiga;
 import so.knjiga.SOgetPrimerciForKnjiga;
 import so.knjiga.SOsearchKnjiga;
+import so.knjiga.SOupdateKnjiga;
 import so.login.SOLogin;
 
 /**
@@ -149,6 +150,11 @@ public class Controller {
 
     public void createKnjiga(Knjiga knjiga) throws Exception {
         SOcreateKnjiga so = new SOcreateKnjiga();
+        so.execute(knjiga);
+    }
+
+    public void updateKnjiga(Knjiga knjiga) throws Exception {
+        SOupdateKnjiga so = new SOupdateKnjiga();
         so.execute(knjiga);
     }
 }
