@@ -7,8 +7,10 @@ package ui.zaduzenja;
 import controller.UIController;
 import domain.Clan;
 import domain.Radnik;
+import domain.Zaduzenje;
 import java.util.List;
 import javax.swing.JFrame;
+import models.TableModelZaduzenje;
 
 /**
  *
@@ -29,7 +31,8 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.ulogovani = ulogovani;
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
-         loadClanCombo();
+        loadClanCombo();
+        loadZaduzenjaTable();
     }
 
     /**
@@ -305,6 +308,15 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         }
     }
 
+    private void loadZaduzenjaTable() {
+        try {
+            List<Zaduzenje> lista = UIController.getInstance().getAllZaduzenje();
+            TableModelZaduzenje model = new TableModelZaduzenje(lista);
+            tblZaduzenje.setModel(model);
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja zaduženja: " + e.getMessage());
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajStavku;
     private javax.swing.JButton btnDodajZaduzenje;

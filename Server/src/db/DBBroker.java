@@ -171,4 +171,16 @@ public class DBBroker {
         }
         return true;
     }
+
+    public List<OpstiDomenskiObjekat> getAllWithJoin(OpstiDomenskiObjekat odo, String selectClause, String joinClause) throws SQLException {
+        String select = (selectClause == null || selectClause.trim().isEmpty()) ? "*" : selectClause.trim();
+        String join = (joinClause == null || joinClause.trim().isEmpty()) ? "" : " " + joinClause.trim();
+
+        String query = "SELECT " + select + " FROM " + odo.getImeTabele() + join;
+        System.out.println("[SQL] " + query);
+
+        try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
+            return odo.ResultSetIntoTable(rs);
+        }
+    }
 }

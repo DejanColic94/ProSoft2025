@@ -40,14 +40,6 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
         this.radnik = radnik;
     }
 
-    public Radnik getRadnik() {
-        return radnik;
-    }
-
-    public void setRadnik(Radnik radnik) {
-        this.radnik = radnik;
-    }
-
     public int getZaduzenjeID() {
         return zaduzenjeID;
     }
@@ -70,6 +62,22 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
 
     public void setClan(Clan clan) {
         this.clan = clan;
+    }
+
+    public Radnik getRadnik() {
+        return radnik;
+    }
+
+    public void setRadnik(Radnik radnik) {
+        this.radnik = radnik;
+    }
+
+    public StavkaZaduzenja[] getStavkeZaduzenja() {
+        return stavkeZaduzenja;
+    }
+
+    public void setStavkeZaduzenja(StavkaZaduzenja[] stavkeZaduzenja) {
+        this.stavkeZaduzenja = stavkeZaduzenja;
     }
 
     @Override
@@ -102,7 +110,7 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
     @Override
     public String getParametre() {
         return String.format("'%s','%s','%s'",
-                new java.sql.Date(datumZaduzenja.getTime()),
+                new Date(datumZaduzenja.getTime()),
                 radnik.getRadnikID(),
                 clan.getClanID());
     }
@@ -118,47 +126,8 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> ResultSetIntoTable(ResultSet rs) {
-        List<OpstiDomenskiObjekat> listZaduzenje = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                int zaduzenjeID = rs.getInt("zaduzenjeID");
-                Date datumZaduzenja = new Date(rs.getDate("datumZaduzenja").getTime());
-                Radnik radnik = new Radnik();
-                radnik.setRadnikID(rs.getInt("radnikID"));
-                Clan clan = new Clan();
-                clan.setClanID(rs.getInt("clanID"));
-
-                Zaduzenje zaduzenje = new Zaduzenje(zaduzenjeID, datumZaduzenja, clan, radnik);
-                listZaduzenje.add(zaduzenje);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Greska kod ResultSetIntoTable za Zaduzenje");
-        }
-        return listZaduzenje;
-    }
-
-    @Override
-    public String getUpdate() {
-        return String.format("datumZaduzenja='%tF', radnikID='%s', clanID='%s'",
-                new java.sql.Date(datumZaduzenja.getTime()),
-                radnik.getVrednostPK(),
-                clan.getVrednostPK()
-        );
-    }
-
-    @Override
     public void setVrednostPK(int pk) {
         this.zaduzenjeID = pk;
-    }
-
-    public StavkaZaduzenja[] getStavkeZaduzenja() {
-        return stavkeZaduzenja;
-    }
-
-    public void setStavkeZaduzenja(StavkaZaduzenja[] stavkeZaduzenja) {
-        this.stavkeZaduzenja = stavkeZaduzenja;
     }
 
     @Override
@@ -166,4 +135,49 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
         return "datumZaduzenja, radnikID, clanID";
     }
 
+    @Override
+    public String getUpdate() {
+        return String.format("datumZaduzenja='%tF', radnikID='%s', clanID='%s'",
+                new Date(datumZaduzenja.getTime()),
+                radnik.getVrednostPK(),
+                clan.getVrednostPK());
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> ResultSetIntoTable(ResultSet rs) {
+        List<OpstiDomenskiObjekat> listZaduzenje = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                int zaduzenjeID = rs.getInt("zaduzenjeID");
+                Date datumZaduzenja = new Date(rs.getDate("datumZaduzenja").getTime());
+
+                Radnik radnik = new Radnik();
+                radnik.setRadnikID(rs.getInt("radnikID"));
+                radnik.setIme(rs.getString("imeRadnik"));
+                radnik.setPrezime(rs.getString("prezimeRadnik"));
+
+                Clan clan = new Clan();
+                clan.setClanID(rs.getInt("clanID"));
+                clan.setIme(rs.getString("imeClan"));
+                clan.setPrezime(rs.getString("prezimeClan"));
+
+                Zaduzenje zaduzenje = new Zaduzenje(zaduzenjeID, datumZaduzenja, clan, radnik);
+                listZaduzenje.add(zaduzenje);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Greška kod ResultSetIntoTable za Zaduzenje");
+        }
+        return listZaduzenje;
+    }
+
+    public String getJoin() {
+        return " zaduzenje z "
+                + "JOIN clan c ON z.clanID = c.clanID "
+                + "JOIN radnik r ON z.radnikID = r.radnikID ";
+    }
+
+    public String getAlias() {
+        return " z ";
+    }
 }

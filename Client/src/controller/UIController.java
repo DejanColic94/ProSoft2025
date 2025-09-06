@@ -12,6 +12,7 @@ import domain.Clan;
 import domain.Knjiga;
 import domain.Primerak;
 import domain.Radnik;
+import domain.Zaduzenje;
 import java.util.List;
 
 /**
@@ -189,6 +190,18 @@ public class UIController {
         CommunicationWithServer.getInstance().sendRequest(req);
         Response res = CommunicationWithServer.getInstance().receiveResponse();
         if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
+    public List<Zaduzenje> getAllZaduzenje() throws Exception {
+        Request req = new Request(Operations.GET_ALL_ZADUZENJE, null);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+
+        if (res.isSuccess()) {
+            return (List<Zaduzenje>) res.getParams();
+        } else {
             throw new Exception(res.getMessage());
         }
     }

@@ -12,6 +12,7 @@ import domain.Clan;
 import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
 import domain.Radnik;
+import domain.Zaduzenje;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -290,6 +291,22 @@ public class ClientServiceThread extends Thread {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom izmene knjige.");
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Update knjiga failed", e);
+                    }
+                    break;
+                case Operations.GET_ALL_ZADUZENJE:
+                    try {
+                        List<Zaduzenje> lista = Controller.getInstance().getAllZaduzenje();
+                        response.setSuccess(true);
+                        response.setParams(lista);
+                        response.setMessage("Zaduženja uspešno učitana.");
+                        ServerLogger.getInstance().logAction(
+                                this.loggedRadnik,
+                                "Pregled svih zaduženja"
+                        );
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom učitavanja zaduženja.");
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Get all zaduzenje failed", e);
                     }
                     break;
                 default:
