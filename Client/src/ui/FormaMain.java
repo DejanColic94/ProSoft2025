@@ -191,7 +191,7 @@ public class FormaMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKnjigeActionPerformed
 
     private void btnZaduzenjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaduzenjaActionPerformed
-        formaZaduzenja = new FormaZaduzenja();
+        formaZaduzenja = new FormaZaduzenja(this.ulogovani);
         formaZaduzenja.setVisible(true);
     }//GEN-LAST:event_btnZaduzenjaActionPerformed
 
