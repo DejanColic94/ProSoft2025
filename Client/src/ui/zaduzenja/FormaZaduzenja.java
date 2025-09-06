@@ -71,8 +71,6 @@ public class FormaZaduzenja extends javax.swing.JFrame {
 
         lblRadnik.setText("Radnik :");
 
-        lblRadnikTekst.setText("jLabel2");
-
         lblDatumZaduzenja.setText("Datum zaduzenja :");
 
         lblClan.setText("Clan :");

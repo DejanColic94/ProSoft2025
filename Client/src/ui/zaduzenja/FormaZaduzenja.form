@@ -127,9 +127,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblRadnikTekst">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel2"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblDatumZaduzenja">
           <Properties>
