@@ -200,6 +200,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         btnObrisiZaduzenje.setText("Obrisi Zaduzenje");
 
         btnNazad.setText("Nazad");
+        btnNazad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNazadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -278,6 +283,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNazadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNazadActionPerformed
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_btnNazadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
