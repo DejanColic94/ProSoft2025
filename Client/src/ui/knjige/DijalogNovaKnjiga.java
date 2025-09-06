@@ -4,6 +4,7 @@
  */
 package ui.knjige;
 
+import controller.UIController;
 import domain.Knjiga;
 import domain.Primerak;
 import javax.swing.JOptionPane;
@@ -69,7 +70,7 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
             txtAutor.setText(knjigaForEdit.getAutor());
             try {
                 java.util.List<domain.Primerak> list
-                        = controller.UIController.getInstance().getPrimerciForKnjiga(knjigaForEdit);
+                        = UIController.getInstance().getPrimerciForKnjiga(knjigaForEdit);
                 primerciModel.setPrimerci(list);
             } catch (Exception e) {
                 javax.swing.JOptionPane.showMessageDialog(this,

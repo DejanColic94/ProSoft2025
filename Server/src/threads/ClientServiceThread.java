@@ -295,7 +295,7 @@ public class ClientServiceThread extends Thread {
                         response.setMessage("Knjiga je uspešno izmenjena.");
                         util.ServerLogger.getInstance().logAction(
                                 this.ulogovaniRadnik,
-                                "Updated knjiga: ID=" + knjiga.getKnjigaID() + ", " + knjiga.getNaziv()
+                                "Updated knjiga: " + knjiga.getNaziv()
                         );
                     } catch (Exception e) {
                         response.setSuccess(false);
