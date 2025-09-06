@@ -7,9 +7,11 @@ package ui.zaduzenja;
 import controller.UIController;
 import domain.Clan;
 import domain.Radnik;
+import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
 import java.util.List;
 import javax.swing.JFrame;
+import models.TableModelStavkaZaduzenja;
 import models.TableModelZaduzenje;
 
 /**
@@ -33,6 +35,12 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
         loadClanCombo();
         loadZaduzenjaTable();
+
+        tblZaduzenje.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                loadStavkeForSelected();
+            }
+        });
     }
 
     /**
@@ -315,6 +323,23 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             tblZaduzenje.setModel(model);
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja zaduženja: " + e.getMessage());
+        }
+    }
+
+    private void loadStavkeForSelected() {
+        int row = tblZaduzenje.getSelectedRow();
+        if (row < 0) {
+            tblStavke.setModel(new models.TableModelStavkaZaduzenja(java.util.Collections.emptyList()));
+            return;
+        }
+        TableModelZaduzenje model = (TableModelZaduzenje) tblZaduzenje.getModel();
+        Zaduzenje z = model.getZaduzenjeAt(row);
+        try {
+            List<StavkaZaduzenja> stavke = UIController.getInstance().getStavkeForZaduzenje(z);
+            TableModelStavkaZaduzenja tm = new TableModelStavkaZaduzenja(stavke);
+            tblStavke.setModel(tm);
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja stavki: " + e.getMessage());
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

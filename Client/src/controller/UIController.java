@@ -12,6 +12,7 @@ import domain.Clan;
 import domain.Knjiga;
 import domain.Primerak;
 import domain.Radnik;
+import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
 import java.util.List;
 
@@ -201,6 +202,17 @@ public class UIController {
 
         if (res.isSuccess()) {
             return (List<Zaduzenje>) res.getParams();
+        } else {
+            throw new Exception(res.getMessage());
+        }
+    }
+
+    public List<StavkaZaduzenja> getStavkeForZaduzenje(Zaduzenje z) throws Exception {
+        Request req = new Request(Operations.GET_STAVKE_FOR_ZADUZENJE, z);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (res.isSuccess()) {
+            return (List<StavkaZaduzenja>) res.getParams();
         } else {
             throw new Exception(res.getMessage());
         }

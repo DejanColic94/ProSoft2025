@@ -9,6 +9,7 @@ import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
 import domain.Primerak;
 import domain.Radnik;
+import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import so.knjiga.SOsearchKnjiga;
 import so.knjiga.SOupdateKnjiga;
 import so.login.SOLogin;
 import so.zaduzenje.SOgetAllZaduzenje;
+import so.zaduzenje.SOgetStavkeForZaduzenje;
 
 /**
  *
@@ -167,6 +169,17 @@ public class Controller {
         List<Zaduzenje> lista = new ArrayList<>();
         for (OpstiDomenskiObjekat o : result) {
             lista.add((Zaduzenje) o);
+        }
+        return lista;
+    }
+
+    public List<StavkaZaduzenja> getStavkeForZaduzenje(Zaduzenje z) throws Exception {
+        SOgetStavkeForZaduzenje so = new SOgetStavkeForZaduzenje();
+        so.execute(z);
+        List<OpstiDomenskiObjekat> result = so.getList();
+        List<StavkaZaduzenja> lista = new ArrayList<>();
+        for (OpstiDomenskiObjekat o : result) {
+            lista.add((StavkaZaduzenja) o);
         }
         return lista;
     }

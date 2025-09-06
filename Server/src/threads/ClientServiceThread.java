@@ -12,6 +12,7 @@ import domain.Clan;
 import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
 import domain.Radnik;
+import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -307,6 +308,20 @@ public class ClientServiceThread extends Thread {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom učitavanja zaduženja.");
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Get all zaduzenje failed", e);
+                    }
+                    break;
+                case Operations.GET_STAVKE_FOR_ZADUZENJE:
+                    try {
+                        Zaduzenje z = (Zaduzenje) request.getParam();
+                        List<StavkaZaduzenja> lista = Controller.getInstance().getStavkeForZaduzenje(z);
+                        response.setSuccess(true);
+                        response.setParams(lista);
+                        response.setMessage("Stavke učitane.");
+                        ServerLogger.getInstance().logAction(this.loggedRadnik, "Pregled stavki za zaduženje " + z.getZaduzenjeID());
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom učitavanja stavki.");
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Get stavke failed", e);
                     }
                     break;
                 default:

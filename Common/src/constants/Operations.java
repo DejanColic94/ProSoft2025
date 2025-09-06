@@ -26,4 +26,5 @@ public class Operations {
     public static final int CREATE_KNJIGA = 14;
     public static final int UPDATE_KNJIGA = 15;
     public static final int GET_ALL_ZADUZENJE = 16;
+    public static final int GET_STAVKE_FOR_ZADUZENJE = 17;
 }
