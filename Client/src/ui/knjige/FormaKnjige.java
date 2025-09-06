@@ -4,6 +4,7 @@
  */
 package ui.knjige;
 
+import controller.UIController;
 import domain.Knjiga;
 import domain.Primerak;
 import java.util.List;
@@ -39,7 +40,6 @@ public class FormaKnjige extends javax.swing.JFrame {
             btnIzmeni.setEnabled(selected);
         });
 
-        // populate table primerak when kniga is selected
         tblKnjige.getSelectionModel().addListSelectionListener(e -> {
             int row = tblKnjige.getSelectedRow();
             if (row >= 0) {
@@ -270,9 +270,9 @@ public class FormaKnjige extends javax.swing.JFrame {
         try {
             List<Knjiga> knjige;
             if (term.isEmpty()) {
-                knjige = controller.UIController.getInstance().getAllKnjiga();
+                knjige = UIController.getInstance().getAllKnjiga();
             } else {
-                knjige = controller.UIController.getInstance().searchKnjiga(term);
+                knjige = UIController.getInstance().searchKnjiga(term);
             }
             TableModelKnjiga model = new TableModelKnjiga(knjige);
             tblKnjige.setModel(model);
@@ -299,7 +299,7 @@ public class FormaKnjige extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                controller.UIController.getInstance().deleteKnjiga(selected);
+                UIController.getInstance().deleteKnjiga(selected);
                 JOptionPane.showMessageDialog(this, "Knjiga je uspešno obrisana.");
                 model.removeKnjiga(selected.getKnjigaID());
                 tblPrimerci.setModel(new TableModelPrimerak(List.of()));
@@ -377,7 +377,7 @@ public class FormaKnjige extends javax.swing.JFrame {
 
     public void loadKnjige() {
         try {
-            List<Knjiga> knjige = controller.UIController.getInstance().getAllKnjiga();
+            List<Knjiga> knjige = UIController.getInstance().getAllKnjiga();
             TableModelKnjiga model = new TableModelKnjiga(knjige);
             tblKnjige.setModel(model);
         } catch (Exception e) {
@@ -387,12 +387,12 @@ public class FormaKnjige extends javax.swing.JFrame {
 
     private void loadPrimerci(Knjiga knjiga) {
         try {
-            List<Primerak> primerci = controller.UIController.getInstance().getPrimerciForKnjiga(knjiga);
+            List<Primerak> primerci = UIController.getInstance().getPrimerciForKnjiga(knjiga);
             TableModelPrimerak model = new TableModelPrimerak(primerci);
             tblPrimerci.setModel(model);
 
-            int total = controller.UIController.getInstance().countPrimerci(knjiga.getKnjigaID());
-            int available = controller.UIController.getInstance().countAvailablePrimerci(knjiga.getKnjigaID());
+            int total = UIController.getInstance().countPrimerci(knjiga.getKnjigaID());
+            int available = UIController.getInstance().countAvailablePrimerci(knjiga.getKnjigaID());
 
             lblUkupnoBroj.setText(String.valueOf(total));
             lblDostupnoBroj.setText(String.valueOf(available));
@@ -407,8 +407,8 @@ public class FormaKnjige extends javax.swing.JFrame {
             TableModelKnjiga knjigaModel = (TableModelKnjiga) tblKnjige.getModel();
             Knjiga selected = knjigaModel.getKnjigaAt(row);
             try {
-                int total = controller.UIController.getInstance().countPrimerci(selected.getKnjigaID());
-                int available = controller.UIController.getInstance().countAvailablePrimerci(selected.getKnjigaID());
+                int total = UIController.getInstance().countPrimerci(selected.getKnjigaID());
+                int available = UIController.getInstance().countAvailablePrimerci(selected.getKnjigaID());
                 updatePrimerciLabels(total, available);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Greška prilikom osvežavanja broja primeraka.");

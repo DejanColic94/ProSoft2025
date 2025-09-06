@@ -30,7 +30,7 @@ public class ClientServiceThread extends Thread {
     private boolean end = false;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    private Radnik ulogovaniRadnik;
+    private Radnik loggedRadnik;
 
     public ClientServiceThread(Socket socket, List<ClientServiceThread> clientList) {
         this.socket = socket;
@@ -60,9 +60,9 @@ public class ClientServiceThread extends Thread {
                         OpstiDomenskiObjekat param = (OpstiDomenskiObjekat) request.getParam();
                         OpstiDomenskiObjekat result = Controller.getInstance().login(param);
 
-                        this.ulogovaniRadnik = (Radnik) result;
+                        this.loggedRadnik = (Radnik) result;
                         Controller.getInstance().addUlogovanogRadnika((Radnik) result);
-                        ServerLogger.getInstance().logAction(this.ulogovaniRadnik, "Login successful");
+                        ServerLogger.getInstance().logAction(this.loggedRadnik, "Login successful");
 
                         response.setParams(result);
                         response.setSuccess(true);
@@ -70,21 +70,21 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greska prilikom prijave: " + e.getMessage());
-                        ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Login failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Login failed", e);
                     }
                     break;
                 case Operations.LOGOUT:
                     try {
-                        Radnik toRemove = this.ulogovaniRadnik;
+                        Radnik toRemove = this.loggedRadnik;
                         if (toRemove == null && request.getParam() instanceof Radnik) {
                             toRemove = (Radnik) request.getParam();
                         }
                         if (toRemove != null) {
-                            Controller.getInstance().deleteUlogovanogRadnika(toRemove);
-                            this.ulogovaniRadnik = null;
+                            Controller.getInstance().removeLoggedRadnik(toRemove);
+                            this.loggedRadnik = null;
                         }
 
-                        util.ServerLogger.getInstance().logAction(this.ulogovaniRadnik, "Logout completed");
+                        ServerLogger.getInstance().logAction(this.loggedRadnik, "Logout completed");
                         response.setSuccess(true);
                         response.setMessage("Odjava uspesna.");
 
@@ -92,7 +92,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greska pri odjavi: " + e.getMessage());
-                        ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Logout failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Logout failed", e);
                     }
                     break;
                 case Operations.GET_ALL_CLAN:
@@ -113,8 +113,7 @@ public class ClientServiceThread extends Thread {
 
                         Clan clan = (Clan) request.getParam();
 
-                        util.ServerLogger.getInstance().logAction(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
                                 "Obrisan clan: ID=" + clan.getClanID()
                                 + ", " + clan.getIme() + " " + clan.getPrezime()
                         );
@@ -123,8 +122,7 @@ public class ClientServiceThread extends Thread {
                         response.setSuccess(false);
                         response.setMessage("Član ima zaduženja i ne može biti obrisan.");
 
-                        util.ServerLogger.getInstance().logError(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logError(this.loggedRadnik,
                                 "Delete clan failed: member has existing loans",
                                 fkEx
                         );
@@ -142,7 +140,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom pretrage članova.");
-                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Search clan failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Search clan failed", e);
                     }
                     break;
                 case Operations.CREATE_CLAN:
@@ -151,15 +149,13 @@ public class ClientServiceThread extends Thread {
                         Controller.getInstance().createClan(clan);
                         response.setSuccess(true);
                         response.setMessage("Član je uspešno kreiran.");
-                        util.ServerLogger.getInstance().logAction(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
                                 "Created clan: " + clan.getIme() + " " + clan.getPrezime()
                         );
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom kreiranja člana.");
-                        util.ServerLogger.getInstance().logError(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logError(this.loggedRadnik,
                                 "Create clan failed",
                                 e
                         );
@@ -171,15 +167,13 @@ public class ClientServiceThread extends Thread {
                         Controller.getInstance().updateClan(clan);
                         response.setSuccess(true);
                         response.setMessage("Član je uspešno izmenjen.");
-                        util.ServerLogger.getInstance().logAction(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
                                 "Updated clan: ID=" + clan.getClanID() + ", " + clan.getIme() + " " + clan.getPrezime()
                         );
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom izmene člana.");
-                        util.ServerLogger.getInstance().logError(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logError(this.loggedRadnik,
                                 "Update clan failed",
                                 e
                         );
@@ -193,7 +187,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom učitavanja knjiga.");
-                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Get all knjiga failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Get all knjiga failed", e);
                     }
                     break;
                 case Operations.GET_PRIMERCI_FOR_KNJIGA:
@@ -205,7 +199,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom učitavanja primeraka.");
-                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Get primerci for knjiga failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Get primerci for knjiga failed", e);
                     }
                     break;
                 case Operations.COUNT_PRIMERCI:
@@ -240,7 +234,7 @@ public class ClientServiceThread extends Thread {
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom pretrage knjiga.");
-                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Search knjiga failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Search knjiga failed", e);
                     }
                     break;
                 case Operations.DELETE_KNJIGA:
@@ -249,23 +243,20 @@ public class ClientServiceThread extends Thread {
                         Controller.getInstance().deleteKnjiga(knjiga);
                         response.setSuccess(true);
                         response.setMessage("Knjiga je uspešno obrisana.");
-                        util.ServerLogger.getInstance().logAction(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
                                 "Deleted knjiga: ID=" + knjiga.getKnjigaID() + ", " + knjiga.getNaziv()
                         );
                     } catch (java.sql.SQLIntegrityConstraintViolationException fkEx) {
                         response.setSuccess(false);
                         response.setMessage("Knjiga ima zaduženja i ne može biti obrisana.");
-                        util.ServerLogger.getInstance().logError(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logError(this.loggedRadnik,
                                 "Delete knjiga failed: book has loans",
                                 fkEx
                         );
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom brisanja knjige.");
-                        util.ServerLogger.getInstance().logError(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logError(this.loggedRadnik,
                                 "Delete knjiga failed (unexpected error)",
                                 e
                         );
@@ -277,14 +268,13 @@ public class ClientServiceThread extends Thread {
                         Controller.getInstance().createKnjiga(knjiga);
                         response.setSuccess(true);
                         response.setMessage("Knjiga je uspešno sačuvana.");
-                        util.ServerLogger.getInstance().logAction(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
                                 "Created knjiga: " + knjiga.getNaziv() + " (" + knjiga.getAutor() + ")"
                         );
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom čuvanja knjige.");
-                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Create knjiga failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Create knjiga failed", e);
                     }
                     break;
                 case Operations.UPDATE_KNJIGA:
@@ -293,14 +283,13 @@ public class ClientServiceThread extends Thread {
                         Controller.getInstance().updateKnjiga(knjiga);
                         response.setSuccess(true);
                         response.setMessage("Knjiga je uspešno izmenjena.");
-                        util.ServerLogger.getInstance().logAction(
-                                this.ulogovaniRadnik,
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
                                 "Updated knjiga: " + knjiga.getNaziv()
                         );
                     } catch (Exception e) {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom izmene knjige.");
-                        util.ServerLogger.getInstance().logError(this.ulogovaniRadnik, "Update knjiga failed", e);
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Update knjiga failed", e);
                     }
                     break;
                 default:
@@ -310,9 +299,9 @@ public class ClientServiceThread extends Thread {
             }
             sendResponse(response);
         }
-        if (ulogovaniRadnik != null) {
-            Controller.getInstance().deleteUlogovanogRadnika(ulogovaniRadnik);
-            ulogovaniRadnik = null;
+        if (loggedRadnik != null) {
+            Controller.getInstance().removeLoggedRadnik(loggedRadnik);
+            loggedRadnik = null;
         }
     }
 

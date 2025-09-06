@@ -4,6 +4,7 @@
  */
 package threads;
 
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,10 +20,11 @@ public class StartServerThread extends Thread {
 
     private ServerSocket serverSocket;
     private List<ClientServiceThread> clientList;
-    private int port = 8189;
+    private int port;
 
     public StartServerThread() {
         try {
+            this.port = constants.Constants.PORT_NUMBER;
             clientList = new ArrayList<>();
             serverSocket = new ServerSocket(port);
             System.out.println("Server is running on port: " + port);

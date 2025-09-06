@@ -326,13 +326,13 @@ public class DijalogNovaKnjiga extends javax.swing.JDialog {
         try {
             if (editMode) {
                 k.setKnjigaID(knjigaForEdit != null ? knjigaForEdit.getKnjigaID() : k.getKnjigaID());
-                controller.UIController.getInstance().updateKnjiga(k);
+                UIController.getInstance().updateKnjiga(k);
                 JOptionPane.showMessageDialog(this,
                         "Knjiga je uspešno izmenjena.",
                         "Informacija",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                controller.UIController.getInstance().createKnjiga(k);
+                UIController.getInstance().createKnjiga(k);
                 JOptionPane.showMessageDialog(this,
                         "Knjiga je uspešno sačuvana.",
                         "Informacija",

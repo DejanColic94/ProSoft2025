@@ -4,6 +4,7 @@
  */
 package communication;
 
+import constants.Constants;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,7 +23,7 @@ public class CommunicationWithServer {
 
     private CommunicationWithServer() {
         try {
-            this.socket = new Socket("localhost", 8189);
+            this.socket = new Socket("localhost", Constants.PORT_NUMBER);
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.flush();
             ois = new ObjectInputStream(socket.getInputStream());

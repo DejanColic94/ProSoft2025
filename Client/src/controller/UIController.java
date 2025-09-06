@@ -128,7 +128,7 @@ public class UIController {
         Response res = CommunicationWithServer.getInstance().receiveResponse();
 
         if (res.isSuccess()) {
-            return (List<Primerak>) (List<?>) res.getParams();
+            return (List<Primerak>) res.getParams();
         } else {
             throw new Exception(res.getMessage());
         }
@@ -160,7 +160,7 @@ public class UIController {
         Response res = CommunicationWithServer.getInstance().receiveResponse();
 
         if (res.isSuccess()) {
-            return (List<Knjiga>) (List<?>) res.getParams();
+            return (List<Knjiga>) res.getParams();
         } else {
             throw new Exception(res.getMessage());
         }

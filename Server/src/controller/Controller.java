@@ -64,7 +64,7 @@ public class Controller {
         }
     }
 
-    public void deleteUlogovanogRadnika(Radnik r) {
+    public void removeLoggedRadnik(Radnik r) {
         ulogovaniRadnici.remove(r);
         if (modelRadnik != null) {
             modelRadnik.fireTableDataChanged();

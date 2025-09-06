@@ -4,6 +4,7 @@
  */
 package ui.clanovi;
 
+import controller.UIController;
 import domain.Clan;
 import java.util.List;
 import javax.swing.JDialog;
@@ -197,7 +198,7 @@ public class FormaClanovi extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                controller.UIController.getInstance().deleteClan(clan);
+                UIController.getInstance().deleteClan(clan);
                 JOptionPane.showMessageDialog(this, "Clan uspesno obrisan.");
                 loadClanovi();
             } catch (Exception e) {
@@ -209,7 +210,7 @@ public class FormaClanovi extends javax.swing.JFrame {
     private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
         String term = txtPretrazi.getText().trim();
         try {
-            List<Clan> clanovi = controller.UIController.getInstance().searchClan(term);
+            List<Clan> clanovi = UIController.getInstance().searchClan(term);
             TableModelClan model = new TableModelClan(clanovi);
             tblClanovi.setModel(model);
         } catch (Exception e) {
@@ -276,7 +277,7 @@ public class FormaClanovi extends javax.swing.JFrame {
 
     private void loadClanovi() {
         try {
-            List<Clan> clanovi = controller.UIController.getInstance().getAllClan();
+            List<Clan> clanovi = UIController.getInstance().getAllClan();
             TableModelClan model = new TableModelClan(clanovi);
             tblClanovi.setModel(model);
 

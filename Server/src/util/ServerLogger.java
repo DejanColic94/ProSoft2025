@@ -39,7 +39,7 @@ public final class ServerLogger {
 
     public void init(Path logFilePath) throws IOException {
         if (logFilePath == null) {
-            throw new IllegalArgumentException("logFilePath == null");
+            throw new IllegalArgumentException("logFilePath is null");
         }
         Path parent = logFilePath.getParent();
         if (parent != null) {
