@@ -4,7 +4,10 @@
  */
 package ui.zaduzenja;
 
+import controller.UIController;
+import domain.Clan;
 import domain.Radnik;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -26,6 +29,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.ulogovani = ulogovani;
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
+         loadClanCombo();
     }
 
     /**
@@ -289,6 +293,17 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnNazadActionPerformed
 
+    private void loadClanCombo() {
+        try {
+            List<Clan> clanovi = UIController.getInstance().getAllClan();
+            cmbClan.removeAllItems();
+            for (Clan c : clanovi) {
+                cmbClan.addItem(c);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja članova: " + e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajStavku;
