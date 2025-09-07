@@ -44,6 +44,21 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.ulogovani = ulogovani;
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
+
+        btnIzmeniStavku.setEnabled(false);
+        btnObrisiStavku.setEnabled(false);
+
+        tblStavke.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                boolean selected = tblStavke.getSelectedRow() >= 0;
+                btnIzmeniStavku.setEnabled(selected);
+                btnObrisiStavku.setEnabled(selected);
+                if (selected) {
+                    fillStavkaInputsFromSelected();
+                }
+            }
+        });
+
         loadClanCombo();
         loadKnjigaCombo();
 
@@ -74,7 +89,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         tblZaduzenje.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int row = tblZaduzenje.getSelectedRow();
-                
+
                 if (row == -1) {
                     return;
                 }
