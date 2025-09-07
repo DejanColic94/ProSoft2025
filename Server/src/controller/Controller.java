@@ -29,6 +29,7 @@ import so.knjiga.SOsearchKnjiga;
 import so.knjiga.SOupdateKnjiga;
 import so.login.SOLogin;
 import so.zaduzenje.SOcreateZaduzenje;
+import so.zaduzenje.SOdeleteZaduzenje;
 import so.zaduzenje.SOgetAllZaduzenje;
 import so.zaduzenje.SOgetStavkeForZaduzenje;
 
@@ -187,6 +188,11 @@ public class Controller {
 
     public void createZaduzenje(Zaduzenje z) throws Exception {
         SOcreateZaduzenje so = new SOcreateZaduzenje();
+        so.execute(z);
+    }
+
+    public void deleteZaduzenje(Zaduzenje z) throws Exception {
+        SOdeleteZaduzenje so = new SOdeleteZaduzenje();
         so.execute(z);
     }
 }

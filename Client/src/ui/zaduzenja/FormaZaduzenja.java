@@ -48,6 +48,9 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         btnIzmeniStavku.setEnabled(false);
         btnObrisiStavku.setEnabled(false);
 
+        btnIzmeniZaduzenje.setEnabled(false);
+        btnObrisiZaduzenje.setEnabled(false);
+
         tblStavke.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 boolean selected = tblStavke.getSelectedRow() >= 0;
@@ -89,11 +92,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         tblZaduzenje.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int row = tblZaduzenje.getSelectedRow();
-
                 if (row == -1) {
+                    btnIzmeniZaduzenje.setEnabled(false);
+                    btnObrisiZaduzenje.setEnabled(false);
                     return;
                 }
-
                 if (stavkeChanged) {
                     int choice = JOptionPane.showConfirmDialog(
                             this,
@@ -103,11 +106,15 @@ public class FormaZaduzenja extends javax.swing.JFrame {
                     );
                     if (choice != JOptionPane.YES_OPTION) {
                         tblZaduzenje.clearSelection();
+                        btnIzmeniZaduzenje.setEnabled(false);
+                        btnObrisiZaduzenje.setEnabled(false);
                         return;
                     }
                 }
                 loadStavkeForSelected();
                 stavkeChanged = false;
+                btnIzmeniZaduzenje.setEnabled(true);
+                btnObrisiZaduzenje.setEnabled(true);
             }
         });
 
@@ -301,6 +308,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         btnIzmeniZaduzenje.setText("Izmeni Zaduzenje");
 
         btnObrisiZaduzenje.setText("Obrisi Zaduzenje");
+        btnObrisiZaduzenje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiZaduzenjeActionPerformed(evt);
+            }
+        });
 
         btnNazad.setText("Nazad");
         btnNazad.addActionListener(new java.awt.event.ActionListener() {
@@ -439,7 +451,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         TableModelStavkaZaduzenja model = (TableModelStavkaZaduzenja) tblStavke.getModel();
         StavkaZaduzenja selected = model.getAt(row);
 
-        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+        int confirm = JOptionPane.showConfirmDialog(
                 this,
                 "Da li ste sigurni da želite da obrišete stavku?",
                 "Potvrda brisanja",
@@ -541,6 +553,40 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDodajZaduzenjeActionPerformed
 
+    private void btnObrisiZaduzenjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiZaduzenjeActionPerformed
+        int row = tblZaduzenje.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Izaberite zaduženje za brisanje.");
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Da li ste sigurni da želite da obrišete zaduženje?",
+                "Potvrda brisanja",
+                JOptionPane.YES_NO_OPTION
+        );
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        TableModelZaduzenje model = (TableModelZaduzenje) tblZaduzenje.getModel();
+        Zaduzenje z = model.getZaduzenjeAt(row);
+
+        try {
+            UIController.getInstance().deleteZaduzenje(z);
+            JOptionPane.showMessageDialog(this, "Zaduženje je obrisano.");
+            loadZaduzenjaTable();
+            stavkeModel.clear();
+            ((TableModelStavkaZaduzenja) tblStavke.getModel()).setLista(stavkeModel);
+            stavkeChanged = false;
+            txtDatumZaduzenja.setText("");
+            txtDatumRazduzenja.setText("");
+            txtNapomena.setText("");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom brisanja: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnObrisiZaduzenjeActionPerformed
+
     private void loadClanCombo() {
         try {
             List<Clan> clanovi = UIController.getInstance().getAllClan();
@@ -558,8 +604,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             List<Zaduzenje> lista = UIController.getInstance().getAllZaduzenje();
             TableModelZaduzenje model = new TableModelZaduzenje(lista);
             tblZaduzenje.setModel(model);
+            tblZaduzenje.clearSelection();
+            btnIzmeniZaduzenje.setEnabled(false);
+            btnObrisiZaduzenje.setEnabled(false);
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja zaduženja: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja zaduženja: " + e.getMessage());
         }
     }
 

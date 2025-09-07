@@ -227,4 +227,13 @@ public class UIController {
         }
     }
 
+    public void deleteZaduzenje(Zaduzenje z) throws Exception {
+        Request req = new Request(Operations.DELETE_ZADUZENJE, z);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
 }
