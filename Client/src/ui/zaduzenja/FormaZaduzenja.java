@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import models.TableModelStavkaZaduzenja;
 import models.TableModelZaduzenje;
 
@@ -157,6 +158,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         btnIzmeniStavku.setText("Izmeni Stavku");
 
         btnObrisiStavku.setText("Obrisi Stavku");
+        btnObrisiStavku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiStavkuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -363,6 +369,29 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Greška pri dodavanju stavke: " + e.getMessage());
         }
     }//GEN-LAST:event_btnDodajStavkuActionPerformed
+
+    private void btnObrisiStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiStavkuActionPerformed
+        int row = tblStavke.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Morate izabrati stavku za brisanje.");
+            return;
+        }
+
+        TableModelStavkaZaduzenja model = (TableModelStavkaZaduzenja) tblStavke.getModel();
+        StavkaZaduzenja selected = model.getAt(row);
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "Da li ste sigurni da želite da obrišete stavku?",
+                "Potvrda brisanja",
+                javax.swing.JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            stavkeModel.remove(selected);
+            model.setLista(stavkeModel);
+        }
+    }//GEN-LAST:event_btnObrisiStavkuActionPerformed
 
     private void loadClanCombo() {
         try {
