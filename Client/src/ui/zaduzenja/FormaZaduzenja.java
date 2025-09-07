@@ -7,6 +7,7 @@ package ui.zaduzenja;
 import controller.UIController;
 import domain.Clan;
 import domain.Knjiga;
+import domain.Primerak;
 import domain.Radnik;
 import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
@@ -36,6 +37,23 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
         loadClanCombo();
         loadKnjigaCombo();
+
+        if (cmbKnjiga.getItemCount() > 0) {
+            cmbKnjiga.setSelectedIndex(0);
+            Knjiga first = (Knjiga) cmbKnjiga.getSelectedItem();
+            if (first != null) {
+                loadPrimerakCombo(first);
+            }
+        }
+
+        cmbKnjiga.addActionListener(evt -> {
+            Knjiga selected = (Knjiga) cmbKnjiga.getSelectedItem();
+            if (selected != null) {
+                loadPrimerakCombo(selected);
+            } else {
+                cmbPrimerak.removeAllItems();
+            }
+        });
         loadZaduzenjaTable();
 
         tblZaduzenje.getSelectionModel().addListSelectionListener(e -> {
@@ -115,8 +133,6 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         lblHint.setText("(Ostaviti prazno ako knjiga nije vracena)");
 
         lblPrimerak.setText("Primerak :");
-
-        cmbPrimerak.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblNapomena.setText("Napomena :");
 
@@ -344,18 +360,30 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja stavki: " + e.getMessage());
         }
     }
-    
+
     private void loadKnjigaCombo() {
-    try {
-        List<Knjiga> knjige = UIController.getInstance().getAllKnjiga();
-        cmbKnjiga.removeAllItems();
-        for (Knjiga k : knjige) {
-            cmbKnjiga.addItem(k);
+        try {
+            List<Knjiga> knjige = UIController.getInstance().getAllKnjiga();
+            cmbKnjiga.removeAllItems();
+            for (Knjiga k : knjige) {
+                cmbKnjiga.addItem(k);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja knjiga: " + e.getMessage());
         }
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja knjiga: " + e.getMessage());
     }
-}
+
+    private void loadPrimerakCombo(Knjiga knjiga) {
+        try {
+            List<Primerak> primerci = UIController.getInstance().getPrimerciForKnjiga(knjiga);
+            cmbPrimerak.removeAllItems();
+            for (Primerak p : primerci) {
+                cmbPrimerak.addItem(p);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja primeraka: " + e.getMessage());
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajStavku;
     private javax.swing.JButton btnDodajZaduzenje;

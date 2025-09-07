@@ -94,6 +94,11 @@ public class Primerak extends OpstiDomenskiObjekat {
     }
 
     @Override
+    public String toString() {
+        return "ID " + primerakID + " - " + izdavac + " " + godinaIzdanja;
+    }
+
+    @Override
     public String getImeTabele() {
         return "primerak";
     }
