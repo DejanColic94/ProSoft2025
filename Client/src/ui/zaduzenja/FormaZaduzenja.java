@@ -6,6 +6,7 @@ package ui.zaduzenja;
 
 import controller.UIController;
 import domain.Clan;
+import domain.Knjiga;
 import domain.Radnik;
 import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
@@ -34,6 +35,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         this.ulogovani = ulogovani;
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
         loadClanCombo();
+        loadKnjigaCombo();
         loadZaduzenjaTable();
 
         tblZaduzenje.getSelectionModel().addListSelectionListener(e -> {
@@ -342,6 +344,18 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja stavki: " + e.getMessage());
         }
     }
+    
+    private void loadKnjigaCombo() {
+    try {
+        List<Knjiga> knjige = UIController.getInstance().getAllKnjiga();
+        cmbKnjiga.removeAllItems();
+        for (Knjiga k : knjige) {
+            cmbKnjiga.addItem(k);
+        }
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja knjiga: " + e.getMessage());
+    }
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajStavku;
     private javax.swing.JButton btnDodajZaduzenje;

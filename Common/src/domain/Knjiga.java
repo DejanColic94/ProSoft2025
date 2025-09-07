@@ -85,7 +85,7 @@ public class Knjiga extends OpstiDomenskiObjekat {
 
     @Override
     public String toString() {
-        return "naziv= " + naziv;
+        return "" + naziv;
     }
 
     @Override
