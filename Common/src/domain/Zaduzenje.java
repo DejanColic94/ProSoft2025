@@ -109,8 +109,8 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
 
     @Override
     public String getParametre() {
-        return String.format("'%s','%s','%s'",
-                new Date(datumZaduzenja.getTime()),
+        return String.format("'%tF', %d, %d",
+                datumZaduzenja,
                 radnik.getRadnikID(),
                 clan.getClanID());
     }
@@ -137,10 +137,10 @@ public class Zaduzenje extends OpstiDomenskiObjekat {
 
     @Override
     public String getUpdate() {
-        return String.format("datumZaduzenja='%tF', radnikID='%s', clanID='%s'",
-                new Date(datumZaduzenja.getTime()),
-                radnik.getVrednostPK(),
-                clan.getVrednostPK());
+        return String.format("datumZaduzenja='%tF', radnikID=%d, clanID=%d",
+                datumZaduzenja,
+                radnik.getRadnikID(),
+                clan.getClanID());
     }
 
     @Override

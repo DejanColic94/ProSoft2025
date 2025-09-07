@@ -324,6 +324,19 @@ public class ClientServiceThread extends Thread {
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Get stavke failed", e);
                     }
                     break;
+                case Operations.CREATE_ZADUZENJE:
+                    try {
+                        Zaduzenje z = (Zaduzenje) request.getParam();
+                        Controller.getInstance().createZaduzenje(z);
+                        response.setSuccess(true);
+                        response.setMessage("Zaduženje je sačuvano.");
+                        ServerLogger.getInstance().logAction(this.loggedRadnik, "Create zaduzenje");
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom čuvanja zaduženja.");
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Create zaduzenje failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

@@ -106,16 +106,19 @@ public class StavkaZaduzenja extends OpstiDomenskiObjekat {
 
     @Override
     public String getParametre() {
-        return String.format("'%s','%s','%s','%s'",
+        String datum = datumRazduzenja == null ? "NULL" : String.format("'%tF'", datumRazduzenja);
+        String note = (napomena == null || napomena.isBlank()) ? "NULL" : "'" + napomena.replace("'", "''") + "'";
+        return String.format("%d, %d, %s, %s, %d",
                 zaduzenje.getZaduzenjeID(),
-                (datumRazduzenja == null ? null : new java.sql.Date(datumRazduzenja.getTime())),
-                napomena,
+                stavkaID,
+                datum,
+                note,
                 primerak.getPrimerakID());
     }
 
     @Override
     public String getPK() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "zaduzenjeID,stavkaID";
     }
 
     public String getCompositePK() {
@@ -124,7 +127,7 @@ public class StavkaZaduzenja extends OpstiDomenskiObjekat {
 
     @Override
     public int getVrednostPK() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return stavkaID;
     }
 
     public int[] getVrednostCompositePK() {
@@ -133,48 +136,43 @@ public class StavkaZaduzenja extends OpstiDomenskiObjekat {
 
     @Override
     public List<OpstiDomenskiObjekat> ResultSetIntoTable(ResultSet rs) {
-        List<OpstiDomenskiObjekat> listStavki = new ArrayList<>();
+        List<OpstiDomenskiObjekat> list = new ArrayList<>();
         try {
             while (rs.next()) {
-                int zaduzenjeID = rs.getInt("zaduzenjeID");
-                int stavkaID = rs.getInt("stavkaID");
-                Date datumRazduzenja = null;
-                java.sql.Date sqlDatum = rs.getDate("datumRazduzenja");
-                if (sqlDatum != null) {
-                    datumRazduzenja = new Date(sqlDatum.getTime());
-                }
-                String napomena = rs.getString("napomena");
-                int primerakID = rs.getInt("primerakID");
-
-                Zaduzenje zaduzenje = new Zaduzenje();
-                zaduzenje.setZaduzenjeID(zaduzenjeID);
-
-                Primerak primerak = new Primerak();
-                primerak.setPrimerakID(primerakID);
-
-                StavkaZaduzenja sz = new StavkaZaduzenja(zaduzenje, stavkaID, datumRazduzenja, napomena, primerak);
-                listStavki.add(sz);
+                StavkaZaduzenja s = new StavkaZaduzenja();
+                Zaduzenje z = new Zaduzenje();
+                z.setZaduzenjeID(rs.getInt("zaduzenjeID"));
+                s.setZaduzenje(z);
+                s.setStavkaID(rs.getInt("stavkaID"));
+                java.sql.Date d = rs.getDate("datumRazduzenja");
+                s.setDatumRazduzenja(d == null ? null : new Date(d.getTime()));
+                s.setNapomena(rs.getString("napomena"));
+                Primerak p = new Primerak();
+                p.setPrimerakID(rs.getInt("primerakID"));
+                s.setPrimerak(p);
+                list.add(s);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("Greska kod ResultSetIntoTable za StavkaZaduzenja");
         }
-        return listStavki;
+        return list;
     }
 
     @Override
     public String getUpdate() {
-        return String.format("datumRazduzenja='%s', napomena='%s', primerakID='%s'",
-                new java.sql.Date(datumRazduzenja.getTime()), napomena, primerak.getVrednostPK());
+        String datum = datumRazduzenja == null ? "NULL" : String.format("'%tF'", datumRazduzenja);
+        String note = (napomena == null || napomena.isBlank()) ? "NULL" : "'" + napomena.replace("'", "''") + "'";
+        return String.format("datumRazduzenja=%s, napomena=%s, primerakID=%d",
+                datum, note, primerak.getPrimerakID());
     }
 
     @Override
     public void setVrednostPK(int pk) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.stavkaID = pk;
     }
 
     @Override
     public String getInsertColumns() {
-        return "zaduzenjeID, datumRazduzenja, napomena, primerakID";
+        return "zaduzenjeID, stavkaID, datumRazduzenja, napomena, primerakID";
     }
 }

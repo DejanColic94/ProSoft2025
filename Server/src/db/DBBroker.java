@@ -183,4 +183,17 @@ public class DBBroker {
             return odo.ResultSetIntoTable(rs);
         }
     }
+
+    public int getNextStavkaIDForZaduzenje(int zaduzenjeID) throws Exception {
+        String sql = "SELECT COALESCE(MAX(stavkaID),0)+1 AS next FROM stavkazaduzenja WHERE zaduzenjeID=" + zaduzenjeID;
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        int next = 1;
+        if (rs.next()) {
+            next = rs.getInt("next");
+        }
+        rs.close();
+        st.close();
+        return next;
+    }
 }

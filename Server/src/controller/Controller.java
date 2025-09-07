@@ -28,6 +28,7 @@ import so.knjiga.SOgetPrimerciForKnjiga;
 import so.knjiga.SOsearchKnjiga;
 import so.knjiga.SOupdateKnjiga;
 import so.login.SOLogin;
+import so.zaduzenje.SOcreateZaduzenje;
 import so.zaduzenje.SOgetAllZaduzenje;
 import so.zaduzenje.SOgetStavkeForZaduzenje;
 
@@ -182,5 +183,10 @@ public class Controller {
             lista.add((StavkaZaduzenja) o);
         }
         return lista;
+    }
+
+    public void createZaduzenje(Zaduzenje z) throws Exception {
+        SOcreateZaduzenje so = new SOcreateZaduzenje();
+        so.execute(z);
     }
 }

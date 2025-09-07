@@ -292,6 +292,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tblZaduzenje);
 
         btnDodajZaduzenje.setText("Dodaj Zaduzenje");
+        btnDodajZaduzenje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajZaduzenjeActionPerformed(evt);
+            }
+        });
 
         btnIzmeniZaduzenje.setText("Izmeni Zaduzenje");
 
@@ -482,6 +487,59 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         model.fireTableRowsUpdated(row, row);
         stavkeChanged = true;
     }//GEN-LAST:event_btnIzmeniStavkuActionPerformed
+
+    private void btnDodajZaduzenjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajZaduzenjeActionPerformed
+        String datumText = txtDatumZaduzenja.getText().trim();
+        if (datumText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Unesite datum zaduženja.");
+            return;
+        }
+
+        Date datumZaduzenja;
+        try {
+            datumZaduzenja = new SimpleDateFormat("dd.MM.yyyy").parse(datumText);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Nevažeći format datuma zaduženja. Koristite dd.MM.yyyy");
+            return;
+        }
+
+        Clan clan = (Clan) cmbClan.getSelectedItem();
+        if (clan == null) {
+            JOptionPane.showMessageDialog(this, "Odaberite člana.");
+            return;
+        }
+
+        if (stavkeModel == null || stavkeModel.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Dodajte bar jednu stavku zaduženja.");
+            return;
+        }
+
+        Zaduzenje z = new Zaduzenje();
+        z.setDatumZaduzenja(datumZaduzenja);
+        z.setClan(clan);
+        z.setRadnik(ulogovani);
+
+        StavkaZaduzenja[] stavke = stavkeModel.toArray(new StavkaZaduzenja[0]);
+        z.setStavkeZaduzenja(stavke);
+
+        try {
+            UIController.getInstance().createZaduzenje(z);
+            JOptionPane.showMessageDialog(this, "Zaduženje je sačuvano.");
+            loadZaduzenjaTable();
+            stavkeModel.clear();
+            ((TableModelStavkaZaduzenja) tblStavke.getModel()).setLista(stavkeModel);
+            txtDatumZaduzenja.setText("");
+            txtDatumRazduzenja.setText("");
+            txtNapomena.setText("");
+            stavkeChanged = false;
+            if (tblZaduzenje.getRowCount() > 0) {
+                int last = tblZaduzenje.getRowCount() - 1;
+                tblZaduzenje.setRowSelectionInterval(last, last);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greška pri čuvanju zaduženja: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnDodajZaduzenjeActionPerformed
 
     private void loadClanCombo() {
         try {

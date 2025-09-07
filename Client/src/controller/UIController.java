@@ -218,4 +218,13 @@ public class UIController {
         }
     }
 
+    public void createZaduzenje(Zaduzenje z) throws Exception {
+        Request req = new Request(Operations.CREATE_ZADUZENJE, z);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
 }
