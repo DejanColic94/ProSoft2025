@@ -11,6 +11,8 @@ import domain.Primerak;
 import domain.Radnik;
 import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JFrame;
 import models.TableModelStavkaZaduzenja;
@@ -24,6 +26,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaZaduzenja.class.getName());
     private Radnik ulogovani;
+    private List<StavkaZaduzenja> stavkeModel = new ArrayList<>();
 
     /**
      * Creates new form FormaZaduzenja
@@ -145,6 +148,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         cmbKnjiga.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnDodajStavku.setText("Dodaj Stavku");
+        btnDodajStavku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajStavkuActionPerformed(evt);
+            }
+        });
 
         btnIzmeniStavku.setText("Izmeni Stavku");
 
@@ -321,6 +329,40 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_btnNazadActionPerformed
+
+    private void btnDodajStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajStavkuActionPerformed
+        try {
+            Primerak primerak = (Primerak) cmbPrimerak.getSelectedItem();
+            if (primerak == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Morate odabrati primerak.");
+                return;
+            }
+
+            String datumText = txtDatumRazduzenja.getText().trim();
+            Date datumRazduzenja = null;
+            if (!datumText.isEmpty()) {
+                datumRazduzenja = new java.text.SimpleDateFormat("dd.MM.yyyy").parse(datumText);
+            }
+
+            String napomena = txtNapomena.getText().trim();
+
+            StavkaZaduzenja s = new StavkaZaduzenja();
+            s.setPrimerak(primerak);
+            s.setDatumRazduzenja(datumRazduzenja);
+            s.setNapomena(napomena);
+
+            stavkeModel.add(s);
+
+            TableModelStavkaZaduzenja model = new TableModelStavkaZaduzenja(stavkeModel);
+            tblStavke.setModel(model);
+
+            txtDatumRazduzenja.setText("");
+            txtNapomena.setText("");
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Greška pri dodavanju stavke: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnDodajStavkuActionPerformed
 
     private void loadClanCombo() {
         try {
