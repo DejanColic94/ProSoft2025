@@ -16,4 +16,5 @@ public class Constants {
     public static final String PORT = "port";
     public static final String DATABASE_NAME = "naziv";
     public static final int PORT_NUMBER = 8189;
+   public static final int MAX_ATTEMPTS = 3;
 }

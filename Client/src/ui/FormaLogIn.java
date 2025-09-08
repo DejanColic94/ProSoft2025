@@ -4,6 +4,7 @@
  */
 package ui;
 
+import constants.Constants;
 import controller.UIController;
 import domain.Radnik;
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 public class FormaLogIn extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormaLogIn.class.getName());
+    private int loginAttempts = 0;
 
     /**
      * Creates new form FormaLogIn
@@ -103,8 +105,22 @@ public class FormaLogIn extends javax.swing.JFrame {
             this.dispose();
             new FormaMain(loggedIn).setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, ""+e.getMessage());
-            System.out.println("Error during log in : " + e.getMessage());
+            loginAttempts++;
+            int remaining = Constants.MAX_ATTEMPTS - loginAttempts;
+
+            if (remaining > 0) {
+
+                JOptionPane.showMessageDialog(this, "" + e.getMessage());
+                JOptionPane.showMessageDialog(this,
+                        "Preostalo pokušaja: " + remaining);
+
+                System.out.println("Error during log in : " + e.getMessage());
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Prekoračen broj pokušaja. Aplikacija će se zatvoriti.");
+
+                System.exit(0);
+            }
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 
