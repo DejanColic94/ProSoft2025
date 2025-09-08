@@ -31,14 +31,17 @@ public class FormaZaduzenja extends javax.swing.JFrame {
     private Radnik ulogovani;
     private List<StavkaZaduzenja> stavkeModel;
     private boolean stavkeChanged = false;
+    private TableModelStavkaZaduzenja stavkeTableModel;
+    private boolean isRefreshing = false;
 
     /**
      * Creates new form FormaZaduzenja
      */
     public FormaZaduzenja(Radnik ulogovani) {
         initComponents();
-        stavkeModel = new java.util.ArrayList<>();
-        tblStavke.setModel(new TableModelStavkaZaduzenja(stavkeModel));
+        stavkeModel = new ArrayList<>();
+        stavkeTableModel = new TableModelStavkaZaduzenja(stavkeModel);
+        tblStavke.setModel(stavkeTableModel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Rad sa Zaduzenjima");
         setLocationRelativeTo(null);
@@ -91,6 +94,9 @@ public class FormaZaduzenja extends javax.swing.JFrame {
 
         tblZaduzenje.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
+                if (isRefreshing) {
+                    return;
+                }
                 int row = tblZaduzenje.getSelectedRow();
                 if (row == -1) {
                     btnIzmeniZaduzenje.setEnabled(false);
@@ -306,6 +312,11 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         });
 
         btnIzmeniZaduzenje.setText("Izmeni Zaduzenje");
+        btnIzmeniZaduzenje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniZaduzenjeActionPerformed(evt);
+            }
+        });
 
         btnObrisiZaduzenje.setText("Obrisi Zaduzenje");
         btnObrisiZaduzenje.addActionListener(new java.awt.event.ActionListener() {
@@ -537,13 +548,23 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         try {
             UIController.getInstance().createZaduzenje(z);
             JOptionPane.showMessageDialog(this, "Zaduženje je sačuvano.");
+
+            isRefreshing = true;
             loadZaduzenjaTable();
+
+            int target = tblZaduzenje.getRowCount() - 1;
+            if (target >= 0) {
+                tblZaduzenje.setRowSelectionInterval(target, target);
+                loadStavkeForSelected();
+            }
+
             stavkeModel.clear();
-            ((TableModelStavkaZaduzenja) tblStavke.getModel()).setLista(stavkeModel);
+            stavkeTableModel.setLista(stavkeModel);
             txtDatumZaduzenja.setText("");
             txtDatumRazduzenja.setText("");
             txtNapomena.setText("");
             stavkeChanged = false;
+            isRefreshing = false;
             if (tblZaduzenje.getRowCount() > 0) {
                 int last = tblZaduzenje.getRowCount() - 1;
                 tblZaduzenje.setRowSelectionInterval(last, last);
@@ -587,6 +608,65 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnObrisiZaduzenjeActionPerformed
 
+    private void btnIzmeniZaduzenjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniZaduzenjeActionPerformed
+        int row = tblZaduzenje.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Izaberite zaduženje za izmenu.");
+            return;
+        }
+
+        String datumText = txtDatumZaduzenja.getText().trim();
+        if (datumText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Unesite datum zaduženja.");
+            return;
+        }
+
+        Date datumZaduzenja;
+        try {
+            datumZaduzenja = new SimpleDateFormat("dd.MM.yyyy").parse(datumText);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Nevažeći format datuma zaduženja. Koristite dd.MM.yyyy");
+            return;
+        }
+
+        Clan clan = (Clan) cmbClan.getSelectedItem();
+        if (clan == null) {
+            JOptionPane.showMessageDialog(this, "Odaberite člana.");
+            return;
+        }
+
+        TableModelZaduzenje tm = (TableModelZaduzenje) tblZaduzenje.getModel();
+        Zaduzenje selected = tm.getZaduzenjeAt(row);
+
+        Zaduzenje z = new Zaduzenje();
+        z.setZaduzenjeID(selected.getZaduzenjeID());
+        z.setDatumZaduzenja(datumZaduzenja);
+        z.setClan(clan);
+        z.setRadnik(ulogovani);
+        z.setStavkeZaduzenja(stavkeModel.toArray(new StavkaZaduzenja[0]));
+
+        try {
+            UIController.getInstance().updateZaduzenje(z);
+            JOptionPane.showMessageDialog(this, "Zaduženje je izmenjeno.");
+
+            isRefreshing = true;
+            loadZaduzenjaTable();
+
+            for (int i = 0; i < tblZaduzenje.getRowCount(); i++) {
+                if (((TableModelZaduzenje) tblZaduzenje.getModel()).getZaduzenjeAt(i).getZaduzenjeID() == z.getZaduzenjeID()) {
+                    tblZaduzenje.setRowSelectionInterval(i, i);
+                    loadStavkeForSelected();
+                    break;
+                }
+            }
+
+            stavkeChanged = false;
+            isRefreshing = false;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greška pri izmeni zaduženja: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnIzmeniZaduzenjeActionPerformed
+
     private void loadClanCombo() {
         try {
             List<Clan> clanovi = UIController.getInstance().getAllClan();
@@ -615,17 +695,37 @@ public class FormaZaduzenja extends javax.swing.JFrame {
     private void loadStavkeForSelected() {
         int row = tblZaduzenje.getSelectedRow();
         if (row < 0) {
-            tblStavke.setModel(new models.TableModelStavkaZaduzenja(java.util.Collections.emptyList()));
+            stavkeModel.clear();
+            stavkeTableModel.setLista(stavkeModel);
             return;
         }
+
         TableModelZaduzenje model = (TableModelZaduzenje) tblZaduzenje.getModel();
         Zaduzenje z = model.getZaduzenjeAt(row);
+
+        if (z.getDatumZaduzenja() != null) {
+            txtDatumZaduzenja.setText(new SimpleDateFormat("dd.MM.yyyy").format(z.getDatumZaduzenja()));
+        } else {
+            txtDatumZaduzenja.setText("");
+        }
+
+        if (z.getClan() != null) {
+            for (int i = 0; i < cmbClan.getItemCount(); i++) {
+                Clan c = (Clan) cmbClan.getItemAt(i);
+                if (c.getClanID() == z.getClan().getClanID()) {
+                    cmbClan.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+
         try {
             List<StavkaZaduzenja> stavke = UIController.getInstance().getStavkeForZaduzenje(z);
-            TableModelStavkaZaduzenja tm = new TableModelStavkaZaduzenja(stavke);
-            tblStavke.setModel(tm);
+            stavkeModel.clear();
+            stavkeModel.addAll(stavke);
+            stavkeTableModel.setLista(stavkeModel);
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja stavki: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja stavki: " + e.getMessage());
         }
     }
 

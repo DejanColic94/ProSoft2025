@@ -32,6 +32,7 @@ import so.zaduzenje.SOcreateZaduzenje;
 import so.zaduzenje.SOdeleteZaduzenje;
 import so.zaduzenje.SOgetAllZaduzenje;
 import so.zaduzenje.SOgetStavkeForZaduzenje;
+import so.zaduzenje.SOupdateZaduzenje;
 
 /**
  *
@@ -193,6 +194,11 @@ public class Controller {
 
     public void deleteZaduzenje(Zaduzenje z) throws Exception {
         SOdeleteZaduzenje so = new SOdeleteZaduzenje();
+        so.execute(z);
+    }
+
+    public void updateZaduzenje(Zaduzenje z) throws Exception {
+        SOupdateZaduzenje so = new SOupdateZaduzenje();
         so.execute(z);
     }
 }

@@ -196,4 +196,11 @@ public class DBBroker {
         st.close();
         return next;
     }
+
+    public void deleteStavkeForZaduzenje(int zaduzenjeID) throws Exception {
+        String sql = "DELETE FROM stavkazaduzenja WHERE zaduzenjeID=" + zaduzenjeID;
+        Statement st = connection.createStatement();
+        st.executeUpdate(sql);
+        st.close();
+    }
 }

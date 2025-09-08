@@ -350,6 +350,19 @@ public class ClientServiceThread extends Thread {
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Delete zaduzenje failed", e);
                     }
                     break;
+                case Operations.UPDATE_ZADUZENJE:
+                    try {
+                        Zaduzenje z = (Zaduzenje) request.getParam();
+                        Controller.getInstance().updateZaduzenje(z);
+                        response.setSuccess(true);
+                        response.setMessage("Zaduženje je izmenjeno.");
+                        ServerLogger.getInstance().logAction(this.loggedRadnik, "Update zaduzenje ID=" + z.getZaduzenjeID());
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška prilikom izmene zaduženja.");
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Update zaduzenje failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

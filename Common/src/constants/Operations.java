@@ -29,4 +29,5 @@ public class Operations {
     public static final int GET_STAVKE_FOR_ZADUZENJE = 17;
     public static final int CREATE_ZADUZENJE = 18;
     public static final int DELETE_ZADUZENJE = 19;
+    public static final int UPDATE_ZADUZENJE = 20;
 }
