@@ -62,9 +62,16 @@ public class ClientServiceThread extends Thread {
                     try {
                         OpstiDomenskiObjekat param = (OpstiDomenskiObjekat) request.getParam();
                         OpstiDomenskiObjekat result = Controller.getInstance().login(param);
+                        Radnik r = (Radnik) result;
 
-                        this.loggedRadnik = (Radnik) result;
-                        Controller.getInstance().addUlogovanogRadnika((Radnik) result);
+                        if (Controller.getInstance().isRadnikLoggedIn(r)) {
+                            response.setSuccess(false);
+                            response.setMessage("Radnik je već ulogovan.");
+                            break;
+                        }
+
+                        this.loggedRadnik = r;
+                        Controller.getInstance().addUlogovanogRadnika(r);
                         ServerLogger.getInstance().logAction(this.loggedRadnik, "Login successful");
 
                         response.setParams(result);
@@ -76,6 +83,7 @@ public class ClientServiceThread extends Thread {
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Login failed", e);
                     }
                     break;
+
                 case Operations.LOGOUT:
                     try {
                         Radnik toRemove = this.loggedRadnik;

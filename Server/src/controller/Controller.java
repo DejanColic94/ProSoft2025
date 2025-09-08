@@ -65,6 +65,15 @@ public class Controller {
         this.ulogovaniRadnici = radnici;
     }
 
+    public boolean isRadnikLoggedIn(Radnik r) {
+        for (Radnik x : ulogovaniRadnici) {
+            if (x.getRadnikID() == r.getRadnikID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addUlogovanogRadnika(Radnik r) {
         ulogovaniRadnici.add(r);
         if (modelRadnik != null) {
