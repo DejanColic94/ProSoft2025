@@ -99,11 +99,12 @@ public class FormaLogIn extends javax.swing.JFrame {
 
         try {
             Radnik loggedIn = UIController.getInstance().login(radnik);
-            JOptionPane.showMessageDialog(this, "Welcome " + loggedIn.getIme() + "!");
+            JOptionPane.showMessageDialog(this, "Dobrodošli , " + loggedIn.getIme() + "!");
             this.dispose();
             new FormaMain(loggedIn).setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Login failed: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, ""+e.getMessage());
+            System.out.println("Error during log in : " + e.getMessage());
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 

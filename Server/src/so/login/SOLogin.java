@@ -32,7 +32,7 @@ public class SOLogin extends GenericSO {
             }
         }
 
-        throw new Exception("Radnik not found. Invalid credentials.");
+        throw new Exception("Pogrešni kredencijali");
     }
 
     public Radnik getResult() {

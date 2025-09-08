@@ -18,20 +18,22 @@ public class SOcreateZaduzenje extends GenericSO {
     @Override
     protected void executeSO(OpstiDomenskiObjekat odo) throws Exception {
         Zaduzenje z = (Zaduzenje) odo;
-        dbb.create(z);
-
         StavkaZaduzenja[] stavke = z.getStavkeZaduzenja();
-        if (stavke == null || stavke.length == 0) {
-            return;
-        }
-
-        int next = dbb.getNextStavkaIDForZaduzenje(z.getZaduzenjeID());
-        for (StavkaZaduzenja s : stavke) {
-            s.setZaduzenje(z);
-            if (s.getStavkaID() <= 0) {
-                s.setStavkaID(next++);
+        if (stavke != null) {
+            for (StavkaZaduzenja s : stavke) {
+                if (!dbb.isPrimerakAvailable(s.getPrimerak().getPrimerakID())) {
+                    throw new Exception("Primerak " + s.getPrimerak().getPrimerakID() + " nije dostupan.");
+                }
             }
-            dbb.create(s);
+        }
+        dbb.create(z);
+        if (stavke != null && stavke.length > 0) {
+            int ordinal = 1;
+            for (StavkaZaduzenja s : stavke) {
+                s.setZaduzenje(z);
+                s.setStavkaID(ordinal++);
+                dbb.create(s);
+            }
         }
     }
 }

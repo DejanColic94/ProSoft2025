@@ -24,10 +24,15 @@ public class SOupdateZaduzenje extends GenericSO {
         if (stavke == null || stavke.length == 0) {
             return;
         }
-        int counter = 1;
+        for (StavkaZaduzenja s : stavke) {
+            if (!dbb.isPrimerakAvailable(s.getPrimerak().getPrimerakID())) {
+                throw new Exception("Primerak " + s.getPrimerak().getPrimerakID() + " nije dostupan.");
+            }
+        }
+        int ordinal = 1;
         for (StavkaZaduzenja s : stavke) {
             s.setZaduzenje(z);
-            s.setStavkaID(counter++);
+            s.setStavkaID(ordinal++);
             dbb.create(s);
         }
     }

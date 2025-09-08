@@ -30,4 +30,5 @@ public class Operations {
     public static final int CREATE_ZADUZENJE = 18;
     public static final int DELETE_ZADUZENJE = 19;
     public static final int UPDATE_ZADUZENJE = 20;
+    public static final int GET_AVAILABLE_PRIMERCI_FOR_KNJIGA = 21;
 }

@@ -11,6 +11,7 @@ import controller.Controller;
 import domain.Clan;
 import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
+import domain.Primerak;
 import domain.Radnik;
 import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
@@ -68,10 +69,10 @@ public class ClientServiceThread extends Thread {
 
                         response.setParams(result);
                         response.setSuccess(true);
-                        response.setMessage("Uspesno ste se prijavili na sistem.");
+                        response.setMessage("Uspešno ste se prijavili na sistem.");
                     } catch (Exception e) {
                         response.setSuccess(false);
-                        response.setMessage("Greska prilikom prijave: " + e.getMessage());
+                        response.setMessage("Greška prilikom prijave: " + e.getMessage());
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Login failed", e);
                     }
                     break;
@@ -361,6 +362,20 @@ public class ClientServiceThread extends Thread {
                         response.setSuccess(false);
                         response.setMessage("Greška prilikom izmene zaduženja.");
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Update zaduzenje failed", e);
+                    }
+                    break;
+                case Operations.GET_AVAILABLE_PRIMERCI_FOR_KNJIGA:
+                    try {
+                        Knjiga k = (Knjiga) request.getParam();
+                        List<Primerak> list = Controller.getInstance().getAvailablePrimerciForKnjiga(k);
+                        response.setSuccess(true);
+                        response.setParams(list);
+                        ServerLogger.getInstance().logAction(this.loggedRadnik,
+                                "Get available primerci for knjigaID=" + k.getKnjigaID());
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška pri učitavanju dostupnih primeraka.");
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Get available primerci failed", e);
                     }
                     break;
                 default:

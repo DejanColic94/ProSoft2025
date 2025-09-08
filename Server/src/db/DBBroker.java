@@ -4,9 +4,12 @@
  */
 package db;
 
+import domain.Knjiga;
 import domain.OpstiDomenskiObjekat;
+import domain.Primerak;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import so.clan.SOupdateClan;
 
@@ -170,6 +173,32 @@ public class DBBroker {
             }
         }
         return true;
+    }
+
+    public List<Primerak> getAvailablePrimerciForKnjiga(int knjigaID) throws Exception {
+        String sql
+                = "SELECT p.primerakID, p.knjigaID, p.izdavac, p.godinaIzdanja "
+                + "FROM primerak p "
+                + "WHERE p.knjigaID=" + knjigaID + " "
+                + "AND p.primerakID NOT IN ("
+                + "  SELECT sz.primerakID FROM stavkazaduzenja sz WHERE sz.datumRazduzenja IS NULL"
+                + ")";
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        List<Primerak> list = new ArrayList<>();
+        while (rs.next()) {
+            Primerak p = new Primerak();
+            p.setPrimerakID(rs.getInt("primerakID"));
+            Knjiga k = new Knjiga();
+            k.setKnjigaID(rs.getInt("knjigaID"));
+            p.setKnjiga(k);
+            p.setIzdavac(rs.getString("izdavac"));
+            p.setGodinaIzdanja(rs.getInt("godinaIzdanja"));
+            list.add(p);
+        }
+        rs.close();
+        st.close();
+        return list;
     }
 
     public List<OpstiDomenskiObjekat> getAllWithJoin(OpstiDomenskiObjekat odo, String selectClause, String joinClause) throws SQLException {

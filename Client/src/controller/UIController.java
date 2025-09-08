@@ -44,7 +44,7 @@ public class UIController {
         if (response.isSuccess()) {
             return (Radnik) response.getParams();
         } else {
-            throw new Exception("Login failed: " + response.getMessage());
+            throw new Exception("" + response.getMessage());
         }
     }
 
@@ -241,6 +241,17 @@ public class UIController {
         CommunicationWithServer.getInstance().sendRequest(req);
         Response res = CommunicationWithServer.getInstance().receiveResponse();
         if (!res.isSuccess()) {
+            throw new Exception(res.getMessage());
+        }
+    }
+
+    public List<Primerak> getAvailablePrimerciForKnjiga(Knjiga knjiga) throws Exception {
+        Request req = new Request(Operations.GET_AVAILABLE_PRIMERCI_FOR_KNJIGA, knjiga);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (res.isSuccess()) {
+            return (List<Primerak>) (List<?>) res.getParams();
+        } else {
             throw new Exception(res.getMessage());
         }
     }

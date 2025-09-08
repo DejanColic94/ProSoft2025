@@ -24,6 +24,7 @@ import so.knjiga.SOcountPrimerci;
 import so.knjiga.SOcreateKnjiga;
 import so.knjiga.SOdeleteKnjiga;
 import so.knjiga.SOgetAllKnjiga;
+import so.knjiga.SOgetAvailablePrimerciForKnjiga;
 import so.knjiga.SOgetPrimerciForKnjiga;
 import so.knjiga.SOsearchKnjiga;
 import so.knjiga.SOupdateKnjiga;
@@ -200,5 +201,11 @@ public class Controller {
     public void updateZaduzenje(Zaduzenje z) throws Exception {
         SOupdateZaduzenje so = new SOupdateZaduzenje();
         so.execute(z);
+    }
+
+    public List<Primerak> getAvailablePrimerciForKnjiga(Knjiga knjiga) throws Exception {
+        SOgetAvailablePrimerciForKnjiga so = new SOgetAvailablePrimerciForKnjiga();
+        so.execute(knjiga);
+        return so.getResult();
     }
 }

@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -67,12 +68,6 @@ public class FormaZaduzenja extends javax.swing.JFrame {
 
         loadClanCombo();
         loadKnjigaCombo();
-
-        tblStavke.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                fillStavkaInputsFromSelected();
-            }
-        });
 
         if (cmbKnjiga.getItemCount() > 0) {
             cmbKnjiga.setSelectedIndex(0);
@@ -422,6 +417,14 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             return;
         }
 
+        Date datumZaduzenja;
+        try {
+            datumZaduzenja = new SimpleDateFormat("dd.MM.yyyy").parse(txtDatumZaduzenja.getText().trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Unesite ispravan datum zaduženja pre dodavanja stavke.");
+            return;
+        }
+
         Date datumRazduzenja = null;
         String dt = txtDatumRazduzenja.getText().trim();
         if (!dt.isEmpty()) {
@@ -429,6 +432,10 @@ public class FormaZaduzenja extends javax.swing.JFrame {
                 datumRazduzenja = new SimpleDateFormat("dd.MM.yyyy").parse(dt);
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(this, "Nevažeći format datuma. Koristite dd.MM.yyyy");
+                return;
+            }
+            if (datumRazduzenja.before(datumZaduzenja)) {
+                JOptionPane.showMessageDialog(this, "Datum razduženja ne može biti pre datuma zaduženja.");
                 return;
             }
         }
@@ -446,9 +453,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         nova.setNapomena(txtNapomena.getText().trim());
 
         stavkeModel.add(nova);
-
-        TableModelStavkaZaduzenja model = (TableModelStavkaZaduzenja) tblStavke.getModel();
-        model.setLista(stavkeModel);
+        stavkeTableModel.setLista(stavkeModel);
         stavkeChanged = true;
     }//GEN-LAST:event_btnDodajStavkuActionPerformed
 
@@ -489,6 +494,14 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             return;
         }
 
+        Date datumZaduzenja;
+        try {
+            datumZaduzenja = new SimpleDateFormat("dd.MM.yyyy").parse(txtDatumZaduzenja.getText().trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Unesite ispravan datum zaduženja.");
+            return;
+        }
+
         Date datumRazduzenja = null;
         String dt = txtDatumRazduzenja.getText().trim();
         if (!dt.isEmpty()) {
@@ -498,16 +511,29 @@ public class FormaZaduzenja extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Nevažeći format datuma. Koristite dd.MM.yyyy");
                 return;
             }
+            if (datumRazduzenja.before(datumZaduzenja)) {
+                JOptionPane.showMessageDialog(this, "Datum razduženja ne može biti pre datuma zaduženja.");
+                return;
+            }
         }
 
-        TableModelStavkaZaduzenja model = (TableModelStavkaZaduzenja) tblStavke.getModel();
-        StavkaZaduzenja target = model.getAt(row);
+        for (int i = 0; i < stavkeModel.size(); i++) {
+            if (i == row) {
+                continue;
+            }
+            StavkaZaduzenja s = stavkeModel.get(i);
+            if (s.getPrimerak() != null && s.getPrimerak().getPrimerakID() == primerak.getPrimerakID()) {
+                JOptionPane.showMessageDialog(this, "Taj primerak je već dodat u stavkama.");
+                return;
+            }
+        }
 
+        StavkaZaduzenja target = stavkeModel.get(row);
         target.setPrimerak(primerak);
         target.setDatumRazduzenja(datumRazduzenja);
         target.setNapomena(txtNapomena.getText().trim());
 
-        model.fireTableRowsUpdated(row, row);
+        stavkeTableModel.fireTableRowsUpdated(row, row);
         stavkeChanged = true;
     }//GEN-LAST:event_btnIzmeniStavkuActionPerformed
 
@@ -565,10 +591,7 @@ public class FormaZaduzenja extends javax.swing.JFrame {
             txtNapomena.setText("");
             stavkeChanged = false;
             isRefreshing = false;
-            if (tblZaduzenje.getRowCount() > 0) {
-                int last = tblZaduzenje.getRowCount() - 1;
-                tblZaduzenje.setRowSelectionInterval(last, last);
-            }
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Greška pri čuvanju zaduženja: " + ex.getMessage());
         }
@@ -743,13 +766,23 @@ public class FormaZaduzenja extends javax.swing.JFrame {
 
     private void loadPrimerakCombo(Knjiga knjiga) {
         try {
-            List<Primerak> primerci = UIController.getInstance().getPrimerciForKnjiga(knjiga);
+            List<Primerak> available = UIController.getInstance().getAvailablePrimerciForKnjiga(knjiga);
+            LinkedHashMap<Integer, Primerak> map = new LinkedHashMap<>();
+            for (Primerak p : available) {
+                map.put(p.getPrimerakID(), p);
+            }
+            for (StavkaZaduzenja s : stavkeModel) {
+                if (s.getPrimerak() != null && s.getPrimerak().getKnjiga() != null
+                        && s.getPrimerak().getKnjiga().getKnjigaID() == knjiga.getKnjigaID()) {
+                    map.put(s.getPrimerak().getPrimerakID(), s.getPrimerak());
+                }
+            }
             cmbPrimerak.removeAllItems();
-            for (Primerak p : primerci) {
+            for (Primerak p : map.values()) {
                 cmbPrimerak.addItem(p);
             }
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja primeraka: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja primeraka: " + e.getMessage());
         }
     }
 
