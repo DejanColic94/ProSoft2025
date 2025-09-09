@@ -19,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import models.TableModelStavkaZaduzenja;
 import models.TableModelZaduzenje;
 
@@ -48,6 +50,15 @@ public class FormaZaduzenja extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.ulogovani = ulogovani;
         lblRadnikTekst.setText(ulogovani.getIme() + " " + ulogovani.getPrezime());
+
+        // Smaller screen responsivity lol
+        JScrollPane root = new JScrollPane(jPanel1);
+        root.setBorder(null);
+        root.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        root.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        setContentPane(root);
+
+        pack();
 
         btnIzmeniStavku.setEnabled(false);
         btnObrisiStavku.setEnabled(false);
