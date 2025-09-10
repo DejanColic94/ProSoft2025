@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import models.TableModelRadnik;
 import threads.StartServerThread;
 import util.ServerLogger;
@@ -24,6 +25,7 @@ public class FormServerMain extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormServerMain.class.getName());
     StartServerThread sst;
     private TableModelRadnik modelRadnici;
+    private boolean running = false;
 
     /**
      * Creates new form FormServerMain
@@ -192,13 +194,29 @@ public class FormServerMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPokreniServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniServerActionPerformed
+        if (running) {
+            JOptionPane.showMessageDialog(this, "Server je već pokrenut.");
+            return;
+        }
         sst = new StartServerThread();
         sst.start();
+        running = true;
         setServerStatus(true);
     }//GEN-LAST:event_btnPokreniServerActionPerformed
 
     private void btnZaustaviServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaustaviServerActionPerformed
-        sst.terminateThreads();
+        if (!running) {
+            JOptionPane.showMessageDialog(this, "Server nije pokrenut.");
+            return;
+        }
+        try {
+            if (sst != null) {
+                sst.terminateThreads();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        running = false;
         setServerStatus(false);
     }//GEN-LAST:event_btnZaustaviServerActionPerformed
 
@@ -249,9 +267,13 @@ public class FormServerMain extends javax.swing.JFrame {
         if (active) {
             lblStatusPrikaz.setText("Aktivan");
             lblStatusPrikaz.setForeground(Color.green);
+            btnPokreniServer.setEnabled(false);
+            btnZaustaviServer.setEnabled(true);
         } else {
             lblStatusPrikaz.setText("Neaktivan");
             lblStatusPrikaz.setForeground(Color.red);
+            btnPokreniServer.setEnabled(true);
+            btnZaustaviServer.setEnabled(false);
         }
     }
 
