@@ -79,18 +79,22 @@ public class DBBroker {
     }
 
     public void update(OpstiDomenskiObjekat odo) throws SQLException {
-        String query = "UPDATE " + odo.getImeTabele() + " SET " + odo.getUpdate() + " WHERE " + odo.getPK() + " = " + odo.getVrednostPK();
-        System.out.println("[SQL] " + query);
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(query);
+        String sql = "UPDATE " + odo.getImeTabele() + " SET " + odo.getUpdate()
+                + " WHERE " + odo.getPK() + " = ?";
+        System.out.println("[SQL] " + sql.replace("?", String.valueOf(odo.getVrednostPK())));
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, odo.getVrednostPK());
+            ps.executeUpdate();
         }
     }
 
     public void delete(OpstiDomenskiObjekat odo) throws SQLException {
-        String query = "DELETE FROM " + odo.getImeTabele() + " WHERE " + odo.getPK() + " = " + odo.getVrednostPK();
-        System.out.println("[SQL] " + query);
-        try (Statement st = connection.createStatement()) {
-            st.executeUpdate(query);
+        String sql = "DELETE FROM " + odo.getImeTabele()
+                + " WHERE " + odo.getPK() + " = ?";
+        System.out.println("[SQL] " + sql.replace("?", String.valueOf(odo.getVrednostPK())));
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, odo.getVrednostPK());
+            ps.executeUpdate();
         }
     }
 
