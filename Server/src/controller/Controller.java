@@ -31,6 +31,7 @@ import so.knjiga.SOupdateKnjiga;
 import so.login.SOLogin;
 import so.zaduzenje.SOcreateZaduzenje;
 import so.zaduzenje.SOdeleteZaduzenje;
+import so.zaduzenje.SOgetActiveZaduzenje;
 import so.zaduzenje.SOgetAllZaduzenje;
 import so.zaduzenje.SOgetStavkeForZaduzenje;
 import so.zaduzenje.SOupdateZaduzenje;
@@ -216,5 +217,11 @@ public class Controller {
         SOgetAvailablePrimerciForKnjiga so = new SOgetAvailablePrimerciForKnjiga();
         so.execute(knjiga);
         return so.getResult();
+    }
+
+    public List<Integer> getActiveClanIds() throws Exception {
+        SOgetActiveZaduzenje so = new SOgetActiveZaduzenje();
+        so.execute(new domain.Zaduzenje());
+        return so.getIds();
     }
 }

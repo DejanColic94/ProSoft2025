@@ -14,7 +14,9 @@ import domain.Primerak;
 import domain.Radnik;
 import domain.StavkaZaduzenja;
 import domain.Zaduzenje;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -251,6 +253,18 @@ public class UIController {
         Response res = CommunicationWithServer.getInstance().receiveResponse();
         if (res.isSuccess()) {
             return (List<Primerak>) (List<?>) res.getParams();
+        } else {
+            throw new Exception(res.getMessage());
+        }
+    }
+
+    public Set<Integer> getActiveClanIds() throws Exception {
+        Request req = new Request(Operations.GET_ACTIVE_CLAN_IDS, null);
+        CommunicationWithServer.getInstance().sendRequest(req);
+        Response res = CommunicationWithServer.getInstance().receiveResponse();
+        if (res.isSuccess()) {
+            List<Integer> list = (List<Integer>) res.getParams();
+            return new HashSet<>(list);
         } else {
             throw new Exception(res.getMessage());
         }

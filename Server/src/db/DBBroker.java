@@ -236,4 +236,18 @@ public class DBBroker {
         st.executeUpdate(sql);
         st.close();
     }
+
+    public List<Integer> getActiveClanIds() throws SQLException {
+        String sql = "SELECT DISTINCT z.clanID "
+                + "FROM zaduzenje z "
+                + "JOIN stavkazaduzenja sz ON sz.zaduzenjeID = z.zaduzenjeID "
+                + "WHERE sz.datumRazduzenja IS NULL";
+        List<Integer> ids = new ArrayList<>();
+        try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                ids.add(rs.getInt(1));
+            }
+        }
+        return ids;
+    }
 }

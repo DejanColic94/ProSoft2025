@@ -5,7 +5,9 @@
 package models;
 
 import domain.Clan;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -16,9 +18,15 @@ public class TableModelClan extends AbstractTableModel {
 
     private final String[] columns = {"Ime", "Prezime", "Telefon", "Email", "Ima zaduženja"};
     private List<Clan> clanovi;
+    private Set<Integer> aktivni;
+
+    public TableModelClan(List<Clan> clanovi, Set<Integer> aktivni) {
+        this.clanovi = clanovi;
+        this.aktivni = aktivni == null ? Collections.emptySet() : aktivni;
+    }
 
     public TableModelClan(List<Clan> clanovi) {
-        this.clanovi = clanovi;
+        this(clanovi, Collections.emptySet());
     }
 
     @Override
@@ -32,21 +40,21 @@ public class TableModelClan extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int row, int col) {
-        Clan c = clanovi.get(row);
-        switch (col) {
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Clan c = clanovi.get(rowIndex);
+        switch (columnIndex) {
             case 0:
                 return c.getIme();
             case 1:
                 return c.getPrezime();
             case 2:
-                return c.getTelefon();
+                return c.getTelefon() == null ? "" : c.getTelefon();
             case 3:
-                return c.getEmail();
+                return c.getEmail() == null ? "" : c.getEmail();
             case 4:
-                return c.isImaZaduzenja() ? "Da" : "Ne";
+                return aktivni != null && aktivni.contains(c.getClanID()) ? "DA" : "NE";
             default:
-                return null;
+                return "";
         }
     }
 
@@ -72,5 +80,10 @@ public class TableModelClan extends AbstractTableModel {
                 return;
             }
         }
+    }
+
+    public void setAktivni(Set<Integer> aktivni) {
+        this.aktivni = aktivni == null ? Collections.emptySet() : aktivni;
+        fireTableDataChanged();
     }
 }

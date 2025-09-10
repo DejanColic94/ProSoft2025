@@ -7,6 +7,7 @@ package ui.clanovi;
 import controller.UIController;
 import domain.Clan;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -210,9 +211,14 @@ public class FormaClanovi extends javax.swing.JFrame {
     private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
         String term = txtPretrazi.getText().trim();
         try {
-            List<Clan> clanovi = UIController.getInstance().searchClan(term);
-            TableModelClan model = new TableModelClan(clanovi);
+            List<Clan> clanovi = term.isEmpty()
+                    ? UIController.getInstance().getAllClan()
+                    : UIController.getInstance().searchClan(term);
+            Set<Integer> aktivni = UIController.getInstance().getActiveClanIds();
+            TableModelClan model = new TableModelClan(clanovi, aktivni);
             tblClanovi.setModel(model);
+            btnIzmeni.setEnabled(false);
+            btnObrisi.setEnabled(false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Greška prilikom pretrage članova: " + e.getMessage());
         }
@@ -278,13 +284,11 @@ public class FormaClanovi extends javax.swing.JFrame {
     private void loadClanovi() {
         try {
             List<Clan> clanovi = UIController.getInstance().getAllClan();
-            TableModelClan model = new TableModelClan(clanovi);
+            Set<Integer> aktivni = UIController.getInstance().getActiveClanIds();
+            TableModelClan model = new TableModelClan(clanovi, aktivni);
             tblClanovi.setModel(model);
-
-            tblClanovi.getSelectionModel().addListSelectionListener(e -> {
-                boolean selected = tblClanovi.getSelectedRow() >= 0;
-                btnObrisi.setEnabled(selected);
-            });
+            btnObrisi.setEnabled(false);
+            btnIzmeni.setEnabled(false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Greska: " + e.getMessage());
         }

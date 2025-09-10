@@ -386,6 +386,18 @@ public class ClientServiceThread extends Thread {
                         ServerLogger.getInstance().logError(this.loggedRadnik, "Get available primerci failed", e);
                     }
                     break;
+                case Operations.GET_ACTIVE_CLAN_IDS:
+                    try {
+                        List<Integer> ids = Controller.getInstance().getActiveClanIds();
+                        response.setParams(ids);
+                        response.setSuccess(true);
+                        ServerLogger.getInstance().logAction(this.loggedRadnik, "Fetch active clan IDs");
+                    } catch (Exception e) {
+                        response.setSuccess(false);
+                        response.setMessage("Greška pri dohvatanju aktivnih zaduženja.");
+                        ServerLogger.getInstance().logError(this.loggedRadnik, "Get active clan IDs failed", e);
+                    }
+                    break;
                 default:
                     response.setSuccess(false);
                     response.setMessage("Nepoznata operacija: " + request.getOperacija());

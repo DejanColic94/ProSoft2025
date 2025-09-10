@@ -31,4 +31,5 @@ public class Operations {
     public static final int DELETE_ZADUZENJE = 19;
     public static final int UPDATE_ZADUZENJE = 20;
     public static final int GET_AVAILABLE_PRIMERCI_FOR_KNJIGA = 21;
+    public static final int GET_ACTIVE_CLAN_IDS = 22;
 }
